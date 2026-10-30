@@ -25,5 +25,10 @@ It provides specific financial hypotheses to validate instead of an unsupported 
 
 <img width="1720" height="974" alt="slide-5" src="https://github.com/user-attachments/assets/d162b5c5-0315-46f2-a808-33beed3889f9" />
 
+Poor transcript quality, false positives, confidential information, and incomplete human validation.
+
 <img width="1724" height="973" alt="slide-6" src="https://github.com/user-attachments/assets/19aabcd5-3f6f-4809-bd6d-bc4304084858" />
+
+A limited commitment produces information needed for a defensible investment decision.
+
 <img width="1724" height="978" alt="slide-7" src="https://github.com/user-attachments/assets/2d7da46a-6389-48a1-a3a6-cf3b6816d30b" />
