@@ -1,0 +1,18 @@
+[project]
+name = "transcript-intelligence"
+version = "0.2.0"
+description = "Modular transcript intelligence for multi-stakeholder call insights."
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=1.26",
+  "scikit-learn>=1.4",
+  "matplotlib>=3.8",
+]
+
+[project.optional-dependencies]
+bertopic = ["bertopic>=0.16"]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
