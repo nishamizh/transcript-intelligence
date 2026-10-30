@@ -20,6 +20,9 @@ from src.config.settings import Settings
 from src.ingestion.loader import DatasetLoader
 from src.models.meeting import Meeting
 from src.pipeline.briefing import compose_headline, method_notes
+from src.pipeline.methodology import build_methodology
+from src.review.decisions import ensure_decision_template
+from src.review.queue import build_review_queue, write_review_queue
 from src.visualization.charts import render_charts
 
 
@@ -36,6 +39,8 @@ def run(settings: Settings | None = None) -> dict:
     sentiment = SentimentAnalyzer().analyze(meetings)
     insights = InsightAnalyzer(settings.competitors).analyze(meetings)
     quality = InsightQualityScore.evaluate(meetings, insights, sentiment, topics)
+    methodology = build_methodology(topics, sentiment, settings)
+    review_queue = build_review_queue(meetings, insights)
     headline, subhead = compose_headline(sentiment, insights)
 
     dates = sorted(meeting.date_key() for meeting in meetings)
@@ -63,11 +68,21 @@ def run(settings: Settings | None = None) -> dict:
         "insights": _jsonable(insights),
         "quality": _jsonable(quality),
         "method": method_notes(topics.model_name),
+        "methodology": methodology,
+        "review_queue": review_queue,
     }
+    # The exemplar artifact is also the top-level name the assignment reads.
+    # It stays inside topics as well so either path resolves the same object.
+    report["topic_examples"] = report["topics"]["topic_examples"]
 
     settings.output_dir.mkdir(parents=True, exist_ok=True)
     report_path = settings.output_dir / "report.json"
     report_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    write_review_queue(review_queue, settings.output_dir)
+    ensure_decision_template(
+        settings.output_dir / "review_decisions.json",
+        [item["item_id"] for item in review_queue["items"]],
+    )
     render_charts(sentiment, topics, settings.output_dir / "charts")
     if settings.web_data_path:
         settings.web_data_path.parent.mkdir(parents=True, exist_ok=True)
@@ -93,6 +108,8 @@ def _public_meeting(meeting: Meeting) -> dict:
         "generated_topic": meeting.generated_topic,
         "generated_terms": meeting.generated_terms,
         "topic_agreement": round(meeting.topic_agreement, 4),
+        "lexical_topic_overlap": round(meeting.topic_agreement, 4),
+        "lexical_overlap_status": _overlap_status(meeting.topic_agreement),
         "action_items": meeting.action_items,
         "account_name": meeting.account_name,
         "customer_domains": meeting.customer_domains,
@@ -165,7 +182,18 @@ def _print_briefing(report: dict, report_path: Path) -> None:
     )
     print(quality["next_evolution"])
     print()
+    queue = report["review_queue"]
+    print(
+        f"Review queue: {queue['item_count']} items. "
+        "Theme accuracy is unavailable until review_decisions.json has accept, edit, or reject rows."
+    )
     print(f"Wrote {report_path}")
+
+
+def _overlap_status(score: float) -> str:
+    from src.analytics.topic_analyzer import overlap_status
+
+    return overlap_status(score)
 
 
 def main() -> None:

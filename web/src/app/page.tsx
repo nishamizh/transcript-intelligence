@@ -1,5 +1,7 @@
 import { MeetingsPanel } from "@/components/meetings-panel";
+import { MethodologyPanel } from "@/components/methodology-panel";
 import { QualityPanel } from "@/components/quality-panel";
+import { ReviewerPanel } from "@/components/reviewer-panel";
 import { SentimentPanel } from "@/components/sentiment-panel";
 import { StakeholderPanel } from "@/components/stakeholder-panel";
 import { TopicsPanel } from "@/components/topics-panel";
@@ -15,6 +17,8 @@ const NAV = [
   ["topics", "Topics"],
   ["stakeholders", "Stakeholders"],
   ["meetings", "Meetings"],
+  ["methodology", "Methodology"],
+  ["review", "Review"],
   ["quality", "Quality"],
 ] as const;
 
@@ -100,6 +104,8 @@ export default function Page() {
         <TopicsPanel topics={report.topics} />
         <StakeholderPanel insights={insights} />
         <MeetingsPanel meetings={report.meetings} themes={report.topics.themes} />
+        <MethodologyPanel methodology={report.methodology} />
+        <ReviewerPanel queue={report.review_queue} themes={report.topics.themes} />
         <QualityPanel quality={quality} method={report.method} />
       </main>
     </>

@@ -73,7 +73,11 @@ def _sentiment_by_call_type(sentiment: SentimentAnalysis, path: Path) -> Path:
             color=_INK,
             fontsize=9,
         )
-    _style(axis, "Sentiment by call type", "Dashed line is the corpus mean. Scale is 1–5.")
+    _style(
+        axis,
+        "Sentiment by call type",
+        "Source sentimentScore, 1–5, mean by call type. n is on each bar. No new model score. Not causal.",
+    )
     figure.tight_layout()
     figure.savefig(path, dpi=140)
     plt.close(figure)
@@ -82,9 +86,10 @@ def _sentiment_by_call_type(sentiment: SentimentAnalysis, path: Path) -> Path:
 
 def _sentiment_trend(sentiment: SentimentAnalysis, path: Path) -> Path:
     weeks = [row for row in sentiment.by_week if row.count]
-    figure, axis = plt.subplots(figsize=(8.6, 4.6))
+    positions = list(range(len(weeks)))
+    figure, axis = plt.subplots(figsize=(8.6, 4.8))
     axis.plot(
-        [row.period for row in weeks],
+        positions,
         [row.mean_score for row in weeks],
         color=_INK,
         marker="o",
@@ -99,7 +104,7 @@ def _sentiment_trend(sentiment: SentimentAnalysis, path: Path) -> Path:
             for row in weeks
         ]
         axis.plot(
-            [row.period for row in weeks],
+            positions,
             series,
             color=color,
             linewidth=1.2,
@@ -107,10 +112,16 @@ def _sentiment_trend(sentiment: SentimentAnalysis, path: Path) -> Path:
             label=call_type,
         )
     axis.set_ylim(1, 5)
+    axis.set_xticks(positions)
+    axis.set_xticklabels([f"{row.period[5:]}\nn={row.count}" for row in weeks], fontsize=8)
     axis.tick_params(axis="x", rotation=40)
     axis.legend(frameon=False, fontsize=8, loc="lower left")
-    axis.set_ylabel("Mean sentiment score", color=_INK)
-    _style(axis, "Weekly sentiment", "Missing points are weeks with no calls of that type.")
+    axis.set_ylabel("Mean source score", color=_INK)
+    _style(
+        axis,
+        "Weekly sentiment",
+        "Mean of source-provided 1–5 scores. n is the week’s meeting count. Empty types are gaps. Not causal.",
+    )
     figure.tight_layout()
     figure.savefig(path, dpi=140)
     plt.close(figure)
@@ -127,7 +138,11 @@ def _theme_mix(topics: TopicAnalysis, path: Path) -> Path:
         color=_ACCENT,
     )
     axis.set_xlabel("Meetings (primary theme)", color=_INK)
-    _style(axis, "Governed themes", "A meeting can match several themes. This chart uses the primary one.")
+    _style(
+        axis,
+        "Governed themes",
+        "n is the primary-theme count. Sentiment means elsewhere use the source 1–5 score, not a new model.",
+    )
     figure.tight_layout()
     figure.savefig(path, dpi=140)
     plt.close(figure)
@@ -137,7 +152,7 @@ def _theme_mix(topics: TopicAnalysis, path: Path) -> Path:
 def _topic_purity(topics: TopicAnalysis, path: Path) -> Path:
     comparison = topics.comparison
     figure, axis = plt.subplots(figsize=(8.2, 4.4))
-    labels = ["Theme coverage", "Label mapping", "Generated purity", "Token overlap"]
+    labels = ["Theme coverage", "Label mapping", "Generated purity", "Lexical overlap"]
     values = [
         comparison.governed_coverage,
         comparison.label_mapping_coverage,
@@ -149,8 +164,8 @@ def _topic_purity(topics: TopicAnalysis, path: Path) -> Path:
     axis.set_ylabel("Percent", color=_INK)
     _style(
         axis,
-        "Provided labels versus generated topics",
-        f"Model: {topics.model_name}. Overlap is intentionally not the thing we maximize.",
+        "Lexical overlap is not accuracy",
+        f"Model: {topics.model_name}. Jaccard of label tokens and model terms. Zero shared words is a review flag, not an error.",
     )
     figure.tight_layout()
     figure.savefig(path, dpi=140)

@@ -87,11 +87,15 @@ export function TrendChart({ weeks }: { weeks: PeriodSentiment[] }) {
             fill="#5c564e"
             transform={`rotate(-40 ${x(index)} ${height - 16})`}
           >
-            {week.period.slice(5)}
+            {`${week.period.slice(5)} n=${week.count}`}
           </text>
         ))}
       </svg>
-      <figcaption className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
+      <figcaption className="space-y-2 text-xs text-muted-foreground">
+        <p>
+          Mean of the source-provided 1–5 meeting score. n is the number of meetings that week. A missing line is a call type with n=0. Turn polarity is not on this chart. This is not a causal estimate.
+        </p>
+        <div className="flex flex-wrap gap-x-4 gap-y-1">
         {series.map((line) => (
           <span key={line.key} className="inline-flex items-center gap-1.5">
             <span className="inline-block h-2 w-4 rounded-sm" style={{ background: COLORS[line.key] }} />
@@ -101,6 +105,7 @@ export function TrendChart({ weeks }: { weeks: PeriodSentiment[] }) {
               : ""}
           </span>
         ))}
+        </div>
       </figcaption>
     </figure>
   );

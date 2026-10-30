@@ -1,0 +1,29 @@
+{
+  "theme_classification": {
+    "status": "unavailable",
+    "usable_labels": 0,
+    "per_theme": [],
+    "micro_precision": null,
+    "micro_recall": null,
+    "micro_f1": null,
+    "macro_f1": null,
+    "confusion": [],
+    "note": "No meeting item has a usable accept or corrected theme. Accuracy is not estimated."
+  },
+  "insight_acceptance": {
+    "status": "unavailable",
+    "reviewed": 0,
+    "accepted": 0,
+    "rate": null,
+    "note": "No stakeholder insight has been accepted, edited, or rejected."
+  },
+  "citation_completeness": {
+    "status": "measured",
+    "rate": 1.0,
+    "complete": 9,
+    "total": 9,
+    "note": "Share of insights whose cited meeting ids exist in this report and whose quotes are non-empty. This is a structural check, not reviewer agreement and not accuracy."
+  },
+  "decisions_present": 0,
+  "ignored_blank_decisions": 57
+}

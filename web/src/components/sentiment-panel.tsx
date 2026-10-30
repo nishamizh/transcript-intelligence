@@ -43,15 +43,15 @@ export function SentimentPanel({ sentiment }: { sentiment: SentimentReport }) {
                   />
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  {percentText(row.negative_share)} on the negative side of the label · turns{" "}
-                  {percentText(row.sentence_mix.negative ?? 0)} negative,{" "}
-                  {percentText(row.sentence_mix.positive ?? 0)} positive
+                  n={row.count} meetings. {percentText(row.negative_share)} on the negative side of the source label.
+                  Turn polarity, n={row.turn_count} turns: {percentText(row.sentence_mix.negative ?? 0)} negative,{" "}
+                  {percentText(row.sentence_mix.positive ?? 0)} positive. Turn polarity is not the 1–5 score.
                 </p>
               </div>
             ))}
             <p className="text-xs text-muted-foreground">
-              Corpus mean {scoreText(sentiment.overall_mean)} across {sentiment.overall_count} meetings.
-              Bars start at 1, the bottom of the scale.
+              Corpus mean {scoreText(sentiment.overall_mean)} across n={sentiment.overall_count} meetings.
+              Bars start at 1, the bottom of the source scale. No new model score.
             </p>
           </CardContent>
         </Card>
@@ -61,6 +61,46 @@ export function SentimentPanel({ sentiment }: { sentiment: SentimentReport }) {
           </CardHeader>
           <CardContent>
             <TrendChart weeks={sentiment.by_week} />
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-3 md:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Where the number comes from</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm leading-6">
+            <p>{sentiment.provenance.meeting_score_source}</p>
+            <p>{sentiment.provenance.meeting_label_source}</p>
+            <p>{sentiment.provenance.turn_polarity_source}</p>
+            <p>{sentiment.provenance.inferred_model_note}</p>
+            <p className="text-muted-foreground">{sentiment.provenance.causal_claims}</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Cohort size</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm">
+            <p>
+              Incident titles: n={sentiment.incident.count}, mean {scoreText(sentiment.incident.mean_score)}. Other meetings: n=
+              {sentiment.incident.rest_count}, mean {scoreText(sentiment.incident.rest_mean)}.
+            </p>
+            <p>
+              Outage mentions: n={sentiment.outage_mention.count}, mean {scoreText(sentiment.outage_mention.mean_score)}. The rest: n=
+              {sentiment.outage_mention.rest_count}, mean {scoreText(sentiment.outage_mention.rest_mean)}.
+            </p>
+            <ul className="space-y-1 text-muted-foreground">
+              {sentiment.by_month.map((month) => (
+                <li key={month.period}>
+                  {month.period}: n={month.count}, mean {month.mean_score == null ? "—" : scoreText(month.mean_score)}
+                  {" · "}
+                  support n={month.by_call_type_n.support ?? 0}, external n={month.by_call_type_n.external ?? 0}, internal n=
+                  {month.by_call_type_n.internal ?? 0}
+                </li>
+              ))}
+            </ul>
           </CardContent>
         </Card>
       </div>

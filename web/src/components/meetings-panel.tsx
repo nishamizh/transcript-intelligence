@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { callLabel, scoreText, scoreTone } from "@/lib/format";
+import { callLabel, redactDisplay, scoreText, scoreTone } from "@/lib/format";
 import type { GovernedTheme, MeetingRecord } from "@/lib/types";
 
 const CALLS = ["all", "support", "external", "internal"] as const;
@@ -139,11 +139,17 @@ export function MeetingsPanel({
             <span className="text-sm text-muted-foreground">
               Generated topic: {open.generated_topic || "—"}
             </span>
+            <span className="text-sm text-muted-foreground">
+              Lexical overlap {open.lexical_topic_overlap.toFixed(2)} · {open.lexical_overlap_status}
+            </span>
           </div>
           <h3 className="font-heading text-2xl text-balance">{open.title}</h3>
-          <p className="text-sm leading-6">{open.summary}</p>
+          <p className="text-sm leading-6">{redactDisplay(open.summary)}</p>
           <p className="text-xs text-muted-foreground">Provided labels: {open.topics.join(" · ")}</p>
-          <pre className="font-sans text-sm leading-6 whitespace-pre-wrap text-muted-foreground">{open.excerpt}</pre>
+          <p className="text-xs text-muted-foreground">
+            Lexical overlap compares label words with the held-out topic terms. Review recommended means they share no content word. It is not an error score.
+          </p>
+          <pre className="font-sans text-sm leading-6 whitespace-pre-wrap text-muted-foreground">{redactDisplay(open.excerpt)}</pre>
           {open.action_items.length > 0 ? (
             <ul className="list-disc space-y-1 pl-5 text-sm">
               {open.action_items.map((item) => (

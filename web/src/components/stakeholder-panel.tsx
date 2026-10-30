@@ -30,7 +30,7 @@ export function StakeholderPanel({ insights }: { insights: Insight[] }) {
       </div>
 
       <Tabs defaultValue={groups[0] ?? "support"}>
-        <TabsList className="h-auto flex-wrap">
+        <TabsList className="h-auto! w-full flex-wrap justify-start">
           {groups.map((id) => (
             <TabsTrigger key={id} value={id}>
               {stakeholderLabel(id)}
@@ -69,8 +69,8 @@ export function StakeholderPanel({ insights }: { insights: Insight[] }) {
                           </TableRow>
                         </TableHeader>
                         <TableBody>
-                          {insight.details.map((detail) => (
-                            <TableRow key={`${insight.insight_id}-${detail.label}`}>
+                          {insight.details.map((detail, index) => (
+                            <TableRow key={`${insight.insight_id}-${index}-${detail.label}`}>
                               <TableCell className="font-medium">{detail.label}</TableCell>
                               <TableCell className="tabular-nums">{detail.value}</TableCell>
                               <TableCell className="text-muted-foreground">{detail.note}</TableCell>
@@ -80,8 +80,8 @@ export function StakeholderPanel({ insights }: { insights: Insight[] }) {
                       </Table>
                     ) : null}
                     <ul className="space-y-3">
-                      {insight.evidence.map((item) => (
-                        <li key={`${insight.insight_id}-${item.meeting_id}`} className="space-y-1">
+                      {insight.evidence.map((item, index) => (
+                        <li key={`${insight.insight_id}-${item.meeting_id}-${index}`} className="space-y-1">
                           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                             <Badge variant="outline">{callLabel(item.call_type)}</Badge>
                             <span>{item.account_name || "Internal"}</span>

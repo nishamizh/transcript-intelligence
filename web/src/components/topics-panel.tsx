@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { callLabel, percentText, scoreText } from "@/lib/format";
-import type { TopicReport } from "@/lib/types";
+import type { TopicExemplar, TopicReport } from "@/lib/types";
 
 export function TopicsPanel({ topics }: { topics: TopicReport }) {
   const comparison = topics.comparison;
@@ -11,7 +11,7 @@ export function TopicsPanel({ topics }: { topics: TopicReport }) {
     ["Theme coverage", percentText(comparison.governed_coverage)],
     ["Labels mapped", percentText(comparison.label_mapping_coverage)],
     ["Cluster purity", percentText(comparison.weighted_purity)],
-    ["Token overlap", percentText(comparison.mean_jaccard)],
+    ["Lexical overlap", percentText(comparison.mean_jaccard)],
   ];
 
   return (
@@ -21,7 +21,8 @@ export function TopicsPanel({ topics }: { topics: TopicReport }) {
         <h2 className="font-heading text-3xl text-balance">Publish a taxonomy. Audit it with a model that has not seen the labels.</h2>
         <p className="text-muted-foreground">
           Provided topic strings are evidence. The categories below are a governed map of those strings.
-          The second column is {topics.model_name}, fit on summaries and transcripts only.
+          The second column is {topics.model_name}, fit on summaries and transcripts with those labels held out.
+          Lexical overlap is a word comparison, not classification accuracy.
         </p>
       </div>
 
@@ -52,14 +53,11 @@ export function TopicsPanel({ topics }: { topics: TopicReport }) {
                     </span>
                   </div>
                   <p className="text-sm text-muted-foreground">{theme.description}</p>
-                  {theme.examples[0] ? (
-                    <Example
-                      title={theme.examples[0].title}
-                      callType={theme.examples[0].call_type}
-                      excerpt={theme.examples[0].excerpt}
-                      topics={theme.examples[0].provided_topics}
-                    />
-                  ) : null}
+                  {topics.topic_examples.examples
+                    .filter((example) => example.assigned_theme === theme.theme_id)
+                    .map((example) => (
+                      <Example key={example.meeting_id} example={example} />
+                    ))}
                 </div>
               ))}
           </CardContent>
@@ -75,24 +73,16 @@ export function TopicsPanel({ topics }: { topics: TopicReport }) {
                 <div className="flex items-baseline justify-between gap-3">
                   <h3 className="font-medium">{topic.label}</h3>
                   <span className="text-sm tabular-nums text-muted-foreground">
-                    {topic.meeting_count} · {scoreText(topic.mean_sentiment)}
+                    n={topic.meeting_count} · source {scoreText(topic.mean_sentiment)}
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {topic.terms.map((term) => (
-                    <Badge key={term} variant="secondary">
+                    <Badge key={`${topic.topic_id}-${term}`} variant="secondary">
                       {term}
                     </Badge>
                   ))}
                 </div>
-                {topic.examples[0] ? (
-                  <Example
-                    title={topic.examples[0].title}
-                    callType={topic.examples[0].call_type}
-                    excerpt={topic.examples[0].excerpt}
-                    topics={topic.examples[0].provided_topics}
-                  />
-                ) : null}
               </div>
             ))}
           </CardContent>
@@ -108,10 +98,9 @@ export function TopicsPanel({ topics }: { topics: TopicReport }) {
       </div>
 
       <div className="space-y-3">
-        <h3 className="font-heading text-xl">Review queue: no shared words</h3>
+        <h3 className="font-heading text-xl">No shared words</h3>
         <p className="max-w-3xl text-sm text-muted-foreground">
-          These meetings have a governed theme and a generated topic that share no content word.
-          They are the ones a person should read before a category name is treated as settled.
+          {topics.topic_examples.lexical_overlap_note}
         </p>
         <ul className="grid gap-3 md:grid-cols-2">
           {comparison.disagreements.map((meeting) => (
@@ -129,24 +118,19 @@ export function TopicsPanel({ topics }: { topics: TopicReport }) {
   );
 }
 
-function Example({
-  title,
-  callType,
-  excerpt,
-  topics,
-}: {
-  title: string;
-  callType: string;
-  excerpt: string;
-  topics: string[];
-}) {
+function Example({ example }: { example: TopicExemplar }) {
   return (
     <figure className="space-y-1 rounded-lg bg-muted/70 px-3 py-2">
       <figcaption className="text-xs text-muted-foreground">
-        {callLabel(callType)} · {title}
+        {callLabel(example.call_type)} · {example.title}
       </figcaption>
-      <pre className="font-sans text-sm leading-5 whitespace-pre-wrap">{excerpt}</pre>
-      <p className="text-xs text-muted-foreground">Provided labels: {topics.slice(0, 4).join(", ")}</p>
+      <p className="text-sm leading-5">{example.evidence_excerpt}</p>
+      <p className="text-xs text-muted-foreground">
+        {example.evidence_source === "transcript_turn" ? "Transcript sentence" : "Summary sentence"} · labels{" "}
+        {example.original_labels.slice(0, 3).join(", ")} · model {example.generated_topic} · overlap{" "}
+        {example.lexical_topic_overlap.toFixed(2)} · {example.overlap_status}
+      </p>
+      <p className="text-xs leading-5 text-muted-foreground">{example.classification_explanation}</p>
     </figure>
   );
 }

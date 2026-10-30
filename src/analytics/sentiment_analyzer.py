@@ -40,6 +40,7 @@ class CallTypeSentiment:
     negative_share: float
     label_counts: dict[str, int]
     sentence_mix: dict[str, float]
+    turn_count: int = 0
 
 
 @dataclass(slots=True)
@@ -48,6 +49,7 @@ class PeriodSentiment:
     count: int
     mean_score: float | None
     by_call_type: dict[str, float | None]
+    by_call_type_n: dict[str, int] = field(default_factory=dict)
 
 
 @dataclass(slots=True)
@@ -68,6 +70,40 @@ class SentimentInterpretation:
 
 
 @dataclass(slots=True)
+class SentimentProvenance:
+    meeting_score_source: str
+    meeting_label_source: str
+    turn_polarity_source: str
+    inferred_model_score: None
+    inferred_model_note: str
+    aggregation: str
+    causal_claims: str
+
+
+def default_provenance() -> SentimentProvenance:
+    return SentimentProvenance(
+        meeting_score_source=(
+            "Source-provided meeting score: summary.json sentimentScore, scale 1–5. "
+            "The analyzer copies it and does not change it."
+        ),
+        meeting_label_source=(
+            "Source-provided meeting label: summary.json overallSentiment. Copied unchanged."
+        ),
+        turn_polarity_source=(
+            "Source-provided turn polarity: transcript sentimentType (positive, neutral, or negative). "
+            "Rolled up only as a mix of turns. Not converted into the 1–5 score."
+        ),
+        inferred_model_score=None,
+        inferred_model_note="No new sentiment model is fit. No text is rescored.",
+        aggregation=(
+            "Cohort figures are the arithmetic mean of the source meeting scores. "
+            "Every cohort reports n. Empty weeks stay empty rather than being interpolated."
+        ),
+        causal_claims="None. Differences between cohorts are descriptive, not estimated effects.",
+    )
+
+
+@dataclass(slots=True)
 class SentimentAnalysis:
     overall_mean: float
     overall_count: int
@@ -79,6 +115,7 @@ class SentimentAnalysis:
     incident: CohortSentiment
     outage_mention: CohortSentiment
     label_counts: dict[str, int]
+    provenance: SentimentProvenance = field(default_factory=default_provenance)
     interpretations: list[SentimentInterpretation] = field(default_factory=list)
 
 
@@ -97,6 +134,7 @@ class SentimentAnalyzer(Analyzer):
             incident=_cohort(meetings, _is_incident, "Incident-titled meetings"),
             outage_mention=_cohort(meetings, _mentions_outage, "Meetings that mention the outage"),
             label_counts=_label_counts(meetings),
+            provenance=default_provenance(),
         )
         analysis.interpretations = _interpret(analysis)
         return analysis
@@ -126,6 +164,7 @@ def _call_type_row(call_type: str, meetings: list[Meeting]) -> CallTypeSentiment
         negative_share=negative / len(meetings) if meetings else 0.0,
         label_counts=dict(labels),
         sentence_mix=mix,
+        turn_count=total_turns,
     )
 
 
@@ -146,14 +185,17 @@ def _periods(meetings: list[Meeting], key_fn, step: str) -> list[PeriodSentiment
 
 def _period_row(key: str, meetings: list[Meeting]) -> PeriodSentiment:
     by_type: dict[str, float | None] = {}
+    by_type_n: dict[str, int] = {}
     for call_type in ("support", "external", "internal"):
         subset = _of_type(meetings, call_type)
+        by_type_n[call_type] = len(subset)
         by_type[call_type] = _mean([meeting.sentiment_score for meeting in subset]) if subset else None
     return PeriodSentiment(
         period=key,
         count=len(meetings),
         mean_score=_mean([meeting.sentiment_score for meeting in meetings]) if meetings else None,
         by_call_type=by_type,
+        by_call_type_n=by_type_n,
     )
 
 

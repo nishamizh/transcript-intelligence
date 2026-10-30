@@ -47,3 +47,35 @@ def test_pipeline_on_the_corpus(tmp_path: Path):
     }
     known = {meeting["meeting_id"] for meeting in report["meetings"]}
     assert cited <= known
+
+    import json
+
+    for meeting in report["meetings"]:
+        summary = json.loads((DATA / meeting["meeting_id"] / "summary.json").read_text(encoding="utf-8"))
+        assert meeting["sentiment_score"] == summary["sentimentScore"]
+        assert meeting["sentiment"] == str(summary["overallSentiment"]).strip().lower()
+        assert meeting["lexical_topic_overlap"] == meeting["topic_agreement"]
+
+    provenance = report["sentiment"]["provenance"]
+    assert provenance["inferred_model_score"] is None
+    assert "sentimentScore" in provenance["meeting_score_source"]
+    assert "sentimentType" in provenance["turn_polarity_source"]
+
+    examples = report["topic_examples"]["examples"]
+    by_theme: dict[str, int] = {}
+    for example in examples:
+        assert example["meeting_id"] in known
+        source = next(row for row in report["meetings"] if row["meeting_id"] == example["meeting_id"])
+        assert example["assigned_theme"] == source["primary_theme"]
+        assert example["original_labels"] == source["topics"]
+        assert example["evidence_excerpt"]
+        assert example["assigned_theme_name"] in example["classification_explanation"]
+        by_theme[example["assigned_theme"]] = by_theme.get(example["assigned_theme"], 0) + 1
+    for theme in report["topics"]["themes"]:
+        if theme["meeting_count"]:
+            assert 1 <= by_theme.get(theme["theme_id"], 0) <= 2
+
+    assert report["methodology"]["approach"] == "hybrid"
+    assert (tmp_path / "review_queue.json").exists()
+    assert (tmp_path / "review_queue.csv").exists()
+    assert (tmp_path / "review_decisions.json").exists()

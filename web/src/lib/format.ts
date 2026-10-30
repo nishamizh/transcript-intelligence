@@ -45,6 +45,12 @@ export function scoreTone(score: number): string {
   return "text-[#1f6b4a]";
 }
 
+export function redactDisplay(text: string): string {
+  return text
+    .replace(/\b[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}\b/g, "[redacted-email]")
+    .replace(/(?<!\d)(?:\+?1[-.\s]?)?(?:\(\d{3}\)|\d{3})[-.\s]\d{3}[-.\s]\d{4}\b/g, "[redacted-phone]");
+}
+
 export function stakeholderLabel(id: string): string {
   const labels: Record<string, string> = {
     support: "Support leader",

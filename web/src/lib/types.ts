@@ -38,6 +38,8 @@ export type MeetingRecord = {
   generated_topic: string;
   generated_terms: string[];
   topic_agreement: number;
+  lexical_topic_overlap: number;
+  lexical_overlap_status: string;
   action_items: string[];
   account_name: string;
   customer_domains: string[];
@@ -54,6 +56,7 @@ export type CallTypeSentiment = {
   negative_share: number;
   label_counts: Record<string, number>;
   sentence_mix: Record<string, number>;
+  turn_count: number;
 };
 
 export type PeriodSentiment = {
@@ -61,6 +64,7 @@ export type PeriodSentiment = {
   count: number;
   mean_score: number | null;
   by_call_type: Record<string, number | null>;
+  by_call_type_n: Record<string, number>;
 };
 
 export type CohortSentiment = {
@@ -78,6 +82,16 @@ export type Interpretation = {
   why_it_matters: string;
 };
 
+export type SentimentProvenance = {
+  meeting_score_source: string;
+  meeting_label_source: string;
+  turn_polarity_source: string;
+  inferred_model_score: null;
+  inferred_model_note: string;
+  aggregation: string;
+  causal_claims: string;
+};
+
 export type SentimentReport = {
   overall_mean: number;
   overall_count: number;
@@ -89,6 +103,7 @@ export type SentimentReport = {
   incident: CohortSentiment;
   outage_mention: CohortSentiment;
   label_counts: Record<string, number>;
+  provenance: SentimentProvenance;
   interpretations: Interpretation[];
 };
 
@@ -137,12 +152,80 @@ export type TopicComparison = {
   commentary: string[];
 };
 
+export type TopicExemplar = {
+  meeting_id: string;
+  title: string;
+  call_type: string;
+  original_labels: string[];
+  assigned_theme: string;
+  assigned_theme_name: string;
+  generated_topic: string;
+  evidence_excerpt: string;
+  evidence_source: string;
+  classification_explanation: string;
+  lexical_topic_overlap: number;
+  overlap_status: string;
+};
+
+export type TopicExampleArtifact = {
+  selection_rule: string;
+  per_theme_limit: number;
+  lexical_overlap_note: string;
+  examples: TopicExemplar[];
+};
+
 export type TopicReport = {
   model_name: string;
   themes: GovernedTheme[];
   generated: GeneratedTopic[];
   comparison: TopicComparison;
   unclassified_count: number;
+  topic_examples: TopicExampleArtifact;
+};
+
+export type ReviewItem = {
+  item_id: string;
+  item_type: string;
+  meeting_id: string;
+  title: string;
+  call_type: string;
+  reasons: string[];
+  predicted_theme: string;
+  predicted_theme_name: string;
+  original_labels: string[];
+  generated_topic: string;
+  lexical_topic_overlap: number | null;
+  overlap_status: string;
+  evidence_excerpt: string;
+  cited_meeting_ids: string[];
+  insight_id: string;
+  stakeholder: string;
+  finding?: string;
+};
+
+export type ReviewQueue = {
+  version: number;
+  instructions: string;
+  ambiguous_margin: number;
+  item_count: number;
+  items: ReviewItem[];
+};
+
+export type Methodology = {
+  approach: string;
+  label_inventory: {
+    distinct_labels: number;
+    hapax_labels: number;
+    hapax_share: number;
+    note: string;
+  };
+  governed_mapping: string;
+  held_out_discovery: string;
+  why_this_corpus: string;
+  bertopic: string;
+  lexical_overlap: string;
+  sentiment: string;
+  not_measured: string[];
 };
 
 export type Evidence = {
@@ -205,4 +288,7 @@ export type Report = {
   insights: Insight[];
   quality: QualityReport;
   method: Record<string, string>;
+  methodology: Methodology;
+  topic_examples: TopicExampleArtifact;
+  review_queue: ReviewQueue;
 };
