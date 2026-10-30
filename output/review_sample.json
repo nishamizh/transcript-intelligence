@@ -1,0 +1,1278 @@
+{
+  "version": 1,
+  "seed": 7,
+  "target": 30,
+  "task": "single_label",
+  "taxonomy_version": "governed-themes-v1",
+  "method": "Representative sample: reserve one meeting for every governed theme that occurs, then allocate the remaining seats by the largest-remainder method on (count - 1). Within a theme, seats are split across support, external, and internal by the same method. Meetings inside a stratum are drawn with random.Random seeded by 7, the theme, and the call type. Inclusion probability is stratum seats divided by stratum size. Challenging cases are every meeting already on the review queue. That list is not a probability sample and is scored on its own.",
+  "population_meetings": 100,
+  "representative": {
+    "role": "representative",
+    "count": 30,
+    "items": [
+      {
+        "item_id": "meeting:01KQ2331EFD78BF3B1CAB747",
+        "meeting_id": "01KQ2331EFD78BF3B1CAB747",
+        "predicted_topic": "reliability",
+        "call_type": "internal",
+        "stratum_population": 15,
+        "stratum_sampled": 4,
+        "selection_probability": 0.266667,
+        "sample_weight": 3.75,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      },
+      {
+        "item_id": "meeting:01KQ298F2846EFE59B0D70E2",
+        "meeting_id": "01KQ298F2846EFE59B0D70E2",
+        "predicted_topic": "reliability",
+        "call_type": "internal",
+        "stratum_population": 15,
+        "stratum_sampled": 4,
+        "selection_probability": 0.266667,
+        "sample_weight": 3.75,
+        "sample_role": "representative",
+        "also_in_challenging": true
+      },
+      {
+        "item_id": "meeting:01KQ2D93184912F0147315E7",
+        "meeting_id": "01KQ2D93184912F0147315E7",
+        "predicted_topic": "reliability",
+        "call_type": "external",
+        "stratum_population": 15,
+        "stratum_sampled": 4,
+        "selection_probability": 0.266667,
+        "sample_weight": 3.75,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      },
+      {
+        "item_id": "meeting:01KQ31ED026F745FE2A55CCD",
+        "meeting_id": "01KQ31ED026F745FE2A55CCD",
+        "predicted_topic": "identity",
+        "call_type": "internal",
+        "stratum_population": 3,
+        "stratum_sampled": 1,
+        "selection_probability": 0.333333,
+        "sample_weight": 3.0,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      },
+      {
+        "item_id": "meeting:01KQ3BD8DEEBC7FECD107F0F",
+        "meeting_id": "01KQ3BD8DEEBC7FECD107F0F",
+        "predicted_topic": "compliance",
+        "call_type": "external",
+        "stratum_population": 12,
+        "stratum_sampled": 3,
+        "selection_probability": 0.25,
+        "sample_weight": 4.0,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      },
+      {
+        "item_id": "meeting:01KQ45F6F7349D0A620571F1",
+        "meeting_id": "01KQ45F6F7349D0A620571F1",
+        "predicted_topic": "commercial",
+        "call_type": "external",
+        "stratum_population": 7,
+        "stratum_sampled": 3,
+        "selection_probability": 0.428571,
+        "sample_weight": 2.333333,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      },
+      {
+        "item_id": "meeting:01KQ4D01DCB15C69672AB5AF",
+        "meeting_id": "01KQ4D01DCB15C69672AB5AF",
+        "predicted_topic": "compliance",
+        "call_type": "external",
+        "stratum_population": 12,
+        "stratum_sampled": 3,
+        "selection_probability": 0.25,
+        "sample_weight": 4.0,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      },
+      {
+        "item_id": "meeting:01KQ4D71CDFB1045A2458216",
+        "meeting_id": "01KQ4D71CDFB1045A2458216",
+        "predicted_topic": "reliability",
+        "call_type": "external",
+        "stratum_population": 15,
+        "stratum_sampled": 4,
+        "selection_probability": 0.266667,
+        "sample_weight": 3.75,
+        "sample_role": "representative",
+        "also_in_challenging": true
+      },
+      {
+        "item_id": "meeting:01KQ4EE836687F95080D92AB",
+        "meeting_id": "01KQ4EE836687F95080D92AB",
+        "predicted_topic": "delivery",
+        "call_type": "internal",
+        "stratum_population": 1,
+        "stratum_sampled": 1,
+        "selection_probability": 1.0,
+        "sample_weight": 1.0,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      },
+      {
+        "item_id": "meeting:01KQ560FF1570C5E7F71D752",
+        "meeting_id": "01KQ560FF1570C5E7F71D752",
+        "predicted_topic": "onboarding",
+        "call_type": "external",
+        "stratum_population": 2,
+        "stratum_sampled": 1,
+        "selection_probability": 0.5,
+        "sample_weight": 2.0,
+        "sample_role": "representative",
+        "also_in_challenging": true
+      },
+      {
+        "item_id": "meeting:01KQ56786DD1E8A1BF174FDD",
+        "meeting_id": "01KQ56786DD1E8A1BF174FDD",
+        "predicted_topic": "compliance",
+        "call_type": "support",
+        "stratum_population": 2,
+        "stratum_sampled": 1,
+        "selection_probability": 0.5,
+        "sample_weight": 2.0,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      },
+      {
+        "item_id": "meeting:01KQ56AA6B60801ABC01AB1C",
+        "meeting_id": "01KQ56AA6B60801ABC01AB1C",
+        "predicted_topic": "billing",
+        "call_type": "support",
+        "stratum_population": 4,
+        "stratum_sampled": 2,
+        "selection_probability": 0.5,
+        "sample_weight": 2.0,
+        "sample_role": "representative",
+        "also_in_challenging": true
+      },
+      {
+        "item_id": "meeting:01KQ5A966832A146DA4B7D41",
+        "meeting_id": "01KQ5A966832A146DA4B7D41",
+        "predicted_topic": "identity",
+        "call_type": "external",
+        "stratum_population": 4,
+        "stratum_sampled": 1,
+        "selection_probability": 0.25,
+        "sample_weight": 4.0,
+        "sample_role": "representative",
+        "also_in_challenging": true
+      },
+      {
+        "item_id": "meeting:01KQ65D43540846FA994B6C4",
+        "meeting_id": "01KQ65D43540846FA994B6C4",
+        "predicted_topic": "product",
+        "call_type": "external",
+        "stratum_population": 2,
+        "stratum_sampled": 1,
+        "selection_probability": 0.5,
+        "sample_weight": 2.0,
+        "sample_role": "representative",
+        "also_in_challenging": true
+      },
+      {
+        "item_id": "meeting:01KQ6CAA850EAFDC48B52846",
+        "meeting_id": "01KQ6CAA850EAFDC48B52846",
+        "predicted_topic": "reliability",
+        "call_type": "external",
+        "stratum_population": 15,
+        "stratum_sampled": 4,
+        "selection_probability": 0.266667,
+        "sample_weight": 3.75,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      },
+      {
+        "item_id": "meeting:01KQ773D68723289E4A98889",
+        "meeting_id": "01KQ773D68723289E4A98889",
+        "predicted_topic": "billing",
+        "call_type": "support",
+        "stratum_population": 4,
+        "stratum_sampled": 2,
+        "selection_probability": 0.5,
+        "sample_weight": 2.0,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      },
+      {
+        "item_id": "meeting:01KQ7FA71CF70FAFEE4B6251",
+        "meeting_id": "01KQ7FA71CF70FAFEE4B6251",
+        "predicted_topic": "commercial",
+        "call_type": "external",
+        "stratum_population": 7,
+        "stratum_sampled": 3,
+        "selection_probability": 0.428571,
+        "sample_weight": 2.333333,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      },
+      {
+        "item_id": "meeting:01KQ9A6BE09D73A9BB5798C7",
+        "meeting_id": "01KQ9A6BE09D73A9BB5798C7",
+        "predicted_topic": "product",
+        "call_type": "support",
+        "stratum_population": 3,
+        "stratum_sampled": 1,
+        "selection_probability": 0.333333,
+        "sample_weight": 3.0,
+        "sample_role": "representative",
+        "also_in_challenging": true
+      },
+      {
+        "item_id": "meeting:01KQ9BCA1794C9472726FFAD",
+        "meeting_id": "01KQ9BCA1794C9472726FFAD",
+        "predicted_topic": "product",
+        "call_type": "internal",
+        "stratum_population": 3,
+        "stratum_sampled": 1,
+        "selection_probability": 0.333333,
+        "sample_weight": 3.0,
+        "sample_role": "representative",
+        "also_in_challenging": true
+      },
+      {
+        "item_id": "meeting:01KQA0F0BE68E74D66EB4171",
+        "meeting_id": "01KQA0F0BE68E74D66EB4171",
+        "predicted_topic": "compliance",
+        "call_type": "internal",
+        "stratum_population": 7,
+        "stratum_sampled": 2,
+        "selection_probability": 0.285714,
+        "sample_weight": 3.5,
+        "sample_role": "representative",
+        "also_in_challenging": true
+      },
+      {
+        "item_id": "meeting:01KQA1AFDC1306A000B0C7D9",
+        "meeting_id": "01KQA1AFDC1306A000B0C7D9",
+        "predicted_topic": "reliability",
+        "call_type": "external",
+        "stratum_population": 15,
+        "stratum_sampled": 4,
+        "selection_probability": 0.266667,
+        "sample_weight": 3.75,
+        "sample_role": "representative",
+        "also_in_challenging": true
+      },
+      {
+        "item_id": "meeting:01KQA7DFCE1285F52192B34B",
+        "meeting_id": "01KQA7DFCE1285F52192B34B",
+        "predicted_topic": "reliability",
+        "call_type": "support",
+        "stratum_population": 13,
+        "stratum_sampled": 3,
+        "selection_probability": 0.230769,
+        "sample_weight": 4.333333,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      },
+      {
+        "item_id": "meeting:01KQAEA50436D047BC39CFC7",
+        "meeting_id": "01KQAEA50436D047BC39CFC7",
+        "predicted_topic": "commercial",
+        "call_type": "external",
+        "stratum_population": 7,
+        "stratum_sampled": 3,
+        "selection_probability": 0.428571,
+        "sample_weight": 2.333333,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      },
+      {
+        "item_id": "meeting:01KQAFB8DBF6E1E2FDEF0B75",
+        "meeting_id": "01KQAFB8DBF6E1E2FDEF0B75",
+        "predicted_topic": "compliance",
+        "call_type": "external",
+        "stratum_population": 12,
+        "stratum_sampled": 3,
+        "selection_probability": 0.25,
+        "sample_weight": 4.0,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      },
+      {
+        "item_id": "meeting:01KQBB7C4D4789DB2F3DA9C2",
+        "meeting_id": "01KQBB7C4D4789DB2F3DA9C2",
+        "predicted_topic": "reliability",
+        "call_type": "support",
+        "stratum_population": 13,
+        "stratum_sampled": 3,
+        "selection_probability": 0.230769,
+        "sample_weight": 4.333333,
+        "sample_role": "representative",
+        "also_in_challenging": true
+      },
+      {
+        "item_id": "meeting:01KQC166F678CBA584AAFF8B",
+        "meeting_id": "01KQC166F678CBA584AAFF8B",
+        "predicted_topic": "identity",
+        "call_type": "support",
+        "stratum_population": 5,
+        "stratum_sampled": 1,
+        "selection_probability": 0.2,
+        "sample_weight": 5.0,
+        "sample_role": "representative",
+        "also_in_challenging": true
+      },
+      {
+        "item_id": "meeting:01KQD1270E98A7DFC55ADCF8",
+        "meeting_id": "01KQD1270E98A7DFC55ADCF8",
+        "predicted_topic": "reliability",
+        "call_type": "internal",
+        "stratum_population": 15,
+        "stratum_sampled": 4,
+        "selection_probability": 0.266667,
+        "sample_weight": 3.75,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      },
+      {
+        "item_id": "meeting:01KQE110900B8A65D80AE694",
+        "meeting_id": "01KQE110900B8A65D80AE694",
+        "predicted_topic": "reliability",
+        "call_type": "internal",
+        "stratum_population": 15,
+        "stratum_sampled": 4,
+        "selection_probability": 0.266667,
+        "sample_weight": 3.75,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      },
+      {
+        "item_id": "meeting:01KQEDE682B4A8D67C657CF1",
+        "meeting_id": "01KQEDE682B4A8D67C657CF1",
+        "predicted_topic": "reliability",
+        "call_type": "support",
+        "stratum_population": 13,
+        "stratum_sampled": 3,
+        "selection_probability": 0.230769,
+        "sample_weight": 4.333333,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      },
+      {
+        "item_id": "meeting:01KQFEEFFF8E80B0DFD10880",
+        "meeting_id": "01KQFEEFFF8E80B0DFD10880",
+        "predicted_topic": "compliance",
+        "call_type": "internal",
+        "stratum_population": 7,
+        "stratum_sampled": 2,
+        "selection_probability": 0.285714,
+        "sample_weight": 3.5,
+        "sample_role": "representative",
+        "also_in_challenging": false
+      }
+    ],
+    "strata": [
+      {
+        "theme": "reliability",
+        "theme_name": "Reliability and incidents",
+        "call_type": "support",
+        "population": 13,
+        "sampled": 3,
+        "selection_probability": 0.230769
+      },
+      {
+        "theme": "reliability",
+        "theme_name": "Reliability and incidents",
+        "call_type": "external",
+        "population": 15,
+        "sampled": 4,
+        "selection_probability": 0.266667
+      },
+      {
+        "theme": "reliability",
+        "theme_name": "Reliability and incidents",
+        "call_type": "internal",
+        "population": 15,
+        "sampled": 4,
+        "selection_probability": 0.266667
+      },
+      {
+        "theme": "compliance",
+        "theme_name": "Compliance and audit",
+        "call_type": "support",
+        "population": 2,
+        "sampled": 1,
+        "selection_probability": 0.5
+      },
+      {
+        "theme": "compliance",
+        "theme_name": "Compliance and audit",
+        "call_type": "external",
+        "population": 12,
+        "sampled": 3,
+        "selection_probability": 0.25
+      },
+      {
+        "theme": "compliance",
+        "theme_name": "Compliance and audit",
+        "call_type": "internal",
+        "population": 7,
+        "sampled": 2,
+        "selection_probability": 0.285714
+      },
+      {
+        "theme": "commercial",
+        "theme_name": "Renewal and churn",
+        "call_type": "external",
+        "population": 7,
+        "sampled": 3,
+        "selection_probability": 0.428571
+      },
+      {
+        "theme": "billing",
+        "theme_name": "Billing and packaging",
+        "call_type": "support",
+        "population": 4,
+        "sampled": 2,
+        "selection_probability": 0.5
+      },
+      {
+        "theme": "product",
+        "theme_name": "Product gaps and roadmap",
+        "call_type": "support",
+        "population": 3,
+        "sampled": 1,
+        "selection_probability": 0.333333
+      },
+      {
+        "theme": "product",
+        "theme_name": "Product gaps and roadmap",
+        "call_type": "external",
+        "population": 2,
+        "sampled": 1,
+        "selection_probability": 0.5
+      },
+      {
+        "theme": "product",
+        "theme_name": "Product gaps and roadmap",
+        "call_type": "internal",
+        "population": 3,
+        "sampled": 1,
+        "selection_probability": 0.333333
+      },
+      {
+        "theme": "onboarding",
+        "theme_name": "Onboarding and adoption",
+        "call_type": "external",
+        "population": 2,
+        "sampled": 1,
+        "selection_probability": 0.5
+      },
+      {
+        "theme": "identity",
+        "theme_name": "Identity and access",
+        "call_type": "support",
+        "population": 5,
+        "sampled": 1,
+        "selection_probability": 0.2
+      },
+      {
+        "theme": "identity",
+        "theme_name": "Identity and access",
+        "call_type": "external",
+        "population": 4,
+        "sampled": 1,
+        "selection_probability": 0.25
+      },
+      {
+        "theme": "identity",
+        "theme_name": "Identity and access",
+        "call_type": "internal",
+        "population": 3,
+        "sampled": 1,
+        "selection_probability": 0.333333
+      },
+      {
+        "theme": "delivery",
+        "theme_name": "Planning and delivery",
+        "call_type": "internal",
+        "population": 1,
+        "sampled": 1,
+        "selection_probability": 1.0
+      }
+    ],
+    "coverage": {
+      "by_theme": [
+        {
+          "name": "reliability",
+          "label": "Reliability and incidents",
+          "population": 43,
+          "sampled": 11,
+          "fraction": 0.255814
+        },
+        {
+          "name": "compliance",
+          "label": "Compliance and audit",
+          "population": 21,
+          "sampled": 6,
+          "fraction": 0.285714
+        },
+        {
+          "name": "commercial",
+          "label": "Renewal and churn",
+          "population": 8,
+          "sampled": 3,
+          "fraction": 0.375
+        },
+        {
+          "name": "billing",
+          "label": "Billing and packaging",
+          "population": 5,
+          "sampled": 2,
+          "fraction": 0.4
+        },
+        {
+          "name": "product",
+          "label": "Product gaps and roadmap",
+          "population": 8,
+          "sampled": 3,
+          "fraction": 0.375
+        },
+        {
+          "name": "onboarding",
+          "label": "Onboarding and adoption",
+          "population": 2,
+          "sampled": 1,
+          "fraction": 0.5
+        },
+        {
+          "name": "identity",
+          "label": "Identity and access",
+          "population": 12,
+          "sampled": 3,
+          "fraction": 0.25
+        },
+        {
+          "name": "delivery",
+          "label": "Planning and delivery",
+          "population": 1,
+          "sampled": 1,
+          "fraction": 1.0
+        }
+      ],
+      "by_call_type": [
+        {
+          "name": "support",
+          "label": "support",
+          "population": 27,
+          "sampled": 8,
+          "fraction": 0.296296
+        },
+        {
+          "name": "external",
+          "label": "external",
+          "population": 43,
+          "sampled": 13,
+          "fraction": 0.302326
+        },
+        {
+          "name": "internal",
+          "label": "internal",
+          "population": 30,
+          "sampled": 9,
+          "fraction": 0.3
+        }
+      ]
+    },
+    "allocation": [
+      {
+        "theme": "reliability",
+        "theme_name": "Reliability and incidents",
+        "population": 43,
+        "sampled": 11
+      },
+      {
+        "theme": "compliance",
+        "theme_name": "Compliance and audit",
+        "population": 21,
+        "sampled": 6
+      },
+      {
+        "theme": "commercial",
+        "theme_name": "Renewal and churn",
+        "population": 8,
+        "sampled": 3
+      },
+      {
+        "theme": "billing",
+        "theme_name": "Billing and packaging",
+        "population": 5,
+        "sampled": 2
+      },
+      {
+        "theme": "product",
+        "theme_name": "Product gaps and roadmap",
+        "population": 8,
+        "sampled": 3
+      },
+      {
+        "theme": "onboarding",
+        "theme_name": "Onboarding and adoption",
+        "population": 2,
+        "sampled": 1
+      },
+      {
+        "theme": "identity",
+        "theme_name": "Identity and access",
+        "population": 12,
+        "sampled": 3
+      },
+      {
+        "theme": "delivery",
+        "theme_name": "Planning and delivery",
+        "population": 1,
+        "sampled": 1
+      }
+    ]
+  },
+  "challenging": {
+    "role": "challenging",
+    "count": 48,
+    "bias": "These meetings were queued because the theme margin was thin or the held-out topic shared no words with the supplied labels. Accuracy here is not the accuracy of a random meeting. Do not average it with the representative sample.",
+    "items": [
+      {
+        "item_id": "meeting:01KQ03B0303900521BB089CA",
+        "meeting_id": "01KQ03B0303900521BB089CA",
+        "predicted_topic": "reliability",
+        "call_type": "internal",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ0CAE7F064EC93F0540CA",
+        "meeting_id": "01KQ0CAE7F064EC93F0540CA",
+        "predicted_topic": "reliability",
+        "call_type": "internal",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ0DFE299AC7A74E8022CA",
+        "meeting_id": "01KQ0DFE299AC7A74E8022CA",
+        "predicted_topic": "compliance",
+        "call_type": "external",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ1267C6AA7D9B3125FEC8",
+        "meeting_id": "01KQ1267C6AA7D9B3125FEC8",
+        "predicted_topic": "compliance",
+        "call_type": "internal",
+        "reasons": [
+          "no_shared_tokens",
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ1DC6CA536DE1B31ED8F5",
+        "meeting_id": "01KQ1DC6CA536DE1B31ED8F5",
+        "predicted_topic": "billing",
+        "call_type": "external",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ2217B066855A3B7814CB",
+        "meeting_id": "01KQ2217B066855A3B7814CB",
+        "predicted_topic": "reliability",
+        "call_type": "external",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ298F2846EFE59B0D70E2",
+        "meeting_id": "01KQ298F2846EFE59B0D70E2",
+        "predicted_topic": "reliability",
+        "call_type": "internal",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": true
+      },
+      {
+        "item_id": "meeting:01KQ38FE02AEE5AA5157F042",
+        "meeting_id": "01KQ38FE02AEE5AA5157F042",
+        "predicted_topic": "compliance",
+        "call_type": "support",
+        "reasons": [
+          "no_shared_tokens",
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ3C837D7EF689408DCF95",
+        "meeting_id": "01KQ3C837D7EF689408DCF95",
+        "predicted_topic": "reliability",
+        "call_type": "support",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ3CE40428CCC5FF433FFC",
+        "meeting_id": "01KQ3CE40428CCC5FF433FFC",
+        "predicted_topic": "reliability",
+        "call_type": "internal",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ3D8C1EF16C042F31FAFD",
+        "meeting_id": "01KQ3D8C1EF16C042F31FAFD",
+        "predicted_topic": "compliance",
+        "call_type": "external",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ41FB5CCFD9EA583FB020",
+        "meeting_id": "01KQ41FB5CCFD9EA583FB020",
+        "predicted_topic": "reliability",
+        "call_type": "external",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ4529010F423FD9DB40BD",
+        "meeting_id": "01KQ4529010F423FD9DB40BD",
+        "predicted_topic": "reliability",
+        "call_type": "internal",
+        "reasons": [
+          "no_shared_tokens",
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ45C0AD36B351A3571940",
+        "meeting_id": "01KQ45C0AD36B351A3571940",
+        "predicted_topic": "compliance",
+        "call_type": "external",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ45C76AF3AEA6B3EA6697",
+        "meeting_id": "01KQ45C76AF3AEA6B3EA6697",
+        "predicted_topic": "reliability",
+        "call_type": "external",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ46A9DE0AECB006D897A0",
+        "meeting_id": "01KQ46A9DE0AECB006D897A0",
+        "predicted_topic": "reliability",
+        "call_type": "internal",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ4D71CDFB1045A2458216",
+        "meeting_id": "01KQ4D71CDFB1045A2458216",
+        "predicted_topic": "reliability",
+        "call_type": "external",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": true
+      },
+      {
+        "item_id": "meeting:01KQ51DC4345D9DAE005678C",
+        "meeting_id": "01KQ51DC4345D9DAE005678C",
+        "predicted_topic": "product",
+        "call_type": "external",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ54917E3931712516916D",
+        "meeting_id": "01KQ54917E3931712516916D",
+        "predicted_topic": "compliance",
+        "call_type": "external",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ560FF1570C5E7F71D752",
+        "meeting_id": "01KQ560FF1570C5E7F71D752",
+        "predicted_topic": "onboarding",
+        "call_type": "external",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": true
+      },
+      {
+        "item_id": "meeting:01KQ56AA6B60801ABC01AB1C",
+        "meeting_id": "01KQ56AA6B60801ABC01AB1C",
+        "predicted_topic": "billing",
+        "call_type": "support",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": true
+      },
+      {
+        "item_id": "meeting:01KQ5A966832A146DA4B7D41",
+        "meeting_id": "01KQ5A966832A146DA4B7D41",
+        "predicted_topic": "identity",
+        "call_type": "external",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": true
+      },
+      {
+        "item_id": "meeting:01KQ5AFAE8264DDC0ED2AE7F",
+        "meeting_id": "01KQ5AFAE8264DDC0ED2AE7F",
+        "predicted_topic": "identity",
+        "call_type": "external",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ5D47170D4828E89EDE37",
+        "meeting_id": "01KQ5D47170D4828E89EDE37",
+        "predicted_topic": "reliability",
+        "call_type": "support",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ5EC1665DCFD7A6B62A59",
+        "meeting_id": "01KQ5EC1665DCFD7A6B62A59",
+        "predicted_topic": "reliability",
+        "call_type": "support",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ65D43540846FA994B6C4",
+        "meeting_id": "01KQ65D43540846FA994B6C4",
+        "predicted_topic": "product",
+        "call_type": "external",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": true
+      },
+      {
+        "item_id": "meeting:01KQ68FB3E9E60C4477CDAB4",
+        "meeting_id": "01KQ68FB3E9E60C4477CDAB4",
+        "predicted_topic": "compliance",
+        "call_type": "internal",
+        "reasons": [
+          "no_shared_tokens",
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ6A5CEAAFFBE3B0099E75",
+        "meeting_id": "01KQ6A5CEAAFFBE3B0099E75",
+        "predicted_topic": "identity",
+        "call_type": "support",
+        "reasons": [
+          "no_shared_tokens",
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ764171AC27A3A94DC695",
+        "meeting_id": "01KQ764171AC27A3A94DC695",
+        "predicted_topic": "reliability",
+        "call_type": "internal",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ77F2867FC54E13A8C495",
+        "meeting_id": "01KQ77F2867FC54E13A8C495",
+        "predicted_topic": "reliability",
+        "call_type": "external",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ7B802912366FC0A24D4F",
+        "meeting_id": "01KQ7B802912366FC0A24D4F",
+        "predicted_topic": "product",
+        "call_type": "internal",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ88B8EAEAA819C26CCBE7",
+        "meeting_id": "01KQ88B8EAEAA819C26CCBE7",
+        "predicted_topic": "compliance",
+        "call_type": "external",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ8D9A06510DD623EFB1A6",
+        "meeting_id": "01KQ8D9A06510DD623EFB1A6",
+        "predicted_topic": "reliability",
+        "call_type": "external",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ92EA85FE4C537400227D",
+        "meeting_id": "01KQ92EA85FE4C537400227D",
+        "predicted_topic": "product",
+        "call_type": "support",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ9772B2348F500FB09D1E",
+        "meeting_id": "01KQ9772B2348F500FB09D1E",
+        "predicted_topic": "identity",
+        "call_type": "support",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ9A6BE09D73A9BB5798C7",
+        "meeting_id": "01KQ9A6BE09D73A9BB5798C7",
+        "predicted_topic": "product",
+        "call_type": "support",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": true
+      },
+      {
+        "item_id": "meeting:01KQ9BB82FD97C9607D57E90",
+        "meeting_id": "01KQ9BB82FD97C9607D57E90",
+        "predicted_topic": "onboarding",
+        "call_type": "external",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQ9BCA1794C9472726FFAD",
+        "meeting_id": "01KQ9BCA1794C9472726FFAD",
+        "predicted_topic": "product",
+        "call_type": "internal",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": true
+      },
+      {
+        "item_id": "meeting:01KQA0F0BE68E74D66EB4171",
+        "meeting_id": "01KQA0F0BE68E74D66EB4171",
+        "predicted_topic": "compliance",
+        "call_type": "internal",
+        "reasons": [
+          "no_shared_tokens",
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": true
+      },
+      {
+        "item_id": "meeting:01KQA1AFDC1306A000B0C7D9",
+        "meeting_id": "01KQA1AFDC1306A000B0C7D9",
+        "predicted_topic": "reliability",
+        "call_type": "external",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": true
+      },
+      {
+        "item_id": "meeting:01KQAC572C34475A8791F2C3",
+        "meeting_id": "01KQAC572C34475A8791F2C3",
+        "predicted_topic": "reliability",
+        "call_type": "internal",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQADF3D76E82BF8BA19AF2",
+        "meeting_id": "01KQADF3D76E82BF8BA19AF2",
+        "predicted_topic": "product",
+        "call_type": "internal",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQB3B16F255B65F39597D0",
+        "meeting_id": "01KQB3B16F255B65F39597D0",
+        "predicted_topic": "compliance",
+        "call_type": "internal",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQBB7C4D4789DB2F3DA9C2",
+        "meeting_id": "01KQBB7C4D4789DB2F3DA9C2",
+        "predicted_topic": "reliability",
+        "call_type": "support",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": true
+      },
+      {
+        "item_id": "meeting:01KQC1267BEB344076DD7656",
+        "meeting_id": "01KQC1267BEB344076DD7656",
+        "predicted_topic": "reliability",
+        "call_type": "external",
+        "reasons": [
+          "no_shared_tokens",
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQC166F678CBA584AAFF8B",
+        "meeting_id": "01KQC166F678CBA584AAFF8B",
+        "predicted_topic": "identity",
+        "call_type": "support",
+        "reasons": [
+          "no_shared_tokens"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": true
+      },
+      {
+        "item_id": "meeting:01KQD199788883B6F18C81E8",
+        "meeting_id": "01KQD199788883B6F18C81E8",
+        "predicted_topic": "reliability",
+        "call_type": "external",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      },
+      {
+        "item_id": "meeting:01KQFFC0F889AE8CFEE7A00D",
+        "meeting_id": "01KQFFC0F889AE8CFEE7A00D",
+        "predicted_topic": "reliability",
+        "call_type": "external",
+        "reasons": [
+          "ambiguous_theme"
+        ],
+        "selection_probability": null,
+        "sample_weight": null,
+        "sample_role": "challenging",
+        "also_in_representative": false
+      }
+    ]
+  },
+  "overlap_count": 12,
+  "pooling": "Representative and challenging results are reported separately. A meeting can sit in both lists and still has one human decision. The two denominators are not added together."
+}

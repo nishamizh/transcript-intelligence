@@ -1,0 +1,82 @@
+section,set,metric,status,display,value,numerator,denominator,support,notes
+sampling,representative,sample_size,,30,30,30,100,,"Representative sample: reserve one meeting for every governed theme that occurs, then allocate the remaining seats by the largest-remainder method on (count - 1). Within a theme, seats are split across support, external, and internal by the same method. Meetings inside a stratum are drawn with random.Random seeded by 7, the theme, and the call type. Inclusion probability is stratum seats divided by stratum size. Challenging cases are every meeting already on the review queue. That list is not a probability sample and is scored on its own."
+sampling,challenging,sample_size,biased,48,48,,,,These meetings were queued because the theme margin was thin or the held-out topic shared no words with the supplied labels. Accuracy here is not the accuracy of a random meeting. Do not average it with the representative sample.
+topic,representative,completion,not_yet_available,0/30,0.0,0,30,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,representative,accuracy,not_yet_available,N/A,,,,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,representative,macro_precision,not_yet_available,N/A,,,,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,representative,macro_recall,not_yet_available,N/A,,,,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,representative,macro_f1,not_yet_available,N/A,,,,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,representative,weighted_precision,not_yet_available,N/A,,,,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,representative,weighted_recall,not_yet_available,N/A,,,,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,representative,weighted_f1,not_yet_available,N/A,,,,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,representative,disagreement_rate,not_yet_available,N/A,,,,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,representative,ambiguous_proportion,not_yet_available,0/30,0.0,0,30,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,representative,unresolved_proportion,not_yet_available,30/30,1.0,30,30,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+category,representative,reliability_precision,not_yet_available,N/A,,,,0,Reliability and incidents
+category,representative,reliability_recall,not_yet_available,N/A,,,,0,Reliability and incidents
+category,representative,reliability_f1,not_yet_available,N/A,,,,0,Reliability and incidents
+category,representative,compliance_precision,not_yet_available,N/A,,,,0,Compliance and audit
+category,representative,compliance_recall,not_yet_available,N/A,,,,0,Compliance and audit
+category,representative,compliance_f1,not_yet_available,N/A,,,,0,Compliance and audit
+category,representative,commercial_precision,not_yet_available,N/A,,,,0,Renewal and churn
+category,representative,commercial_recall,not_yet_available,N/A,,,,0,Renewal and churn
+category,representative,commercial_f1,not_yet_available,N/A,,,,0,Renewal and churn
+category,representative,billing_precision,not_yet_available,N/A,,,,0,Billing and packaging
+category,representative,billing_recall,not_yet_available,N/A,,,,0,Billing and packaging
+category,representative,billing_f1,not_yet_available,N/A,,,,0,Billing and packaging
+category,representative,product_precision,not_yet_available,N/A,,,,0,Product gaps and roadmap
+category,representative,product_recall,not_yet_available,N/A,,,,0,Product gaps and roadmap
+category,representative,product_f1,not_yet_available,N/A,,,,0,Product gaps and roadmap
+category,representative,onboarding_precision,not_yet_available,N/A,,,,0,Onboarding and adoption
+category,representative,onboarding_recall,not_yet_available,N/A,,,,0,Onboarding and adoption
+category,representative,onboarding_f1,not_yet_available,N/A,,,,0,Onboarding and adoption
+category,representative,identity_precision,not_yet_available,N/A,,,,0,Identity and access
+category,representative,identity_recall,not_yet_available,N/A,,,,0,Identity and access
+category,representative,identity_f1,not_yet_available,N/A,,,,0,Identity and access
+category,representative,delivery_precision,not_yet_available,N/A,,,,0,Planning and delivery
+category,representative,delivery_recall,not_yet_available,N/A,,,,0,Planning and delivery
+category,representative,delivery_f1,not_yet_available,N/A,,,,0,Planning and delivery
+topic,challenging,completion,not_yet_available,0/48,0.0,0,48,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,challenging,accuracy,not_yet_available,N/A,,,,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,challenging,macro_precision,not_yet_available,N/A,,,,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,challenging,macro_recall,not_yet_available,N/A,,,,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,challenging,macro_f1,not_yet_available,N/A,,,,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,challenging,weighted_precision,not_yet_available,N/A,,,,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,challenging,weighted_recall,not_yet_available,N/A,,,,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,challenging,weighted_f1,not_yet_available,N/A,,,,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,challenging,disagreement_rate,not_yet_available,N/A,,,,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,challenging,ambiguous_proportion,not_yet_available,0/48,0.0,0,48,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+topic,challenging,unresolved_proportion,not_yet_available,48/48,1.0,48,48,0,"No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated."
+category,challenging,reliability_precision,not_yet_available,N/A,,,,0,Reliability and incidents
+category,challenging,reliability_recall,not_yet_available,N/A,,,,0,Reliability and incidents
+category,challenging,reliability_f1,not_yet_available,N/A,,,,0,Reliability and incidents
+category,challenging,compliance_precision,not_yet_available,N/A,,,,0,Compliance and audit
+category,challenging,compliance_recall,not_yet_available,N/A,,,,0,Compliance and audit
+category,challenging,compliance_f1,not_yet_available,N/A,,,,0,Compliance and audit
+category,challenging,commercial_precision,not_yet_available,N/A,,,,0,Renewal and churn
+category,challenging,commercial_recall,not_yet_available,N/A,,,,0,Renewal and churn
+category,challenging,commercial_f1,not_yet_available,N/A,,,,0,Renewal and churn
+category,challenging,billing_precision,not_yet_available,N/A,,,,0,Billing and packaging
+category,challenging,billing_recall,not_yet_available,N/A,,,,0,Billing and packaging
+category,challenging,billing_f1,not_yet_available,N/A,,,,0,Billing and packaging
+category,challenging,product_precision,not_yet_available,N/A,,,,0,Product gaps and roadmap
+category,challenging,product_recall,not_yet_available,N/A,,,,0,Product gaps and roadmap
+category,challenging,product_f1,not_yet_available,N/A,,,,0,Product gaps and roadmap
+category,challenging,onboarding_precision,not_yet_available,N/A,,,,0,Onboarding and adoption
+category,challenging,onboarding_recall,not_yet_available,N/A,,,,0,Onboarding and adoption
+category,challenging,onboarding_f1,not_yet_available,N/A,,,,0,Onboarding and adoption
+category,challenging,identity_precision,not_yet_available,N/A,,,,0,Identity and access
+category,challenging,identity_recall,not_yet_available,N/A,,,,0,Identity and access
+category,challenging,identity_f1,not_yet_available,N/A,,,,0,Identity and access
+category,challenging,delivery_precision,not_yet_available,N/A,,,,0,Planning and delivery
+category,challenging,delivery_recall,not_yet_available,N/A,,,,0,Planning and delivery
+category,challenging,delivery_f1,not_yet_available,N/A,,,,0,Planning and delivery
+insight,all,review_coverage,measured,0/9,0.0,0,9,0,"Acceptance rate is accepted / (accepted + rejected). Needs revision and needs more evidence are reviewed, and they are not in that denominator. If nothing has been accepted or rejected, the rate is N/A rather than 0% or 100%. Approval coverage is accepted / all insights, and is N/A when nothing has been reviewed. No insight is accepted by default."
+insight,all,acceptance_rate,not_yet_available,N/A,,,,0,"Acceptance rate is accepted / (accepted + rejected). Needs revision and needs more evidence are reviewed, and they are not in that denominator. If nothing has been accepted or rejected, the rate is N/A rather than 0% or 100%. Approval coverage is accepted / all insights, and is N/A when nothing has been reviewed. No insight is accepted by default."
+insight,all,approval_coverage,not_yet_available,N/A,,,,0,"Acceptance rate is accepted / (accepted + rejected). Needs revision and needs more evidence are reviewed, and they are not in that denominator. If nothing has been accepted or rejected, the rate is N/A rather than 0% or 100%. Approval coverage is accepted / all insights, and is N/A when nothing has been reviewed. No insight is accepted by default."
+insight,all,mean_evidence_quality,not_yet_available,N/A,,,,0,
+insight,all,mean_business_usefulness,not_yet_available,N/A,,,,0,
+stakeholder,engineering,acceptance_rate,not_yet_available,N/A,,,,0,Engineering
+stakeholder,product,acceptance_rate,not_yet_available,N/A,,,,0,Product
+stakeholder,sales,acceptance_rate,not_yet_available,N/A,,,,0,Sales
+stakeholder,support,acceptance_rate,not_yet_available,N/A,,,,0,Support

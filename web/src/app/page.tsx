@@ -1,3 +1,4 @@
+import { EvaluationPanel, type HumanValidationReport } from "@/components/evaluation-panel";
 import { MeetingsPanel } from "@/components/meetings-panel";
 import { MethodologyPanel } from "@/components/methodology-panel";
 import { QualityPanel } from "@/components/quality-panel";
@@ -8,8 +9,10 @@ import { TopicsPanel } from "@/components/topics-panel";
 import { callLabel, formatDay, formatGenerated, scoreText } from "@/lib/format";
 import type { Report } from "@/lib/types";
 import reportJson from "@/data/report.json";
+import validationJson from "@/data/human_validation_report.json";
 
 const report = reportJson as unknown as Report;
+const validation = validationJson as unknown as HumanValidationReport;
 
 const NAV = [
   ["briefing", "Briefing"],
@@ -18,6 +21,7 @@ const NAV = [
   ["stakeholders", "Stakeholders"],
   ["meetings", "Meetings"],
   ["methodology", "Methodology"],
+  ["evaluation", "Evaluation"],
   ["review", "Review"],
   ["quality", "Quality"],
 ] as const;
@@ -105,6 +109,7 @@ export default function Page() {
         <StakeholderPanel insights={insights} />
         <MeetingsPanel meetings={report.meetings} themes={report.topics.themes} />
         <MethodologyPanel methodology={report.methodology} />
+        <EvaluationPanel validation={validation} />
         <ReviewerPanel queue={report.review_queue} themes={report.topics.themes} />
         <QualityPanel quality={quality} method={report.method} />
       </main>

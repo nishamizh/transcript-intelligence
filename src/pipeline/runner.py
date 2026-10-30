@@ -21,8 +21,10 @@ from src.ingestion.loader import DatasetLoader
 from src.models.meeting import Meeting
 from src.pipeline.briefing import compose_headline, method_notes
 from src.pipeline.methodology import build_methodology
-from src.review.decisions import ensure_decision_template
+from src.review.decisions import atomic_write_json, ensure_decision_template, load_decisions
 from src.review.queue import build_review_queue, write_review_queue
+from src.review.sample import build_review_sample, write_review_sample
+from src.review.validation import build_human_validation_report, write_human_validation_report
 from src.visualization.charts import render_charts
 
 
@@ -79,14 +81,30 @@ def run(settings: Settings | None = None) -> dict:
     report_path = settings.output_dir / "report.json"
     report_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
     write_review_queue(review_queue, settings.output_dir)
-    ensure_decision_template(
-        settings.output_dir / "review_decisions.json",
-        [item["item_id"] for item in review_queue["items"]],
-    )
+    review_sample = build_review_sample(report["meetings"], review_queue)
+    write_review_sample(review_sample, settings.output_dir / "review_sample.json")
+    decision_ids = [item["item_id"] for item in review_queue["items"]]
+    decision_ids.extend(item["item_id"] for item in review_sample["representative"]["items"])
+    decision_ids.extend(item["item_id"] for item in review_sample["challenging"]["items"])
+    decision_ids.extend(f"insight:{insight['insight_id']}" for insight in report["insights"])
+    decisions_path = settings.output_dir / "review_decisions.json"
+    ensure_decision_template(decisions_path, decision_ids)
+    validation = build_human_validation_report(report, review_sample, load_decisions(decisions_path))
+    write_human_validation_report(validation, settings.output_dir)
     render_charts(sentiment, topics, settings.output_dir / "charts")
     if settings.web_data_path:
         settings.web_data_path.parent.mkdir(parents=True, exist_ok=True)
         settings.web_data_path.write_text(json.dumps(report), encoding="utf-8")
+        atomic_write_json(settings.web_data_path.parent / "human_validation_report.json", validation)
+        public = settings.web_data_path.parents[2] / "public"
+        public.mkdir(parents=True, exist_ok=True)
+        atomic_write_json(public / "human_validation_report.json", validation)
+        csv_source = settings.output_dir / "human_validation_report.csv"
+        if csv_source.exists():
+            (public / "human_validation_report.csv").write_text(
+                csv_source.read_text(encoding="utf-8"),
+                encoding="utf-8",
+            )
     _print_briefing(report, report_path)
     return report
 
@@ -185,7 +203,7 @@ def _print_briefing(report: dict, report_path: Path) -> None:
     queue = report["review_queue"]
     print(
         f"Review queue: {queue['item_count']} items. "
-        "Theme accuracy is unavailable until review_decisions.json has accept, edit, or reject rows."
+        "Theme accuracy and insight acceptance stay N/A until a person saves decisions."
     )
     print(f"Wrote {report_path}")
 

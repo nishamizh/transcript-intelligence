@@ -2,8 +2,8 @@
 
 Coverage, consistency, actionability, and confidence are computed from the
 meetings and the insights that cite them. They are a proxy a reviewer can
-argue with. The replacement is a human accept/edit/reject loop, with an
-LLM-as-judge pass once those labels exist.
+argue with. The replacement is a saved human decision. An LLM is not a substitute
+for that decision.
 """
 
 from __future__ import annotations
@@ -16,10 +16,9 @@ from src.models.meeting import Meeting
 
 _NEXT = (
     "The next evolution is a human-in-the-loop review on the zero-overlap topics "
-    "and on every insight. A reviewer accepts, edits, or rejects the finding against "
-    "the cited transcript. Those labels become the evaluation set. An LLM-as-judge "
-    "can then score faithfulness and actionability on new runs, with the human labels "
-    "as the thing it has to agree with. This score is the stand-in until that loop exists."
+    "and on every insight. A reviewer approves, corrects, or marks a category ambiguous, "
+    "and accepts, rejects, or sends a finding back. Those saved decisions are the evaluation set. "
+    "An LLM is not a substitute for that file. This score is the stand-in until those decisions exist."
 )
 
 

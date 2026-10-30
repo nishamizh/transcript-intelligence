@@ -57,9 +57,46 @@ Charts: `output/charts/sentiment_by_call_type.png`, `output/charts/sentiment_tre
 - **Engineering.** Ten meetings are titled as an incident, outage, or war room (mean 2.18). The repeated language is a single point of failure, a health check that could not see the failure, and pipeline delay. That is a keyword count, not a new root-cause study. Keep the owner on the later meetings that still cite the outage.
 - **Sales.** 24 accounts already use churn language. SentinelShield is named in 18 meetings. The rank is a briefing order. It is not a forecast. The competitor names are configured, not discovered from a model.
 
-## What this does not measure
+## What this does not measure yet
 
-Theme precision and recall are unavailable until someone fills in `output/review_decisions.json`. The evaluation command prints `unavailable` rather than a zero dressed up as a score. The current file is blank, so that is the result. Citation completeness is separate and structural: 9 of 9 insights cite a real meeting. The quality composite (about 97%) scores the shape of the briefing, not whether a reviewer would accept it. No revenue, bookings, or churn probability is computed.
+Theme precision, recall, F1, and insight acceptance are **not yet available**. `output/review_decisions.json` has blank decisions. The validation report prints `N/A` with the review count and the sample size. It does not print 0% or 100% for an empty acceptance denominator. Citation completeness is separate and structural: 9 of 9 insights cite a real meeting. The quality composite (about 97%) scores the shape of the briefing, not whether a reviewer would accept it. No revenue, bookings, or churn probability is computed.
+
+The data-validation gaps stay open until real reviewers save enough adjudicated decisions and the report is regenerated. Filling the file with the model's own prediction is not a human label.
+
+## Human review
+
+The task is single-label. Each meeting has one governed category. A meeting can match extra themes, and those are shown as context, not as a second grade.
+
+**Representative sample.** Seed 7. Target 30 meetings, or every meeting if the corpus were smaller. One seat is reserved for each of the eight themes, then the remaining seats follow the largest-remainder method on `(count - 1)`. Within a theme, seats are split across support, external, and internal the same way. Meetings inside a stratum are drawn with `random.Random` seeded by `7`, the theme, and the call type. The selection probability is stratum seats divided by stratum size. Population estimates weight each labeled row by `1 / selection probability`.
+
+**Challenging cases.** Every meeting already on the review queue (thin theme margin, or no shared words with the held-out topic). This is not a probability sample. Its accuracy is reported on its own and is not averaged with the representative sample. A meeting can be in both lists and still has one saved decision.
+
+**Topic decision.** Approve the predicted category, reject it and choose one of the other seven themes, or mark the case ambiguous. A blank row is not a review. Ambiguous rows count toward completion and stay out of accuracy, precision, recall, and F1.
+
+**Insight decision.** Accept, reject, needs revision, or needs more evidence. Optional evidence-quality and usefulness ratings are 1–5. Nothing is auto-approved.
+
+**Metrics, once labels exist.** Completion is reviewed / assigned. Accuracy, macro precision, macro recall, macro F1, and support-weighted precision, recall, and F1 use `sklearn.metrics` on the eight theme ids. The confusion matrix counts adjudicated rows: the row is the human category, the column is the model category. Disagreement is the share of those rows where the two differ. Per-category support is the number of human labels for that theme. Macro averages skip a theme with no labeled support, and they skip an undefined precision instead of calling it zero.
+
+Insight acceptance is `accepted / (accepted + rejected)`. Needs revision and needs more evidence are reviewed and are not in that denominator. If that denominator is 0, the rate is N/A. Approval coverage is `accepted / all insights`, and it is N/A when nothing has been reviewed. Every percentage is stored with its numerator and denominator.
+
+**Open the reviewer**
+
+```bash
+streamlit run src/review/app.py --server.port 43124 --server.address 0.0.0.0
+```
+
+Enter a reviewer id. Open Representative sample, Challenging cases, or Business insights. Choose a decision, add a comment, and save. Saving writes `output/review_decisions.json` (an edit keeps the previous row in `audit`) and regenerates `output/human_validation_report.json` and `.csv`.
+
+**Regenerate the report without opening the app**
+
+```bash
+python -m src.pipeline.runner --data data --output output
+python -m src.review.validation --report output/report.json --decisions output/review_decisions.json --output output
+```
+
+The pipeline adds blank rows for new ids and does not change a decision already stored. The older command `python -m src.review.evaluate` still scores only the previous accept / edit / reject vocabulary. The human-validation report is the one that understands approve, correct, ambiguous, needs revision, and needs more evidence.
+
+**Known limits.** Thirty meetings is a sample, not the next quarter. Fewer than a full set of adjudicated labels is marked so it does not look like a population result. Lexical overlap is still not accuracy. The quality composite is still not acceptance. No LLM is used as a judge.
 
 ## Slide deck
 
@@ -89,12 +126,14 @@ src/
   visualization/charts.py    Static charts for the repo
   pipeline/runner.py         The only place that knows the file paths
   pipeline/methodology.py    Hybrid method, written from the run
-  review/                    Queue, decisions, evaluation CLI
+  review/                    Queue, sample, decisions, validation, Streamlit reviewer
   config/settings.py
 data/                        One folder per meeting
 output/report.json           What every consumer reads
 output/review_queue.json     Items to review; no decisions stored here
-output/review_decisions.json Reviewer file. The pipeline does not overwrite reasons
+output/review_sample.json    Representative draw and the separate challenging set
+output/review_decisions.json Reviewer file. The pipeline does not overwrite decisions
+output/human_validation_report.json  Metrics from those decisions, or N/A
 web/                         Executive dashboard
 ```
 
@@ -105,14 +144,15 @@ pip install -r requirements.txt
 python -m src.pipeline.runner --data data --output output
 ```
 
-That writes `output/report.json`, `output/charts/*.png`, `output/review_queue.json`, `output/review_queue.csv`, a decision template if one is missing, and copies the report to `web/src/data/report.json`.
+That writes `output/report.json`, `output/charts/*.png`, the review queue, the stratified sample, a decision template if one is missing, and `output/human_validation_report.json` plus `.csv`. It copies the report and the validation file to `web/src/data/` for the dashboard. It does not fill in reviewer decisions.
 
 ```bash
 python -m pytest
+python -m src.review.validation --report output/report.json --decisions output/review_decisions.json --output output
 python -m src.review.evaluate --report output/report.json --decisions output/review_decisions.json
 ```
 
-With a blank decision file, theme F1 and insight acceptance print as `unavailable`.
+With a blank decision file, theme F1 and insight acceptance are N/A. The older evaluate command prints `unavailable` for the same reason.
 
 ## Run the dashboard
 
@@ -122,7 +162,11 @@ npm install
 npm run dev
 ```
 
-The dev server listens on port 43123.
+The dev server listens on port 43123. The human-review app listens on port 43124:
+
+```bash
+streamlit run src/review/app.py --server.port 43124 --server.address 0.0.0.0
+```
 
 ## How a new analytic is added
 
@@ -158,7 +202,7 @@ Meeting labels and 1–5 scores are used as recorded. The analyzer does not resc
 - **Actionability** — each insight has a number, a reason, a recommendation, and evidence
 - **Confidence** — sample size, the smallest call-type cell, and evidence depth
 
-The composite measures whether the briefing is reviewable. It does not measure whether a person would accept the conclusion. Record that judgment in `output/review_decisions.json` as accept, edit, or reject. The evaluation CLI scores theme labels only after those rows exist. An LLM-as-judge, if added later, would have to agree with the human file. It is not part of this run.
+The composite measures whether the briefing is reviewable. It does not measure whether a person would accept the conclusion. That judgment is a saved decision in `output/review_decisions.json`. An LLM is not used as a judge.
 
 ## Call types
 

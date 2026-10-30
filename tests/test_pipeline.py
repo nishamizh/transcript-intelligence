@@ -79,3 +79,14 @@ def test_pipeline_on_the_corpus(tmp_path: Path):
     assert (tmp_path / "review_queue.json").exists()
     assert (tmp_path / "review_queue.csv").exists()
     assert (tmp_path / "review_decisions.json").exists()
+    decisions = json.loads((tmp_path / "review_decisions.json").read_text(encoding="utf-8"))
+    assert decisions["items"]
+    assert all(item["decision"] == "" for item in decisions["items"])
+    sample = json.loads((tmp_path / "review_sample.json").read_text(encoding="utf-8"))
+    assert sample["seed"] == 7
+    assert sample["representative"]["count"] == 30
+    validation = json.loads((tmp_path / "human_validation_report.json").read_text(encoding="utf-8"))
+    assert validation["data_gap"]["topic_classification"] == "NOT YET AVAILABLE"
+    assert validation["topic_classification"]["representative"]["accuracy"]["display"] == "N/A"
+    assert validation["business_insights"]["acceptance_rate"]["display"] == "N/A"
+    assert (tmp_path / "human_validation_report.csv").exists()

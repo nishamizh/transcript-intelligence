@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-30T18:17:02.164397+00:00",
+  "generated_at": "2026-10-30T18:56:49.461225+00:00",
   "headline": "Support calls are the cold part of this book at 2.94 on a 1\u20135 scale, 0.77 points below external. Incident-titled meetings average 2.18, against 3.42 for the corpus, and the outage is still being discussed in 49 meetings. 24 accounts already have churn language on a recording.",
   "subhead": "The same meetings feed four decisions: what support should staff, which module owns the gaps, which failure pattern engineering should stop repeating, and which accounts sales should treat as one book of work.",
   "dataset": {
@@ -11828,7 +11828,7 @@
       "Confidence 100%: sample factor 100% at 100 meetings, smallest call-type cell 27, mean evidence items 3.0.",
       "The composite scores the briefing's structure: themes assigned, labels consistent with scores, insights written so a person can act. It does not measure whether a reviewer would accept the conclusion. That is the human loop described below."
     ],
-    "next_evolution": "The next evolution is a human-in-the-loop review on the zero-overlap topics and on every insight. A reviewer accepts, edits, or rejects the finding against the cited transcript. Those labels become the evaluation set. An LLM-as-judge can then score faithfulness and actionability on new runs, with the human labels as the thing it has to agree with. This score is the stand-in until that loop exists."
+    "next_evolution": "The next evolution is a human-in-the-loop review on the zero-overlap topics and on every insight. A reviewer approves, corrects, or marks a category ambiguous, and accepts, rejects, or sends a finding back. Those saved decisions are the evaluation set. An LLM is not a substitute for that file. This score is the stand-in until those decisions exist."
   },
   "method": {
     "architecture": "Folders become Meeting objects in one loader. Feature extraction, topic analysis, sentiment analysis, and insight generation only see that object. The dashboard, the charts, and this report are consumers of the pipeline output, not readers of the raw JSON.",
@@ -11853,11 +11853,11 @@
     "lexical_overlap": "lexical_topic_overlap is the Jaccard overlap between tokens in the provided topic labels and tokens in the held-out model's topic terms. JSON still stores the same number as topic_agreement. The score is a lexical diagnostic, not calibrated classification accuracy. Zero shared content words is shown as review recommended. A low non-zero score is expected and is not treated as an error.",
     "sentiment": "Source-provided meeting score: summary.json sentimentScore, scale 1\u20135. The analyzer copies it and does not change it.",
     "not_measured": [
-      "Classification accuracy. No reviewer gold labels are applied unless an evaluation file is supplied.",
+      "Classification accuracy, until a person saves adjudicated rows in review_decisions.json. The pipeline does not fill those rows, and a blank file stays not yet available.",
       "A new sentiment model. Meeting scores are the source 1\u20135 values, unchanged.",
       "Causal effect of the March outage on support sentiment. The time cut is descriptive.",
       "Revenue, bookings, or a churn forecast. The win/loss figure, when cited, is what an internal call recorded.",
-      "Whether a human would accept an insight. The quality composite scores briefing structure only."
+      "Whether a stakeholder accepts an insight, until that person records accept or reject. Needs revision and needs more evidence are not acceptance. The quality composite scores briefing structure only."
     ]
   },
   "review_queue": {

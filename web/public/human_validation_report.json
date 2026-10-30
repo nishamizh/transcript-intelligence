@@ -1,0 +1,902 @@
+{
+  "version": 1,
+  "generated_at": "2026-10-30T18:56:49.479889+00:00",
+  "taxonomy_version": "governed-themes-v1",
+  "model_version": "lexical-nmf-8-seed-7",
+  "label_source": "human_review_decisions",
+  "llm_as_judge": false,
+  "synthetic_labels": false,
+  "single_label": true,
+  "data_gap": {
+    "resolved": false,
+    "topic_classification": "NOT YET AVAILABLE",
+    "insight_acceptance": "NOT YET AVAILABLE",
+    "reason": "Theme accuracy and insight acceptance stay unavailable until real reviewers save adjudicated decisions. This file does not contain invented labels, and an LLM was not used as a judge."
+  },
+  "sampling": {
+    "seed": 7,
+    "target": 30,
+    "method": "Representative sample: reserve one meeting for every governed theme that occurs, then allocate the remaining seats by the largest-remainder method on (count - 1). Within a theme, seats are split across support, external, and internal by the same method. Meetings inside a stratum are drawn with random.Random seeded by 7, the theme, and the call type. Inclusion probability is stratum seats divided by stratum size. Challenging cases are every meeting already on the review queue. That list is not a probability sample and is scored on its own.",
+    "population_meetings": 100,
+    "representative_count": 30,
+    "challenging_count": 48,
+    "overlap_count": 12,
+    "allocation": [
+      {
+        "theme": "reliability",
+        "theme_name": "Reliability and incidents",
+        "population": 43,
+        "sampled": 11
+      },
+      {
+        "theme": "compliance",
+        "theme_name": "Compliance and audit",
+        "population": 21,
+        "sampled": 6
+      },
+      {
+        "theme": "commercial",
+        "theme_name": "Renewal and churn",
+        "population": 8,
+        "sampled": 3
+      },
+      {
+        "theme": "billing",
+        "theme_name": "Billing and packaging",
+        "population": 5,
+        "sampled": 2
+      },
+      {
+        "theme": "product",
+        "theme_name": "Product gaps and roadmap",
+        "population": 8,
+        "sampled": 3
+      },
+      {
+        "theme": "onboarding",
+        "theme_name": "Onboarding and adoption",
+        "population": 2,
+        "sampled": 1
+      },
+      {
+        "theme": "identity",
+        "theme_name": "Identity and access",
+        "population": 12,
+        "sampled": 3
+      },
+      {
+        "theme": "delivery",
+        "theme_name": "Planning and delivery",
+        "population": 1,
+        "sampled": 1
+      }
+    ],
+    "strata": [
+      {
+        "theme": "reliability",
+        "theme_name": "Reliability and incidents",
+        "call_type": "support",
+        "population": 13,
+        "sampled": 3,
+        "selection_probability": 0.230769
+      },
+      {
+        "theme": "reliability",
+        "theme_name": "Reliability and incidents",
+        "call_type": "external",
+        "population": 15,
+        "sampled": 4,
+        "selection_probability": 0.266667
+      },
+      {
+        "theme": "reliability",
+        "theme_name": "Reliability and incidents",
+        "call_type": "internal",
+        "population": 15,
+        "sampled": 4,
+        "selection_probability": 0.266667
+      },
+      {
+        "theme": "compliance",
+        "theme_name": "Compliance and audit",
+        "call_type": "support",
+        "population": 2,
+        "sampled": 1,
+        "selection_probability": 0.5
+      },
+      {
+        "theme": "compliance",
+        "theme_name": "Compliance and audit",
+        "call_type": "external",
+        "population": 12,
+        "sampled": 3,
+        "selection_probability": 0.25
+      },
+      {
+        "theme": "compliance",
+        "theme_name": "Compliance and audit",
+        "call_type": "internal",
+        "population": 7,
+        "sampled": 2,
+        "selection_probability": 0.285714
+      },
+      {
+        "theme": "commercial",
+        "theme_name": "Renewal and churn",
+        "call_type": "external",
+        "population": 7,
+        "sampled": 3,
+        "selection_probability": 0.428571
+      },
+      {
+        "theme": "billing",
+        "theme_name": "Billing and packaging",
+        "call_type": "support",
+        "population": 4,
+        "sampled": 2,
+        "selection_probability": 0.5
+      },
+      {
+        "theme": "product",
+        "theme_name": "Product gaps and roadmap",
+        "call_type": "support",
+        "population": 3,
+        "sampled": 1,
+        "selection_probability": 0.333333
+      },
+      {
+        "theme": "product",
+        "theme_name": "Product gaps and roadmap",
+        "call_type": "external",
+        "population": 2,
+        "sampled": 1,
+        "selection_probability": 0.5
+      },
+      {
+        "theme": "product",
+        "theme_name": "Product gaps and roadmap",
+        "call_type": "internal",
+        "population": 3,
+        "sampled": 1,
+        "selection_probability": 0.333333
+      },
+      {
+        "theme": "onboarding",
+        "theme_name": "Onboarding and adoption",
+        "call_type": "external",
+        "population": 2,
+        "sampled": 1,
+        "selection_probability": 0.5
+      },
+      {
+        "theme": "identity",
+        "theme_name": "Identity and access",
+        "call_type": "support",
+        "population": 5,
+        "sampled": 1,
+        "selection_probability": 0.2
+      },
+      {
+        "theme": "identity",
+        "theme_name": "Identity and access",
+        "call_type": "external",
+        "population": 4,
+        "sampled": 1,
+        "selection_probability": 0.25
+      },
+      {
+        "theme": "identity",
+        "theme_name": "Identity and access",
+        "call_type": "internal",
+        "population": 3,
+        "sampled": 1,
+        "selection_probability": 0.333333
+      },
+      {
+        "theme": "delivery",
+        "theme_name": "Planning and delivery",
+        "call_type": "internal",
+        "population": 1,
+        "sampled": 1,
+        "selection_probability": 1.0
+      }
+    ],
+    "coverage": {
+      "by_theme": [
+        {
+          "name": "reliability",
+          "label": "Reliability and incidents",
+          "population": 43,
+          "sampled": 11,
+          "fraction": 0.255814
+        },
+        {
+          "name": "compliance",
+          "label": "Compliance and audit",
+          "population": 21,
+          "sampled": 6,
+          "fraction": 0.285714
+        },
+        {
+          "name": "commercial",
+          "label": "Renewal and churn",
+          "population": 8,
+          "sampled": 3,
+          "fraction": 0.375
+        },
+        {
+          "name": "billing",
+          "label": "Billing and packaging",
+          "population": 5,
+          "sampled": 2,
+          "fraction": 0.4
+        },
+        {
+          "name": "product",
+          "label": "Product gaps and roadmap",
+          "population": 8,
+          "sampled": 3,
+          "fraction": 0.375
+        },
+        {
+          "name": "onboarding",
+          "label": "Onboarding and adoption",
+          "population": 2,
+          "sampled": 1,
+          "fraction": 0.5
+        },
+        {
+          "name": "identity",
+          "label": "Identity and access",
+          "population": 12,
+          "sampled": 3,
+          "fraction": 0.25
+        },
+        {
+          "name": "delivery",
+          "label": "Planning and delivery",
+          "population": 1,
+          "sampled": 1,
+          "fraction": 1.0
+        }
+      ],
+      "by_call_type": [
+        {
+          "name": "support",
+          "label": "support",
+          "population": 27,
+          "sampled": 8,
+          "fraction": 0.296296
+        },
+        {
+          "name": "external",
+          "label": "external",
+          "population": 43,
+          "sampled": 13,
+          "fraction": 0.302326
+        },
+        {
+          "name": "internal",
+          "label": "internal",
+          "population": 30,
+          "sampled": 9,
+          "fraction": 0.3
+        }
+      ]
+    },
+    "challenging_bias": "These meetings were queued because the theme margin was thin or the held-out topic shared no words with the supplied labels. Accuracy here is not the accuracy of a random meeting. Do not average it with the representative sample.",
+    "pooling": "Representative and challenging results are reported separately. A meeting can sit in both lists and still has one human decision. The two denominators are not added together."
+  },
+  "topic_classification": {
+    "representative": {
+      "status": "not_yet_available",
+      "headline": "NOT YET AVAILABLE",
+      "generalizes": false,
+      "warning": "No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated.",
+      "assigned": 30,
+      "reviewed": 0,
+      "eligible": 0,
+      "ambiguous": 0,
+      "unresolved": 30,
+      "completion": {
+        "value": 0.0,
+        "numerator": 0,
+        "denominator": 30,
+        "display": "0/30"
+      },
+      "ambiguous_proportion": {
+        "value": 0.0,
+        "numerator": 0,
+        "denominator": 30,
+        "display": "0/30"
+      },
+      "unresolved_proportion": {
+        "value": 1.0,
+        "numerator": 30,
+        "denominator": 30,
+        "display": "30/30"
+      },
+      "disagreement_rate": {
+        "value": null,
+        "numerator": null,
+        "denominator": null,
+        "display": "N/A"
+      },
+      "accuracy": {
+        "value": null,
+        "numerator": null,
+        "denominator": null,
+        "display": "N/A"
+      },
+      "macro_precision": {
+        "value": null,
+        "numerator": null,
+        "denominator": null,
+        "display": "N/A"
+      },
+      "macro_recall": {
+        "value": null,
+        "numerator": null,
+        "denominator": null,
+        "display": "N/A"
+      },
+      "macro_f1": {
+        "value": null,
+        "numerator": null,
+        "denominator": null,
+        "display": "N/A"
+      },
+      "weighted_precision": {
+        "value": null,
+        "numerator": null,
+        "denominator": null,
+        "display": "N/A"
+      },
+      "weighted_recall": {
+        "value": null,
+        "numerator": null,
+        "denominator": null,
+        "display": "N/A"
+      },
+      "weighted_f1": {
+        "value": null,
+        "numerator": null,
+        "denominator": null,
+        "display": "N/A"
+      },
+      "population_estimates": null,
+      "per_category": [
+        {
+          "theme": "reliability",
+          "name": "Reliability and incidents",
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "support": 0
+        },
+        {
+          "theme": "compliance",
+          "name": "Compliance and audit",
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "support": 0
+        },
+        {
+          "theme": "commercial",
+          "name": "Renewal and churn",
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "support": 0
+        },
+        {
+          "theme": "billing",
+          "name": "Billing and packaging",
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "support": 0
+        },
+        {
+          "theme": "product",
+          "name": "Product gaps and roadmap",
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "support": 0
+        },
+        {
+          "theme": "onboarding",
+          "name": "Onboarding and adoption",
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "support": 0
+        },
+        {
+          "theme": "identity",
+          "name": "Identity and access",
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "support": 0
+        },
+        {
+          "theme": "delivery",
+          "name": "Planning and delivery",
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "support": 0
+        }
+      ],
+      "confusion_matrix": {
+        "labels": [
+          "reliability",
+          "compliance",
+          "commercial",
+          "billing",
+          "product",
+          "onboarding",
+          "identity",
+          "delivery"
+        ],
+        "label_names": [
+          "Reliability and incidents",
+          "Compliance and audit",
+          "Renewal and churn",
+          "Billing and packaging",
+          "Product gaps and roadmap",
+          "Onboarding and adoption",
+          "Identity and access",
+          "Planning and delivery"
+        ],
+        "counts": [
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "rows": "human_topic",
+        "columns": "predicted_topic"
+      },
+      "disagreement_value": null,
+      "note": "Eligible rows are approve, or correct with one of the eight themes, plus older accept and edit rows that name a theme. Ambiguous, blank, and reject-without-a-theme rows stay out of precision, recall, F1, and accuracy. They remain in the review-coverage counts. The confusion matrix counts labeled rows. It is not weighted. Population estimates, when present, weight each representative row by the inverse of its selection probability. Macro averages skip themes with no labeled support, and skip an undefined precision rather than treating it as zero."
+    },
+    "challenging": {
+      "status": "not_yet_available",
+      "headline": "NOT YET AVAILABLE",
+      "generalizes": false,
+      "warning": "No adjudicated human labels yet. Accuracy, precision, recall, and F1 are not calculated.",
+      "assigned": 48,
+      "reviewed": 0,
+      "eligible": 0,
+      "ambiguous": 0,
+      "unresolved": 48,
+      "completion": {
+        "value": 0.0,
+        "numerator": 0,
+        "denominator": 48,
+        "display": "0/48"
+      },
+      "ambiguous_proportion": {
+        "value": 0.0,
+        "numerator": 0,
+        "denominator": 48,
+        "display": "0/48"
+      },
+      "unresolved_proportion": {
+        "value": 1.0,
+        "numerator": 48,
+        "denominator": 48,
+        "display": "48/48"
+      },
+      "disagreement_rate": {
+        "value": null,
+        "numerator": null,
+        "denominator": null,
+        "display": "N/A"
+      },
+      "accuracy": {
+        "value": null,
+        "numerator": null,
+        "denominator": null,
+        "display": "N/A"
+      },
+      "macro_precision": {
+        "value": null,
+        "numerator": null,
+        "denominator": null,
+        "display": "N/A"
+      },
+      "macro_recall": {
+        "value": null,
+        "numerator": null,
+        "denominator": null,
+        "display": "N/A"
+      },
+      "macro_f1": {
+        "value": null,
+        "numerator": null,
+        "denominator": null,
+        "display": "N/A"
+      },
+      "weighted_precision": {
+        "value": null,
+        "numerator": null,
+        "denominator": null,
+        "display": "N/A"
+      },
+      "weighted_recall": {
+        "value": null,
+        "numerator": null,
+        "denominator": null,
+        "display": "N/A"
+      },
+      "weighted_f1": {
+        "value": null,
+        "numerator": null,
+        "denominator": null,
+        "display": "N/A"
+      },
+      "population_estimates": null,
+      "per_category": [
+        {
+          "theme": "reliability",
+          "name": "Reliability and incidents",
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "support": 0
+        },
+        {
+          "theme": "compliance",
+          "name": "Compliance and audit",
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "support": 0
+        },
+        {
+          "theme": "commercial",
+          "name": "Renewal and churn",
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "support": 0
+        },
+        {
+          "theme": "billing",
+          "name": "Billing and packaging",
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "support": 0
+        },
+        {
+          "theme": "product",
+          "name": "Product gaps and roadmap",
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "support": 0
+        },
+        {
+          "theme": "onboarding",
+          "name": "Onboarding and adoption",
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "support": 0
+        },
+        {
+          "theme": "identity",
+          "name": "Identity and access",
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "support": 0
+        },
+        {
+          "theme": "delivery",
+          "name": "Planning and delivery",
+          "precision": null,
+          "recall": null,
+          "f1": null,
+          "support": 0
+        }
+      ],
+      "confusion_matrix": {
+        "labels": [
+          "reliability",
+          "compliance",
+          "commercial",
+          "billing",
+          "product",
+          "onboarding",
+          "identity",
+          "delivery"
+        ],
+        "label_names": [
+          "Reliability and incidents",
+          "Compliance and audit",
+          "Renewal and churn",
+          "Billing and packaging",
+          "Product gaps and roadmap",
+          "Onboarding and adoption",
+          "Identity and access",
+          "Planning and delivery"
+        ],
+        "counts": [
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ],
+        "rows": "human_topic",
+        "columns": "predicted_topic"
+      },
+      "disagreement_value": null,
+      "note": "Eligible rows are approve, or correct with one of the eight themes, plus older accept and edit rows that name a theme. Ambiguous, blank, and reject-without-a-theme rows stay out of precision, recall, F1, and accuracy. They remain in the review-coverage counts. The confusion matrix counts labeled rows. It is not weighted. Population estimates, when present, weight each representative row by the inverse of its selection probability. Macro averages skip themes with no labeled support, and skip an undefined precision rather than treating it as zero."
+    },
+    "pooling_note": "Representative and challenging results are reported separately. A meeting can sit in both lists and still has one human decision. The two denominators are not added together."
+  },
+  "business_insights": {
+    "total": 9,
+    "awaiting_review": 9,
+    "reviewed": 0,
+    "accepted": 0,
+    "rejected": 0,
+    "needs_revision": 0,
+    "needs_more_evidence": 0,
+    "review_coverage": {
+      "value": 0.0,
+      "numerator": 0,
+      "denominator": 9,
+      "display": "0/9"
+    },
+    "acceptance_rate": {
+      "value": null,
+      "numerator": null,
+      "denominator": null,
+      "display": "N/A"
+    },
+    "approval_coverage": {
+      "value": null,
+      "numerator": null,
+      "denominator": null,
+      "display": "N/A"
+    },
+    "mean_evidence_quality": {
+      "value": null,
+      "count": 0,
+      "display": "N/A"
+    },
+    "mean_business_usefulness": {
+      "value": null,
+      "count": 0,
+      "display": "N/A"
+    },
+    "by_stakeholder": [
+      {
+        "stakeholder": "engineering",
+        "label": "Engineering",
+        "total": 2,
+        "reviewed": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "needs_revision": 0,
+        "needs_more_evidence": 0,
+        "acceptance_rate": {
+          "value": null,
+          "numerator": null,
+          "denominator": null,
+          "display": "N/A"
+        }
+      },
+      {
+        "stakeholder": "product",
+        "label": "Product",
+        "total": 2,
+        "reviewed": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "needs_revision": 0,
+        "needs_more_evidence": 0,
+        "acceptance_rate": {
+          "value": null,
+          "numerator": null,
+          "denominator": null,
+          "display": "N/A"
+        }
+      },
+      {
+        "stakeholder": "sales",
+        "label": "Sales",
+        "total": 2,
+        "reviewed": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "needs_revision": 0,
+        "needs_more_evidence": 0,
+        "acceptance_rate": {
+          "value": null,
+          "numerator": null,
+          "denominator": null,
+          "display": "N/A"
+        }
+      },
+      {
+        "stakeholder": "support",
+        "label": "Support",
+        "total": 3,
+        "reviewed": 0,
+        "accepted": 0,
+        "rejected": 0,
+        "needs_revision": 0,
+        "needs_more_evidence": 0,
+        "acceptance_rate": {
+          "value": null,
+          "numerator": null,
+          "denominator": null,
+          "display": "N/A"
+        }
+      }
+    ],
+    "note": "Acceptance rate is accepted / (accepted + rejected). Needs revision and needs more evidence are reviewed, and they are not in that denominator. If nothing has been accepted or rejected, the rate is N/A rather than 0% or 100%. Approval coverage is accepted / all insights, and is N/A when nothing has been reviewed. No insight is accepted by default."
+  },
+  "ignored_duplicate_rows": 0
+}

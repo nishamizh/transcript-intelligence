@@ -51,10 +51,10 @@ def build_methodology(
         "lexical_overlap": LEXICAL_OVERLAP_NOTE,
         "sentiment": sentiment.provenance.meeting_score_source,
         "not_measured": [
-            "Classification accuracy. No reviewer gold labels are applied unless an evaluation file is supplied.",
+            "Classification accuracy, until a person saves adjudicated rows in review_decisions.json. The pipeline does not fill those rows, and a blank file stays not yet available.",
             "A new sentiment model. Meeting scores are the source 1–5 values, unchanged.",
             "Causal effect of the March outage on support sentiment. The time cut is descriptive.",
             "Revenue, bookings, or a churn forecast. The win/loss figure, when cited, is what an internal call recorded.",
-            "Whether a human would accept an insight. The quality composite scores briefing structure only.",
+            "Whether a stakeholder accepts an insight, until that person records accept or reject. Needs revision and needs more evidence are not acceptance. The quality composite scores briefing structure only.",
         ],
     }

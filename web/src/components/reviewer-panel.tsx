@@ -71,7 +71,7 @@ export function ReviewerPanel({ queue, themes }: { queue: ReviewQueue; themes: G
         <p className="text-xs tracking-[0.16em] text-muted-foreground uppercase">Review</p>
         <h2 className="font-heading text-3xl text-balance">A person marks the queue. The file does not change the source.</h2>
         <p className="text-muted-foreground">
-          {queue.item_count} items. {queue.instructions} Choices stay in this browser until you download them. Accuracy stays unavailable until that file is scored with the evaluation command.
+          {queue.item_count} items. Choices on this page stay in the browser until you download them. They are not saved on the server and they are not human labels. Use the Streamlit reviewer on port 43124 to save a decision into review_decisions.json. Accuracy stays N/A until that file has a real decision.
         </p>
         <p className="text-sm text-muted-foreground">
           Marked in this browser: {reviewed} of {queue.item_count}. Ambiguous means the top two theme scores are within {queue.ambiguous_margin} point.

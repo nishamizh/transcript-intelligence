@@ -8,7 +8,9 @@ python3 -m pytest -q
 python3 -m src.review.evaluate --report output/report.json --decisions output/review_decisions.json --output output/evaluation.json
 ```
 
-Pytest: 17 passed. The evaluation file reports theme metrics and insight acceptance as **unavailable**, because `review_decisions.json` has blank decisions. Citation completeness is a structural check, not accuracy: 9 of 9 insights cite meeting ids that exist and include a quote.
+Pytest: 27 passed. Theme precision, recall, F1, and insight acceptance are **NOT YET AVAILABLE**. `review_decisions.json` still has blank decisions, so the human-validation report keeps those metrics as N/A and shows the review count and the sample size. Citation completeness, from the older evaluation file, is a structural check, not accuracy: 9 of 9 insights cite meeting ids that exist and include a quote.
+
+The two data-validation gaps are **not resolved**. They become resolved only after real reviewers save enough adjudicated labels and this report is regenerated from those labels. No prediction was copied into a human field. No LLM was used as a judge.
 
 The slide deck was not rebuilt. The sentiment figures it already cites match this run.
 
@@ -71,20 +73,85 @@ Nine findings, three citations each. All nine citations resolve to a meeting in 
 
 ## What was not measured
 
-- Theme precision, recall, or F1. The reviewer file is blank, so the evaluation CLI reports those as unavailable.
-- Insight acceptance rate. Same reason.
+- Theme precision, recall, F1, accuracy, and the confusion matrix. The reviewer file is blank, so these are N/A. Review completion is 0 reviewed over the assigned sample, which is a real count, not an accuracy.
+- Insight acceptance. Accepted and rejected are both 0, so the rate is N/A, not 0% and not 100%. Needs revision and needs more evidence stay in their own counts.
 - A sentiment model other than the source score.
 - A causal effect of the outage.
 - Bookings, saved revenue, or a churn probability. Any win/loss dollar figure in the deck is what an internal call recorded.
 
 The quality composite is about 97%. It scores whether the briefing has themes, consistent labels, and actionable writeups. It does not score whether a reviewer would accept the conclusion.
 
+## Review methodology
+
+Classification is single-label. The published category is the primary governed theme. Other matched themes are shown to the reviewer and are not a second score.
+
+The representative sample uses seed 7 and a target of 30. Every theme that occurs gets one seat first. The other 22 seats use largest remainder on `(count - 1)`, with ties broken by taxonomy order. Inside a theme, the same rule splits seats across support, external, and internal. The draw inside a stratum is `random.Random` seeded by `7|theme|call_type`. Selection probability is seats in that stratum divided by meetings in that stratum. A population estimate, when labels exist, weights each row by the inverse of that probability. If a call type would otherwise be missing, one seat is moved so support, external, and internal all appear.
+
+The challenging sample is the 48 meeting rows already on the review queue. It is biased toward thin margins and zero lexical overlap. Its metrics are unweighted and are not pooled with the representative metrics. Twelve of those meetings are also in the representative sample. One saved decision can sit in both denominators.
+
+Confirmed representative allocation from the current run: reliability 11, compliance 6, identity 3, renewal and churn 3, product 3, billing 2, onboarding 1, delivery 1. Call types in that draw: support 8, external 13, internal 9.
+
+A topic row is human-reviewed only after an explicit decision: approve, correct (with one of the eight themes), or ambiguous. Ambiguous counts in completion and is excluded from correctness. Blank rows are unresolved.
+
+An insight row is accept, reject, needs revision, or needs more evidence. The reviewer id, timestamp, comment, optional corrected recommendation, and optional 1–5 ratings are stored with the row. An edit appends the previous row to `audit` and keeps a new `review_id`. Duplicate ids are collapsed before metrics are counted.
+
+Stored fields: `review_id`, `item_id` (the stable id, not a list position), `predicted_topic`, `human_topic`, `decision`, `reviewer_id`, `reviewer_timestamp`, `notes`, `model_version` (`lexical-nmf-8-seed-7`), `taxonomy_version` (`governed-themes-v1`).
+
+### Metric definitions
+
+| Metric | Numerator | Denominator | Empty case |
+| --- | --- | --- | --- |
+| Review completion | Explicit topic decisions, including ambiguous | Meetings assigned to that sample | 0/assigned |
+| Accuracy, precision, recall, F1 | Adjudicated approve/correct rows only | Those same rows, via sklearn, labels fixed to the eight themes | N/A |
+| Macro averages | Themes that have labeled support | That theme count. Undefined precision is skipped, not treated as 0 | N/A |
+| Weighted averages | Same rows, weighted by labeled support | Adjudicated rows | N/A |
+| Confusion matrix | Counts of (human category, model category) | Adjudicated rows. Unweighted | Empty grid |
+| Disagreement | Adjudicated rows where the categories differ | Adjudicated rows | N/A |
+| Insight review coverage | Insights with a saved decision | All insights | 0/total |
+| Acceptance rate | Accepted | Accepted + rejected | N/A, never 0% or 100% |
+| Approval coverage | Accepted | All insights | N/A when nothing is reviewed |
+| Evidence quality / usefulness | Sum of 1–5 ratings | Ratings that were actually entered | N/A |
+
+Fewer adjudicated labels than the sample size produces the figures for those rows, a warning, and headline NOT YET AVAILABLE. The numbers are not described as a property of all meetings.
+
+### How a reviewer enters labels
+
+```bash
+streamlit run src/review/app.py --server.port 43124 --server.address 0.0.0.0
+```
+
+1. Enter a reviewer id in the sidebar.
+2. Representative sample: open a transcript. Read the id, call type, supplied topic, model category, excerpt, rationale, and the other seven categories. Choose approve, a corrected category, or ambiguous. Add a comment. Save.
+3. Challenging cases: same form. The banner explains the bias.
+4. Business insights: read the finding, stakeholder, source meetings, excerpts, and recommended action. Choose accept, reject, needs revision, or needs more evidence. A corrected recommendation and the 1–5 ratings are optional. Save.
+
+The dashboard at port 43123 shows the latest scorecards. It does not save decisions. The older review section only downloads a browser draft.
+
+### How to regenerate
+
+```bash
+python3 -m src.pipeline.runner --data data --output output
+python3 -m src.review.validation --report output/report.json --decisions output/review_decisions.json --output output
+```
+
+Regeneration rewrites the queue, the sample, and the validation report. It does not overwrite a stored decision. Source meetings are not rewritten.
+
+### Known limitations
+
+- The current metrics are N/A because no person has reviewed the corpus in this file.
+- Thirty labeled meetings would measure this sample. They would not measure a future quarter.
+- Challenging-case accuracy, once it exists, will look worse than the book and must not be quoted as the book.
+- Lexical overlap remains a word-sharing check.
+- The quality composite remains a briefing-structure score.
+- The older `python -m src.review.evaluate` command does not understand approve / correct / ambiguous. Use `src.review.validation` for the human metrics.
+
 ## Review queue
 
-57 items: 27 meetings with no shared tokens, 28 with the top two theme scores within 1 point, and 9 stakeholder insights. Some meetings are in the queue for both classification reasons, so the reason counts add to more than 57. Decisions go in `output/review_decisions.json`. Regenerating the pipeline adds blank rows for new ids and does not change a reason already stored. Source meetings are not rewritten.
+57 items: 27 meetings with no shared tokens, 28 with the top two theme scores within 1 point, and 9 stakeholder insights. Some meetings are in the queue for both classification reasons, so the reason counts add to more than 57. Decisions go in `output/review_decisions.json`. Regenerating the pipeline adds blank rows for new ids, including the representative sample, and does not change a decision or a reason already stored.
 
 ```bash
 python3 -m src.review.evaluate --report output/report.json --decisions output/review_decisions.json
+python3 -m src.review.validation --report output/report.json --decisions output/review_decisions.json --output output
 ```
 
 ## Checklist
@@ -96,7 +163,9 @@ python3 -m src.review.evaluate --report output/report.json --decisions output/re
 | At least three stakeholder insights | Support, product, engineering, sales | Done. Nine findings |
 | Lexical overlap is not called accuracy | Display name `lexical_topic_overlap`; JSON keeps `topic_agreement` | Done. Zero overlap is `review recommended` |
 | Methodology, including why NMF and how BERTopic differs | `report.methodology`, dashboard | Done |
-| Review queue and decisions that do not overwrite source data | `output/review_queue.json`, `.csv`, `review_decisions.json` | Done |
-| Evaluation CLI that refuses to invent accuracy | `python -m src.review.evaluate` | Done. Current run is unavailable |
-| Tests for schema, exemplars, provenance, queue, math, unchanged scores | `tests/test_assignment.py`, `tests/test_pipeline.py` | 17 passed |
+| Review queue and decisions that do not overwrite source data | `output/review_queue.json`, `.csv`, `review_decisions.json` | Done. Decisions are still blank |
+| Representative sample and separate challenging sample | `output/review_sample.json` | Done. Seed 7, 30 meetings, not pooled |
+| Human review app that saves a decision | `streamlit run src/review/app.py` on port 43124 | Done. No labels have been entered |
+| Evaluation that refuses to invent accuracy | `python -m src.review.validation` and the dashboard Evaluation section | Done. Current metrics are N/A |
+| Tests for schema, exemplars, provenance, queue, math, unchanged scores, and human-metric rules | `tests/` | 27 passed. Synthetic labels stay inside tests |
 | Public dashboard redacts contact details in newly shown excerpts | `redact_public_text`, `redactDisplay` | Done |

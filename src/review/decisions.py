@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import os
+import tempfile
 from pathlib import Path
 
 DECISIONS = {"accept", "edit", "reject", ""}
@@ -17,6 +19,38 @@ def load_decisions(path: Path) -> dict:
     return payload
 
 
+def atomic_write_json(path: Path, payload: dict) -> None:
+    """Replace a JSON file only after the new bytes are flushed.
+
+    A crash during the write leaves the previous file in place.
+    """
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    handle = tempfile.NamedTemporaryFile(
+        mode="w",
+        encoding="utf-8",
+        dir=path.parent,
+        prefix=f".{path.name}.",
+        suffix=".tmp",
+        delete=False,
+    )
+    tmp_name = handle.name
+    try:
+        json.dump(payload, handle, indent=2)
+        handle.write("\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+        handle.close()
+        os.replace(tmp_name, path)
+    except Exception:
+        handle.close()
+        try:
+            os.unlink(tmp_name)
+        except OSError:
+            pass
+        raise
+
+
 def ensure_decision_template(path: Path, item_ids: list[str]) -> bool:
     """Add blank rows for new queue ids. Never change a decision that is already stored.
 
@@ -24,9 +58,24 @@ def ensure_decision_template(path: Path, item_ids: list[str]) -> bool:
     """
 
     existing = load_decisions(path) if path.exists() else {"version": 1, "items": []}
-    by_id = {item["item_id"]: item for item in existing.get("items", []) if item.get("item_id")}
-    changed = not path.exists()
+    by_id: dict[str, dict] = {}
+    for item in existing.get("items", []):
+        item_id = item.get("item_id")
+        if not item_id:
+            continue
+        previous = by_id.get(item_id)
+        if previous is not None and previous.get("decision") and not item.get("decision"):
+            continue
+        by_id[item_id] = item
+    unique_ids: list[str] = []
+    seen_input: set[str] = set()
     for item_id in item_ids:
+        if not item_id or item_id in seen_input:
+            continue
+        seen_input.add(item_id)
+        unique_ids.append(item_id)
+    changed = not path.exists()
+    for item_id in unique_ids:
         if item_id in by_id:
             continue
         by_id[item_id] = {
@@ -40,15 +89,12 @@ def ensure_decision_template(path: Path, item_ids: list[str]) -> bool:
         return False
     ordered: list[dict] = []
     seen: set[str] = set()
-    for item_id in item_ids:
+    for item_id in unique_ids:
         ordered.append(by_id[item_id])
         seen.add(item_id)
     for item_id, item in by_id.items():
         if item_id not in seen:
             ordered.append(item)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps({"version": 1, "items": ordered}, indent=2) + "\n",
-        encoding="utf-8",
-    )
+    version = existing.get("version", 1) if path.exists() else 1
+    atomic_write_json(path, {"version": version, "items": ordered})
     return True
