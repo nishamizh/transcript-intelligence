@@ -93,9 +93,11 @@ def build_review_sample(
                     "call_type": call_type,
                     "stratum_population": len(members),
                     "stratum_sampled": len(picked),
-                    "selection_probability": round(probability, 6),
-                    "sample_weight": round(len(members) / len(picked), 6),
-                }
+                "selection_probability": round(probability, 6),
+                "sample_weight": round(len(members) / len(picked), 6),
+                "stratum_basis": "predicted_primary_theme_and_call_type",
+                "held_out_from_tuning": True,
+            }
 
     chosen = _cover_call_types(chosen, grouped, seed)
     representative = [_record(item, "representative") for item in chosen.values()]
@@ -112,12 +114,16 @@ def build_review_sample(
         "target": target,
         "task": "single_label",
         "taxonomy_version": "governed-themes-v1",
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": True,
         "method": (
-            "Representative sample: reserve one meeting for every governed theme that occurs, "
+            "Representative sample: reserve one meeting for every predicted governed theme that occurs, "
             "then allocate the remaining seats by the largest-remainder method on (count - 1). "
-            "Within a theme, seats are split across support, external, and internal by the same method. "
+            "Within a predicted theme, seats are split across support, external, and internal by the same method. "
+            "These strata are the model's primary theme and the ingestion call type. They are not gold labels. "
             f"Meetings inside a stratum are drawn with random.Random seeded by {seed}, the theme, and the call type. "
             "Inclusion probability is stratum seats divided by stratum size. "
+            "Corrected labels are not fed back into the topic model. "
             "Challenging cases are every meeting already on the review queue. "
             "That list is not a probability sample and is scored on its own."
         ),
@@ -260,6 +266,8 @@ def _cover_call_types(
             "stratum_sampled": recipient_sampled,
             "selection_probability": round(recipient_sampled / probability_pool, 6),
             "sample_weight": round(probability_pool / recipient_sampled, 6),
+            "stratum_basis": "predicted_primary_theme_and_call_type",
+            "held_out_from_tuning": True,
         }
         for item in chosen.values():
             if item["predicted_topic"] == theme_id and item["call_type"] == call_type:
@@ -312,6 +320,8 @@ def _challenging_items(queue: dict, representative_ids: set[str]) -> tuple[list[
                 "sample_weight": None,
                 "sample_role": "challenging",
                 "also_in_representative": meeting_id in representative_ids,
+                "stratum_basis": "review_queue_not_a_probability_sample",
+                "held_out_from_tuning": True,
             }
         )
     items.sort(key=lambda item: item["meeting_id"])

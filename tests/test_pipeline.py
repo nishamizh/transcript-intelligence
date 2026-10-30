@@ -89,4 +89,8 @@ def test_pipeline_on_the_corpus(tmp_path: Path):
     assert validation["data_gap"]["topic_classification"] == "NOT YET AVAILABLE"
     assert validation["topic_classification"]["representative"]["accuracy"]["display"] == "N/A"
     assert validation["business_insights"]["acceptance_rate"]["display"] == "N/A"
+    assert validation["findings_verification"]["human_review_status"] == "not_yet_available"
+    assert validation["claims_audit"]["review_status"] == "not_human_verified"
     assert (tmp_path / "human_validation_report.csv").exists()
+    assert (tmp_path / "claims_audit.json").exists()
+    assert (tmp_path / "evidence_verification.json").exists()

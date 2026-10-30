@@ -10,7 +10,15 @@ python3 -m src.review.evaluate --report output/report.json --decisions output/re
 
 Pytest: 27 passed. Theme precision, recall, F1, and insight acceptance are **NOT YET AVAILABLE**. `review_decisions.json` still has blank decisions, so the human-validation report keeps those metrics as N/A and shows the review count and the sample size. Citation completeness, from the older evaluation file, is a structural check, not accuracy: 9 of 9 insights cite meeting ids that exist and include a quote.
 
-The two data-validation gaps are **not resolved**. They become resolved only after real reviewers save enough adjudicated labels and this report is regenerated from those labels. No prediction was copied into a human field. No LLM was used as a judge.
+Three validation gaps remain **not resolved**:
+
+1. Topic precision, recall, and F1. Human-adjudicated labels: 0 of 30 in the representative sample, 0 of 48 challenging cases.
+2. Insight acceptance. Accepted 0, rejected 0, so the rate is N/A. Review coverage is 0 of 9.
+3. Independent support for the findings. 27 of 27 cited quotations were located in source files. Human support judgments are 0 of 9. A located quote is not a judgment that the passage supports the claim.
+
+They become resolved only after real reviewers save enough adjudicated labels and this report is regenerated from those labels. No prediction was copied into a human field. No LLM was used as a judge.
+
+The claims audit in `output/claims_audit.json` recomputed the headline figures from the loaded meetings. All six checks match the report, and each row is `not_human_verified`: 100 transcripts, 8 governed categories, support mean 2.937 (n=27), external mean 3.7116 (n=43), 49 outage-related meetings, 24 accounts with churn language. No duplicate meeting ids. No domain was tied to two account names. That is reproducibility, not human validation. The briefing prints the sentiment means as 2.94 and 3.71; the stored means are the four-decimal values above.
 
 The slide deck was not rebuilt. The sentiment figures it already cites match this run.
 
@@ -120,18 +128,21 @@ Fewer adjudicated labels than the sample size produces the figures for those row
 streamlit run src/review/app.py --server.port 43124 --server.address 0.0.0.0
 ```
 
-1. Enter a reviewer id in the sidebar.
-2. Representative sample: open a transcript. Read the id, call type, supplied topic, model category, excerpt, rationale, and the other seven categories. Choose approve, a corrected category, or ambiguous. Add a comment. Save.
-3. Challenging cases: same form. The banner explains the bias.
-4. Business insights: read the finding, stakeholder, source meetings, excerpts, and recommended action. Choose accept, reject, needs revision, or needs more evidence. A corrected recommendation and the 1–5 ratings are optional. Save.
+1. Enter a reviewer id in the sidebar. Filters for call type, theme, stakeholder, status, and reviewer are there too.
+2. Representative sample: open a transcript. Read the id, call type, supplied topic, model category, model and taxonomy versions, the short excerpt, and the source-transcript expander. Choose confirm, a corrected category, ambiguous, or insufficient evidence. Add a comment. Save.
+3. Challenging cases: same form. The banner explains the bias. Do not average this tab with the representative tab.
+4. If a second person disagrees, their submission is kept and the row is excluded from accuracy. Check "Adjudicate this conflict" to replace the active label on purpose. The earlier submissions stay in the file.
+5. Business insights: read the finding, stakeholder, source meetings, excerpts, passages flagged for a contrast word, and the recommended action. Choose accept, reject, needs revision, or needs more evidence. Save.
+6. Findings verification: for each finding, read the automated quote location, then judge supported, partially supported, unsupported, or insufficient evidence. Use a different reviewer id from the person who would accept the business recommendation when you can. The quote check cannot be saved as that judgment.
 
-The dashboard at port 43123 shows the latest scorecards. It does not save decisions. The older review section only downloads a browser draft.
+The dashboard at port 43123 shows the scorecards, the claims table, and the readiness summary. It does not save decisions. The older review section only downloads a browser draft.
 
 ### How to regenerate
 
 ```bash
 python3 -m src.pipeline.runner --data data --output output
 python3 -m src.review.validation --report output/report.json --decisions output/review_decisions.json --output output
+python3 -m src.review.claims --data data --report output/report.json --output output/claims_audit.json
 ```
 
 Regeneration rewrites the queue, the sample, and the validation report. It does not overwrite a stored decision. Source meetings are not rewritten.
@@ -152,6 +163,7 @@ Regeneration rewrites the queue, the sample, and the validation report. It does 
 ```bash
 python3 -m src.review.evaluate --report output/report.json --decisions output/review_decisions.json
 python3 -m src.review.validation --report output/report.json --decisions output/review_decisions.json --output output
+python3 -m src.review.claims --data data --report output/report.json --output output/claims_audit.json
 ```
 
 ## Checklist
@@ -167,5 +179,7 @@ python3 -m src.review.validation --report output/report.json --decisions output/
 | Representative sample and separate challenging sample | `output/review_sample.json` | Done. Seed 7, 30 meetings, not pooled |
 | Human review app that saves a decision | `streamlit run src/review/app.py` on port 43124 | Done. No labels have been entered |
 | Evaluation that refuses to invent accuracy | `python -m src.review.validation` and the dashboard Evaluation section | Done. Current metrics are N/A |
-| Tests for schema, exemplars, provenance, queue, math, unchanged scores, and human-metric rules | `tests/` | 27 passed. Synthetic labels stay inside tests |
+| Tests for schema, exemplars, provenance, queue, math, conflicts, quotes, claims, and unchanged scores | `tests/` | 33 passed. Synthetic labels stay inside tests |
+| Claims audit recomputed from source meetings | `output/claims_audit.json` | Reproduced. Not human-verified |
+| Quote location for cited findings | `output/evidence_verification.json` | 27/27 located. Human support still 0/9 |
 | Public dashboard redacts contact details in newly shown excerpts | `redact_public_text`, `redactDisplay` | Done |

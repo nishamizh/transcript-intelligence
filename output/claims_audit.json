@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "calculation_version": "claims-audit-v1",
+  "review_status": "not_human_verified",
+  "status": "reproduced",
+  "duplicate_meeting_ids": [],
+  "ambiguous_account_matches": [],
+  "note": "check_status is whether this run recomputes the published number. review_status stays not_human_verified. A match is not acceptance of the business conclusion. Account identity uses account_name, and falls back to the only external domain when the name is blank. Meetings that share a domain but carry different account names are listed as ambiguous matches and are not silently merged.",
+  "claims": [
+    {
+      "metric_name": "transcripts_processed",
+      "computed_value": 100,
+      "reported_value": 100,
+      "source_count": 100,
+      "aggregation_method": "Count of meeting folders that loaded. One folder is one meeting. Duplicate meeting ids are listed separately and are not dropped.",
+      "calculation_version": "claims-audit-v1",
+      "check_status": "match",
+      "review_status": "not_human_verified"
+    },
+    {
+      "metric_name": "governed_topic_categories",
+      "computed_value": 8,
+      "reported_value": 8,
+      "source_count": 8,
+      "aggregation_method": "Count of theme definitions in the governed taxonomy. This is the list length, not the number of meetings that received a theme.",
+      "calculation_version": "claims-audit-v1",
+      "check_status": "match",
+      "review_status": "not_human_verified"
+    },
+    {
+      "metric_name": "mean_support_sentiment",
+      "computed_value": 2.937,
+      "reported_value": 2.937,
+      "source_count": 27,
+      "aggregation_method": "Arithmetic mean of summary.json sentimentScore for meetings whose call type is support. Compared at two decimal places, which is how the briefing prints the mean.",
+      "calculation_version": "claims-audit-v1",
+      "check_status": "match",
+      "review_status": "not_human_verified"
+    },
+    {
+      "metric_name": "mean_external_sentiment",
+      "computed_value": 3.7116,
+      "reported_value": 3.7116,
+      "source_count": 43,
+      "aggregation_method": "Arithmetic mean of summary.json sentimentScore for meetings whose call type is external. Compared at two decimal places.",
+      "calculation_version": "claims-audit-v1",
+      "check_status": "match",
+      "review_status": "not_human_verified"
+    },
+    {
+      "metric_name": "outage_related_meetings",
+      "computed_value": 49,
+      "reported_value": 49,
+      "source_count": 100,
+      "aggregation_method": "Meetings whose title, summary, or supplied topics contain 'outage' or 'pipeline failure'. This is the sentiment analyzer's outage cohort, which is wider than incident-titled meetings.",
+      "calculation_version": "claims-audit-v1",
+      "check_status": "match",
+      "review_status": "not_human_verified"
+    },
+    {
+      "metric_name": "accounts_with_churn_language",
+      "computed_value": 24,
+      "reported_value": 24,
+      "source_count": 24,
+      "aggregation_method": "Distinct account keys among meetings that have an external domain and at least one source key moment of type churn_signal. The key is account_name, or the only fallback customer_domains[0] when account_name is blank. Several meetings for one account count once. This is the same rollup the sales-at-risk finding publishes. It is not a forecast.",
+      "calculation_version": "claims-audit-v1",
+      "check_status": "match",
+      "review_status": "not_human_verified"
+    }
+  ]
+}

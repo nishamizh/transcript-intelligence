@@ -23,6 +23,8 @@ from src.pipeline.briefing import compose_headline, method_notes
 from src.pipeline.methodology import build_methodology
 from src.review.decisions import atomic_write_json, ensure_decision_template, load_decisions
 from src.review.queue import build_review_queue, write_review_queue
+from src.review.claims import build_claims_audit, write_claims_audit
+from src.review.evidence import build_evidence_verification, write_evidence_verification
 from src.review.sample import build_review_sample, write_review_sample
 from src.review.validation import build_human_validation_report, write_human_validation_report
 from src.visualization.charts import render_charts
@@ -89,7 +91,12 @@ def run(settings: Settings | None = None) -> dict:
     decision_ids.extend(f"insight:{insight['insight_id']}" for insight in report["insights"])
     decisions_path = settings.output_dir / "review_decisions.json"
     ensure_decision_template(decisions_path, decision_ids)
-    validation = build_human_validation_report(report, review_sample, load_decisions(decisions_path))
+    stored_decisions = load_decisions(decisions_path)
+    evidence = build_evidence_verification(settings.data_dir, report, stored_decisions)
+    claims = build_claims_audit(meetings, report)
+    write_evidence_verification(evidence, settings.output_dir)
+    write_claims_audit(claims, settings.output_dir)
+    validation = build_human_validation_report(report, review_sample, stored_decisions, evidence, claims)
     write_human_validation_report(validation, settings.output_dir)
     render_charts(sentiment, topics, settings.output_dir / "charts")
     if settings.web_data_path:
@@ -105,6 +112,10 @@ def run(settings: Settings | None = None) -> dict:
                 csv_source.read_text(encoding="utf-8"),
                 encoding="utf-8",
             )
+        for name in ("claims_audit.json", "evidence_verification.json"):
+            source = settings.output_dir / name
+            if source.exists():
+                (public / name).write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
     _print_briefing(report, report_path)
     return report
 

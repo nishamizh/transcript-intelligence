@@ -1,0 +1,1015 @@
+{
+  "version": 1,
+  "calculation_version": "evidence-locator-v1",
+  "label_source": "source_text_match_plus_optional_human_judgment",
+  "llm_as_judge": false,
+  "human_review_status": "not_yet_available",
+  "finding_count": 9,
+  "quotes_found": 27,
+  "quotes_missing": 0,
+  "human_reviewed": 0,
+  "human_insufficient_evidence": 0,
+  "automated_quote_check": "located",
+  "note": "quotes_found means the cited string occurs in the meeting's transcript, summary, or source key moment after whitespace and ellipsis are folded. It does not mean a person agreed the passage supports the claim. passages_to_check are nearby sentences with a contrast word. They are a reading aid, not contradictions. human_support_status stays pending until a reviewer saves supported, partially supported, unsupported, or insufficient evidence.",
+  "findings": [
+    {
+      "insight_id": "support-recurring",
+      "title": "What keeps coming back to support",
+      "stakeholder": "support",
+      "claim": "Reliability and incidents is the primary theme on 13 of 27 support calls. Identity and access is next with 5. The raw labels underneath are fragmented (incident communication (5), feature request (4), workaround (4)). The theme is the rollup a support leader can staff against. The raw label is the evidence.",
+      "recommended_action": "Staff the weekly support review by theme, starting with Reliability and incidents. Bring the engineering owner for that theme, not a rotating on-call who has to re-derive the pattern.",
+      "claim_kind": "observed_count",
+      "known_limitations": "Share of support calls whose primary governed theme is reliability. The theme is a keyword map.",
+      "citations": [
+        {
+          "meeting_id": "01KQ1A6B7E81B06F4A13B60D",
+          "quote": "Kendra Wallace from a retail company contacted Aegis Cloud Security support regarding severely degraded backup performance, with nightly jobs taking 4-6 hours instead of the usual 90 minutes over the past three weeks. David Kim identified a likely root cause: Kendra's environmen\u2026",
+          "quote_status": "found",
+          "location": "summary",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Kendra Wallace",
+              "time_seconds": 62.2,
+              "sentence": "It's pretty much every night. I mean, maybe slightly worse on weekends but honestly it's bad across the board. And look, we're a retail company \u2014 we have a lot of transaction data, inventory records, customer data \u2014 we can't have backup windows bleeding into our morning operations.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Kendra Wallace",
+              "time_seconds": 92.8,
+              "sentence": "It's around, uh, two to two and a half terabytes per night. That hasn't changed dramatically. I mean, we've grown a little but nothing that should cause this kind of slowdown.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "David Kim",
+              "time_seconds": 178.8,
+              "sentence": "So I can see that your backup jobs are completing, but the throughput rate has dropped significantly. You're running at roughly 120 to 140 megabytes per second, whereas historically your jobs were running closer to 400 or 500. That's the bottleneck.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 0
+        },
+        {
+          "meeting_id": "01KQ325BDEDEE927D2970775",
+          "quote": "Priya Patel from Aegis support contacted Paula Schneider of Ridgeline (a manufacturing/logistics company) regarding a multi-day alert latency issue with the Aegis Detect product. Priya confirmed the problem was caused by a cascading failure in Aegis's event processing pipeline,\u2026",
+          "quote_status": "found",
+          "location": "summary",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Priya Patel",
+              "time_seconds": 77.1,
+              "sentence": "Yeah, I hear you, an hour of latency on threat alerts is \u2014 that's a serious problem. I'm not going to sugarcoat that.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Paula Schneider",
+              "time_seconds": 152.8,
+              "sentence": "I mean, Priya, I \u2014 okay. I appreciate you being straight with me but this is pretty bad. We're a logistics and manufacturing company, we've got operational technology on the floor, we've got systems that if something gets through undetected because our monitoring is delayed by an hour\u2014",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Paula Schneider",
+              "time_seconds": 182.9,
+              "sentence": "We have a LogVault instance but it doesn't have the same coverage, especially not on the endpoint side. So no, we don't have full coverage. That's why we pay for Detect.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 1
+        },
+        {
+          "meeting_id": "01KQ3C837D7EF689408DCF95",
+          "quote": "Priya from Aegis Cloud Security support and senior engineer Sarah Chen joined a call with Yuki Tanaka, Security Lead at Pineridge, to troubleshoot a failing CloudPrime S3 backup connector issue (Case 2638). Yuki reported that backup jobs were failing with a 403 error since the p\u2026",
+          "quote_status": "found",
+          "location": "summary",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Yuki Tanaka",
+              "time_seconds": 45.3,
+              "sentence": "Sure, yeah. So basically, we set up the S3 connector in Aegis Protect about three weeks ago, it was working fine initially. But starting around, I want to say, last Thursday or Friday, we started seeing backup jobs failing partway through. They initiate, they run for a bit, and then just... stop. No completion, no error that makes a ton of sense.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Yuki Tanaka",
+              "time_seconds": 78.6,
+              "sentence": "It says \u2014 let me actually pull it up \u2014 it says, uh, 'connector write operation terminated, upstream response code 403.' But here's the thing, the IAM permissions haven't changed. Like, nothing on our CloudPrime side changed that week.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Sarah Chen",
+              "time_seconds": 103.1,
+              "sentence": "Yeah, so a 403 from the S3 connector can actually come from a few different places, it's not always what it looks like on the surface. The first thing I'd want to rule out is whether the IAM role that Aegis Protect is assuming has the right combination of permissions \u2014 specifically s3:PutObject, s3:GetBucketLocation, and then also the bucket policy itself. Sometimes people set up the IAM role correctly but the bucket policy has a deny statement that overrides it.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 2
+        }
+      ],
+      "automated_quote_status": "quotes_located",
+      "human_support_status": "pending",
+      "human_reviewer_id": "",
+      "human_timestamp": "",
+      "human_notes": "",
+      "checked_sources": [],
+      "support_is_human": false
+    },
+    {
+      "insight_id": "support-sentiment",
+      "title": "Support sentiment lags the account conversations",
+      "stakeholder": "support",
+      "claim": "Support averages 2.94. External account calls average 3.71. The gap is 0.77 points on a 1\u20135 scale. 16 of 27 support calls score below 3.",
+      "recommended_action": "Put the five lowest-scoring open themes on the same weekly page as renewal risk. A case that is still negative after the next customer touch needs an owner outside the support queue.",
+      "claim_kind": "descriptive_comparison",
+      "known_limitations": "A difference of source sentiment means. Not an estimate of what caused the gap.",
+      "citations": [
+        {
+          "meeting_id": "01KQ7BF0D56037FF89DC89B6",
+          "quote": "Isaac Brennan, infrastructure lead at Trailhead Marketplace, called Aegis Cloud Security support in frustration over a complete 15+ hour outage of Aegis Detect's event processing pipeline, leaving his retail platform blind to threats. Elena Vasquez and David Kim confirmed the is\u2026",
+          "quote_status": "found",
+          "location": "summary",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "David Kim",
+              "time_seconds": 58.4,
+              "sentence": "Okay, so just to make sure I understand \u2014 you're saying alerts are completely silent, like no notifications at all, or are you seeing events in the dashboard but just no alert triggers?",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Elena Vasquez",
+              "time_seconds": 86.0,
+              "sentence": "Okay, Isaac, I \u2014 I want to be upfront with you, and I'm going to pull up your tenant right now, but I do need to flag something that may be relevant here.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Elena Vasquez",
+              "time_seconds": 178.2,
+              "sentence": "I hear you, and I want you to know we are taking this seriously. Can you confirm \u2014 are your Aegis Protect backups still running normally? Just want to make sure we understand the full scope of what's affected for you.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 0
+        },
+        {
+          "meeting_id": "01KQ94C2B8B9B4668F3D3491",
+          "quote": "Mark Ellison, Infrastructure Lead at Ridgeline Logistics, contacted Aegis Cloud Security support regarding a complete outage of his Detect dashboard that began around 11 PM on March 11th. Elena Vasquez and Sarah Chen confirmed this is a platform-side issue caused by a failure in\u2026",
+          "quote_status": "found",
+          "location": "summary",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Sarah Chen",
+              "time_seconds": 95.0,
+              "sentence": "Right, okay. And are the agents themselves still running? Like if you check the agent status locally, are they active?",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Mark Ellison",
+              "time_seconds": 103.2,
+              "sentence": "Yeah that's what makes this so confusing and frankly alarming. The agents are running fine. We can see them locally, they're processing, but none of that data is actually making it to the dashboard. It's like there's a black hole somewhere between our infrastructure and your platform.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Elena Vasquez",
+              "time_seconds": 120.7,
+              "sentence": "Okay, Mark, I want to be transparent with you \u2014 we are aware of an issue on our end right now with the event processing pipeline in Detect. We started seeing signals on our side around... Sarah, correct me if I'm wrong, but it was late March 11th?",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 1
+        },
+        {
+          "meeting_id": "01KQ5EC1665DCFD7A6B62A59",
+          "quote": "Vanessa Cruz from a retail company contacted Aegis Cloud Security support regarding a critical SAML certificate rotation issue affecting 60-70% of her workforce on a Sunday. Support engineer Elena Vasquez identified the root cause as a known bug in Aegis Identity version 3.4.1,\u2026",
+          "quote_status": "found",
+          "location": "summary",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Vanessa Cruz",
+              "time_seconds": 28.0,
+              "sentence": "Hi, yeah, okay \u2014 look I appreciate you guys getting on a call but I want to be upfront, this has been a really frustrating morning for us, so I'm hoping we can just cut to the chase and figure out what's going on.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Elena Vasquez",
+              "time_seconds": 163.4,
+              "sentence": "Yes, and \u2014 I want to explain what it's doing because it helps with the workaround \u2014 so essentially what's happening is the wizard is completing the cert rotation on the identity provider side but it's not properly propagating the new certificate metadata to all of the service provider connections, so some of your SP integrations are still trying to validate assertions against the old certificate.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Elena Vasquez",
+              "time_seconds": 195.2,
+              "sentence": "I \u2014 yes, there's a defect in it, I'm not going to sugarcoat that, and I understand why that's incredibly frustrating especially given the impact you're seeing right now.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 2
+        }
+      ],
+      "automated_quote_status": "quotes_located",
+      "human_support_status": "pending",
+      "human_reviewer_id": "",
+      "human_timestamp": "",
+      "human_notes": "",
+      "checked_sources": [],
+      "support_is_human": false
+    },
+    {
+      "insight_id": "support-unresolved",
+      "title": "Churn language without a recovery moment",
+      "stakeholder": "support",
+      "claim": "19 support calls contain a churn signal. 10 of them have no positive pivot in the recorded key moments. A pivot is the moment the conversation turns from the failure to a credible next step.",
+      "recommended_action": "Route every support case that records a churn signal and no pivot to the account owner before the end of the day, with the quote attached.",
+      "claim_kind": "observed_count",
+      "known_limitations": "Churn-signal moments with no positive-pivot moment. Both flags come from the source keyMoments list.",
+      "citations": [
+        {
+          "meeting_id": "01KQ7BF0D56037FF89DC89B6",
+          "quote": "Isaac Brennan: Isaac raises PCI obligations and the risk of an undetected card skimming operation running through their checkout since the outage began",
+          "quote_status": "found",
+          "location": "key_moment",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "David Kim",
+              "time_seconds": 58.4,
+              "sentence": "Okay, so just to make sure I understand \u2014 you're saying alerts are completely silent, like no notifications at all, or are you seeing events in the dashboard but just no alert triggers?",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Elena Vasquez",
+              "time_seconds": 86.0,
+              "sentence": "Okay, Isaac, I \u2014 I want to be upfront with you, and I'm going to pull up your tenant right now, but I do need to flag something that may be relevant here.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Elena Vasquez",
+              "time_seconds": 178.2,
+              "sentence": "I hear you, and I want you to know we are taking this seriously. Can you confirm \u2014 are your Aegis Protect backups still running normally? Just want to make sure we understand the full scope of what's affected for you.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 0
+        },
+        {
+          "meeting_id": "01KQ5EC1665DCFD7A6B62A59",
+          "quote": "Vanessa Cruz: Vanessa references the earlier Detect outage combined with this new bug, signaling growing dissatisfaction with overall platform reliability after two and a half years as a customer.",
+          "quote_status": "found",
+          "location": "key_moment",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Vanessa Cruz",
+              "time_seconds": 28.0,
+              "sentence": "Hi, yeah, okay \u2014 look I appreciate you guys getting on a call but I want to be upfront, this has been a really frustrating morning for us, so I'm hoping we can just cut to the chase and figure out what's going on.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Elena Vasquez",
+              "time_seconds": 163.4,
+              "sentence": "Yes, and \u2014 I want to explain what it's doing because it helps with the workaround \u2014 so essentially what's happening is the wizard is completing the cert rotation on the identity provider side but it's not properly propagating the new certificate metadata to all of the service provider connections, so some of your SP integrations are still trying to validate assertions against the old certificate.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Elena Vasquez",
+              "time_seconds": 195.2,
+              "sentence": "I \u2014 yes, there's a defect in it, I'm not going to sugarcoat that, and I understand why that's incredibly frustrating especially given the impact you're seeing right now.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 1
+        },
+        {
+          "meeting_id": "01KQ9772B2348F500FB09D1E",
+          "quote": "Vanessa Cruz: Vanessa reveals 40-45 users are locked out of production systems, emphasizing the critical business impact during spring inventory cycle",
+          "quote_status": "found",
+          "location": "key_moment",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Elena Vasquez",
+              "time_seconds": 20.6,
+              "sentence": "Yeah, I apologize for the delay on that, Vanessa, we've had a higher than normal queue today \u2014 but I've got your case pulled up here, case number 3677, MFA token failures, is that right?",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Elena Vasquez",
+              "time_seconds": 210.5,
+              "sentence": "So a 4031 is a token validation window mismatch, but \u2014 and this is the part that's odd \u2014 it's usually caused by a time sync issue on either the client or our validation server, but given that you've already ruled out client-side, I want to check if there's something going on with our validation service configuration for your tenant specifically.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Elena Vasquez",
+              "time_seconds": 237.7,
+              "sentence": "I \u2014 I don't want to confirm that definitively yet without escalating to our Identity engineering team, but based on what I'm seeing in these logs and the fact that re-enrollment didn't help, it does look like the issue may be on our end, yes.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 2
+        }
+      ],
+      "automated_quote_status": "quotes_located",
+      "human_support_status": "pending",
+      "human_reviewer_id": "",
+      "human_timestamp": "",
+      "human_notes": "",
+      "checked_sources": [],
+      "support_is_human": false
+    },
+    {
+      "insight_id": "product-gaps",
+      "title": "Feature gaps, grouped by module",
+      "stakeholder": "product",
+      "claim": "The corpus records 51 feature-gap moments. Comply accounts for 12 of the gaps that name a module. These are not roadmap brainstorms. They are customers describing a workflow the product does not do, inside a support case or an account review.",
+      "recommended_action": "Take the Comply gaps to that squad's next planning review with the quote and the account attached. Separate the ones already committed on a roadmap from the ones that have no owner.",
+      "claim_kind": "observed_count",
+      "known_limitations": "Count of source key moments tagged as a feature gap.",
+      "citations": [
+        {
+          "meeting_id": "01KQ0C1280EDA4E70AAD7C35",
+          "quote": "Gregory requests proactive seat-count threshold alerts to avoid discovering overages on future invoices",
+          "quote_status": "found",
+          "location": "key_moment",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Gregory Fisk",
+              "time_seconds": 46.7,
+              "sentence": "Yeah so, uh, we received our January invoice last week and there's a line item on there that doesn't quite match what we expected based on our contract. It's showing a charge for \u2014 let me pull this up \u2014 okay, it's showing a charge for 1,400 seats under Aegis Identity, but we only have 1,200 licensed users.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Sarah Chen",
+              "time_seconds": 177.6,
+              "sentence": "Understood, and that's worth looking at more closely. So I'm pulling up the provisioning logs for your account for January... okay so what I'm seeing here is interesting \u2014 there were 1,400 user accounts in a provisioned state within the Aegis Identity system during January, but let me look at whether those were all active or if some were in, like, a pending or deprovisioned queue.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Gregory Fisk",
+              "time_seconds": 202.3,
+              "sentence": "Yeah, we did do a migration in December where we were onboarding users from a legacy system, and I know there were some test accounts created during that process. Could those still be showing as provisioned?",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 0
+        },
+        {
+          "meeting_id": "01KQ1DC6CA536DE1B31ED8F5",
+          "quote": "Wayne asks about SOC 2 compliance reporting, signaling potential expansion opportunity with the Aegis Comply add-on module",
+          "quote_status": "found",
+          "location": "key_moment",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Wayne Keller",
+              "time_seconds": 33.3,
+              "sentence": "Good to have you both on. So Rachel mentioned this was around the contract renewal and some billing questions \u2014 is that still the main agenda?",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Rachel Torres",
+              "time_seconds": 137.6,
+              "sentence": "Uh, let me see \u2014 January was about 620 million, and February looks like 590 million. So not a huge overage but it does trigger the per-million rate in the contract.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Wayne Keller",
+              "time_seconds": 160.7,
+              "sentence": "Okay so it's not a massive number, but my finance team's concern is more just the principle of it \u2014 they didn't know the cap existed and they want to understand if this is going to keep happening.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 1
+        },
+        {
+          "meeting_id": "01KQ3CE40428CCC5FF433FFC",
+          "quote": "Megan introduces the heartbeat alert feature concept, which would proactively notify customers if telemetry stops being received \u2014 Diana responds it would be huge",
+          "quote_status": "found",
+          "location": "key_moment",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Tom Bradley",
+              "time_seconds": 86.7,
+              "sentence": "Correct. For approximately six hours, customers were not getting threat monitoring alerts. Events were being generated on their end, but we weren't processing them, so nothing was surfacing in the Detect dashboard.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Tom Bradley",
+              "time_seconds": 107.9,
+              "sentence": "I know, and I'm not going to sugarcoat it \u2014 this was a significant failure. The good news is we've done a full root cause analysis and the fix is already deployed.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Diana Reeves",
+              "time_seconds": 119.8,
+              "sentence": "Can you explain the fix at a level I can actually relay to customers? Like, not super deep in the weeds but enough that it's credible.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 2
+        }
+      ],
+      "automated_quote_status": "quotes_located",
+      "human_support_status": "pending",
+      "human_reviewer_id": "",
+      "human_timestamp": "",
+      "human_notes": "",
+      "checked_sources": [],
+      "support_is_human": false
+    },
+    {
+      "insight_id": "product-modules",
+      "title": "Module sentiment is not one product story",
+      "stakeholder": "product",
+      "claim": "Detect meetings average 2.73 across 22 calls that name it. Comply averages 4.28. A meeting can name more than one module. The score is the meeting score, not a sentence classifier.",
+      "recommended_action": "Pair the Detect reliability narrative with whatever is launching next. Do not take a positive module into a renewal meeting that is actually about the colder one without acknowledging the colder score.",
+      "claim_kind": "descriptive_comparison",
+      "known_limitations": "Module cohorts are keyword assignments on the meeting text. A meeting can mention more than one product.",
+      "citations": [
+        {
+          "meeting_id": "01KQ7BF0D56037FF89DC89B6",
+          "quote": "Isaac Brennan, infrastructure lead at Trailhead Marketplace, called Aegis Cloud Security support in frustration over a complete 15+ hour outage of Aegis Detect's event processing pipeline, leaving his retail platform blind to threats. Elena Vasquez and David Kim confirmed the is\u2026",
+          "quote_status": "found",
+          "location": "summary",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "David Kim",
+              "time_seconds": 58.4,
+              "sentence": "Okay, so just to make sure I understand \u2014 you're saying alerts are completely silent, like no notifications at all, or are you seeing events in the dashboard but just no alert triggers?",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Elena Vasquez",
+              "time_seconds": 86.0,
+              "sentence": "Okay, Isaac, I \u2014 I want to be upfront with you, and I'm going to pull up your tenant right now, but I do need to flag something that may be relevant here.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Elena Vasquez",
+              "time_seconds": 178.2,
+              "sentence": "I hear you, and I want you to know we are taking this seriously. Can you confirm \u2014 are your Aegis Protect backups still running normally? Just want to make sure we understand the full scope of what's affected for you.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 0
+        },
+        {
+          "meeting_id": "01KQ2331EFD78BF3B1CAB747",
+          "quote": "The team convened an urgent internal call to address a significant outage of their Detect product that left customers without security monitoring for approximately six hours overnight. A single point of failure in the event ingestion pipeline caused a cascading failure, and crit\u2026",
+          "quote_status": "found",
+          "location": "summary",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Priya Patel",
+              "time_seconds": 57.3,
+              "sentence": "It's across the board honestly. We've got mid-market, we've got enterprise, we've got a couple of SMB accounts who honestly probably shouldn't even be running Detect as a primary monitoring layer but that's a whole other conversation.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Diana Reeves",
+              "time_seconds": 113.9,
+              "sentence": "That was the right call, Lisa. Okay, so \u2014 does engineering have a root cause yet? Because I am not going to be able to go to these customers without something concrete.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Priya Patel",
+              "time_seconds": 159.3,
+              "sentence": "I mean, I don't disagree, and I don't want to throw anyone under the bus on this call, but yeah, that's a question that needs to get answered. Apparently the redundancy was on the roadmap but hadn't been prioritized.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 1
+        },
+        {
+          "meeting_id": "01KQ38C4101D6774F2F02331",
+          "quote": "A critical outage call was convened to address a complete failure of the Detect event processing pipeline that began around 9:14 AM Pacific. The ingestion pipeline's single primary node hit a memory ceiling and crashed due to lack of redundancy, a known tech debt issue that had\u2026",
+          "quote_status": "found",
+          "location": "summary",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Tom Bradley",
+              "time_seconds": 81.4,
+              "sentence": "Ananya, I appreciate you saying that but that's a process failure, not a you failure. We shouldn't have a single person making the call on when to post. That's a systemic issue.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Brian Cho",
+              "time_seconds": 93.9,
+              "sentence": "I mean \u2014 I agree with that, but we can talk process later. Right now I've got customers blowing up my team's queue and I need to understand what actually happened technically so I can give my support engineers something to say.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Brian Cho",
+              "time_seconds": 140.0,
+              "sentence": "Wait, so there's literally one node doing all of the ingestion? That's... okay I'm not an engineer but that sounds like a really bad design.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 2
+        }
+      ],
+      "automated_quote_status": "quotes_located",
+      "human_support_status": "pending",
+      "human_reviewer_id": "",
+      "human_timestamp": "",
+      "human_notes": "",
+      "checked_sources": [],
+      "support_is_human": false
+    },
+    {
+      "insight_id": "engineering-incident",
+      "title": "The incident is a cluster, not a bad day",
+      "stakeholder": "engineering",
+      "claim": "10 meetings are titled as an outage, incident, or war room, from 2026-03-10 to 2026-03-20. Their mean sentiment is 2.18. 53 meetings anywhere in the corpus record a technical-issue moment, so the engineering residue is larger than the bridge calendar.",
+      "recommended_action": "Keep the incident's engineering owner assigned through the customer-communication tail, not only through the technical restore. Review every later meeting that still cites the outage.",
+      "claim_kind": "observed_count",
+      "known_limitations": "Counted from the meeting title, not from a confirmed incident record.",
+      "citations": [
+        {
+          "meeting_id": "01KQ38C4101D6774F2F02331",
+          "quote": "A critical outage call was convened to address a complete failure of the Detect event processing pipeline that began around 9:14 AM Pacific. The ingestion pipeline's single primary node hit a memory ceiling and crashed due to lack of redundancy, a known tech debt issue that had\u2026",
+          "quote_status": "found",
+          "location": "summary",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Tom Bradley",
+              "time_seconds": 81.4,
+              "sentence": "Ananya, I appreciate you saying that but that's a process failure, not a you failure. We shouldn't have a single person making the call on when to post. That's a systemic issue.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Brian Cho",
+              "time_seconds": 93.9,
+              "sentence": "I mean \u2014 I agree with that, but we can talk process later. Right now I've got customers blowing up my team's queue and I need to understand what actually happened technically so I can give my support engineers something to say.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Brian Cho",
+              "time_seconds": 140.0,
+              "sentence": "Wait, so there's literally one node doing all of the ingestion? That's... okay I'm not an engineer but that sounds like a really bad design.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 0
+        },
+        {
+          "meeting_id": "01KQ46A9DE0AECB006D897A0",
+          "quote": "A critical outage call was held between Tyler (engineering), Diana (customer success/sales), and Marcus (support) regarding a complete failure of the Detect threat monitoring pipeline that began at 2:47 AM. The ingestion layer experienced a cascading failure from a single point\u2026",
+          "quote_status": "found",
+          "location": "summary",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Tyler Washington",
+              "time_seconds": 136.1,
+              "sentence": "We think \u2014 and I want to be careful here because we're still digging \u2014 but we think it's a single point of failure in the ingestion layer. Basically one node failed and instead of the load distributing properly it just, uh, it cascaded. Took everything downstream with it.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Tyler Washington",
+              "time_seconds": 166.3,
+              "sentence": "Diana, I \u2014 look, I hear you and honestly I'm asking myself the same question right now but that is a conversation for after we fix it, okay? Can we focus?",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Tyler Washington",
+              "time_seconds": 235.4,
+              "sentence": "In a worst case scenario, yes. I'm not going to sugarcoat it.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 1
+        },
+        {
+          "meeting_id": "01KQ351E141926AB7CAB668D",
+          "quote": "Grace Yoon (Northstar) called with serious concerns after a six-hour outage of Aegis Detect left her security team with zero threat monitoring visibility in a HIPAA-regulated pharma environment. This was the second reliability incident in eight months, prompting her CISO to requ\u2026",
+          "quote_status": "found",
+          "location": "summary",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Maria Santos",
+              "time_seconds": 98.7,
+              "sentence": "So, the engineering team has identified the root cause \u2014 there was a cascading failure in our event processing pipeline, um, essentially a single point of failure in the event ingestion layer that propagated across the system. It was not a breach, it was not a data loss event, but it did take down the monitoring pipeline.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Maria Santos",
+              "time_seconds": 131.8,
+              "sentence": "I understand how that sounds, and frankly it should not have been architected that way. I'm not going to sugarcoat it.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Grace Yoon",
+              "time_seconds": 194.1,
+              "sentence": "I'm going to need a lot more than that, Maria. I had my CISO on the phone with me this morning asking me why we're still on Aegis Detect when this is the second time in eight months we've had a reliability issue. Second time.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 2
+        }
+      ],
+      "automated_quote_status": "quotes_located",
+      "human_support_status": "pending",
+      "human_reviewer_id": "",
+      "human_timestamp": "",
+      "human_notes": "",
+      "checked_sources": [],
+      "support_is_human": false
+    },
+    {
+      "insight_id": "engineering-causes",
+      "title": "Repeated failure language",
+      "stakeholder": "engineering",
+      "claim": "Across technical-issue moments and incident summaries, the strongest repeated pattern is 'Single point of failure' (15 hits). These buckets are keyword passes over the recorded technical moments, not a new root-cause model. They exist so a review can start from the language engineers and customers already used.",
+      "recommended_action": "Put 'Single point of failure' on the reliability backlog as a theme, with the cited meetings as the acceptance examples, and separate it from the one-off bug list.",
+      "claim_kind": "interpretive_rank",
+      "known_limitations": "Keyword buckets over recorded technical moments. Not a new root-cause analysis.",
+      "citations": [
+        {
+          "meeting_id": "01KQ03B0303900521BB089CA",
+          "quote": "Megan, Raj, and Brian convened on day three of an ongoing outage affecting the Detect product's event processing pipeline. Raj explained that a single point of failure in the event ingestion layer caused a cascading failure, leaving customers with zero threat monitoring visibili\u2026",
+          "quote_status": "found",
+          "location": "summary",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Megan Lawson",
+              "time_seconds": 22.6,
+              "sentence": "Sure, take your time. So, uh, the reason I wanted to get us together today \u2014 obviously we're still in the middle of this, day three of the outage window \u2014 I want to make sure we have a clear remediation plan and that we're all aligned before we send anything else externally.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Raj Kapoor",
+              "time_seconds": 153.2,
+              "sentence": "The second piece is implementing a circuit breaker pattern on the pipeline. So essentially, if one component starts degrading, the circuit breaker trips before it can take down the whole chain. It's a more resilient architecture overall. We should have had this from the start, honestly, but \u2014 yeah.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Megan Lawson",
+              "time_seconds": 172.3,
+              "sentence": "I appreciate you saying that. I think \u2014 and I want to be candid here \u2014 I think there's going to be a postmortem conversation about how this got built the way it did, but I want to table that for now and focus on the remediation. What's the timeline looking like for full restoration?",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 0
+        },
+        {
+          "meeting_id": "01KQ03B0303900521BB089CA",
+          "quote": "Raj confirms customers had zero threat monitoring data for six hours, with events queuing but not processing",
+          "quote_status": "found",
+          "location": "key_moment",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Megan Lawson",
+              "time_seconds": 22.6,
+              "sentence": "Sure, take your time. So, uh, the reason I wanted to get us together today \u2014 obviously we're still in the middle of this, day three of the outage window \u2014 I want to make sure we have a clear remediation plan and that we're all aligned before we send anything else externally.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Raj Kapoor",
+              "time_seconds": 153.2,
+              "sentence": "The second piece is implementing a circuit breaker pattern on the pipeline. So essentially, if one component starts degrading, the circuit breaker trips before it can take down the whole chain. It's a more resilient architecture overall. We should have had this from the start, honestly, but \u2014 yeah.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Megan Lawson",
+              "time_seconds": 172.3,
+              "sentence": "I appreciate you saying that. I think \u2014 and I want to be candid here \u2014 I think there's going to be a postmortem conversation about how this got built the way it did, but I want to table that for now and focus on the remediation. What's the timeline looking like for full restoration?",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 1
+        },
+        {
+          "meeting_id": "01KQ2331EFD78BF3B1CAB747",
+          "quote": "Diana highlights the critical irony that the health checks used to detect failures were tied to the same pipeline that broke, meaning the monitoring product failed to monitor itself",
+          "quote_status": "found",
+          "location": "key_moment",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Priya Patel",
+              "time_seconds": 57.3,
+              "sentence": "It's across the board honestly. We've got mid-market, we've got enterprise, we've got a couple of SMB accounts who honestly probably shouldn't even be running Detect as a primary monitoring layer but that's a whole other conversation.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Diana Reeves",
+              "time_seconds": 113.9,
+              "sentence": "That was the right call, Lisa. Okay, so \u2014 does engineering have a root cause yet? Because I am not going to be able to go to these customers without something concrete.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Priya Patel",
+              "time_seconds": 159.3,
+              "sentence": "I mean, I don't disagree, and I don't want to throw anyone under the bus on this call, but yeah, that's a question that needs to get answered. Apparently the redundancy was on the roadmap but hadn't been prioritized.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 2
+        }
+      ],
+      "automated_quote_status": "quotes_located",
+      "human_support_status": "pending",
+      "human_reviewer_id": "",
+      "human_timestamp": "",
+      "human_notes": "",
+      "checked_sources": [],
+      "support_is_human": false
+    },
+    {
+      "insight_id": "sales-at-risk",
+      "title": "Accounts where the transcript is already a renewal problem",
+      "stakeholder": "sales",
+      "claim": "24 accounts have at least one call with explicit churn language. The score weights repeated churn signals, a low mean, a named competitor, and a renewal already on the calendar. It is a briefing rank, not a forecast.",
+      "recommended_action": "Work the top of this list as one book: one owner, the quote, the competitor, and a date for the technical assurance the customer asked for. Do not leave it distributed across whoever last hosted the call.",
+      "claim_kind": "interpretive_rank",
+      "known_limitations": "Accounts are grouped by account name, or by the only external domain when the name is blank. The rank is not a churn probability.",
+      "citations": [
+        {
+          "meeting_id": "01KQ45F6F7349D0A620571F1",
+          "quote": "Kendra Wallace: Kendra reveals Brightpath has been conducting a six-week security vendor evaluation and is seriously considering SentinelShield",
+          "quote_status": "found",
+          "location": "key_moment",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Kendra Wallace",
+              "time_seconds": 14.1,
+              "sentence": "Yeah, it has been, honestly. We're in the middle of a platform migration on top of everything else so, um, timing is a little chaotic but \u2014 yeah, let's do this.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Aisha Johnson",
+              "time_seconds": 25.4,
+              "sentence": "I appreciate it, really. So I wanted to carve out some time because I know we've had a few back-and-forth emails but I'd rather just talk through where things stand between Brightpath and Aegis directly.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Aisha Johnson",
+              "time_seconds": 78.2,
+              "sentence": "Right. And I \u2014 I want to address that directly because I know the March incident is something we need to own. That was not acceptable and I understand why it's still top of mind for you.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 0
+        },
+        {
+          "meeting_id": "01KQ94C2B8B9B4668F3D3491",
+          "quote": "Mark Ellison: Mark explicitly raises the need for SLA credits and states that depending on the incident report, a broader conversation about platform reliability will be necessary.",
+          "quote_status": "found",
+          "location": "key_moment",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Sarah Chen",
+              "time_seconds": 95.0,
+              "sentence": "Right, okay. And are the agents themselves still running? Like if you check the agent status locally, are they active?",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Mark Ellison",
+              "time_seconds": 103.2,
+              "sentence": "Yeah that's what makes this so confusing and frankly alarming. The agents are running fine. We can see them locally, they're processing, but none of that data is actually making it to the dashboard. It's like there's a black hole somewhere between our infrastructure and your platform.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Elena Vasquez",
+              "time_seconds": 120.7,
+              "sentence": "Okay, Mark, I want to be transparent with you \u2014 we are aware of an issue on our end right now with the event processing pipeline in Detect. We started seeing signals on our side around... Sarah, correct me if I'm wrong, but it was late March 11th?",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 1
+        },
+        {
+          "meeting_id": "01KQ2217B066855A3B7814CB",
+          "quote": "Suki Nakamura: Suki reveals her CISO has initiated a formal vendor review and that they are actively evaluating SentinelShield following the outage.",
+          "quote_status": "found",
+          "location": "key_moment",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Suki Nakamura",
+              "time_seconds": 49.2,
+              "sentence": "Good, okay. So look, I'll be honest with you Rachel, I agreed to this call but I'm \u2014 I'm not in a great headspace about things right now, and I think you probably know why.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Rachel Torres",
+              "time_seconds": 90.3,
+              "sentence": "Completely understood, and I'm not going to minimize that at all.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Ravi Gupta",
+              "time_seconds": 136.4,
+              "sentence": "Yeah, and I hear you on that, the communications piece is something we're addressing separately. But on the technical side \u2014 what happened was we had a cascading failure in our event processing pipeline. There was essentially a single point of failure in the event ingestion layer, and when that component went down, it took the whole pipeline with it rather than failing gracefully.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 2
+        }
+      ],
+      "automated_quote_status": "quotes_located",
+      "human_support_status": "pending",
+      "human_reviewer_id": "",
+      "human_timestamp": "",
+      "human_notes": "",
+      "checked_sources": [],
+      "support_is_human": false
+    },
+    {
+      "insight_id": "sales-competitors",
+      "title": "Which competitors the transcripts actually name",
+      "stakeholder": "sales",
+      "claim": "SentinelShield is named in 18 meetings. The lexicon is configured, not discovered on the fly, so a new competitor does not appear until someone adds the name. The counts are meetings, not mentions, so one angry call counts once.",
+      "recommended_action": "Update the SentinelShield talk track with the failure the customers are citing, not a generic feature grid. Re-count this list after the next month of calls before declaring the competitive set stable.",
+      "claim_kind": "observed_count",
+      "known_limitations": "Counts use a configured competitor list. A name that is not on the list is not counted.",
+      "citations": [
+        {
+          "meeting_id": "01KQ0F8AFF3DA34FD4580008",
+          "quote": "Lauren Bishop: Lauren flags the March Detect outage as a major concern, noting her security team was flying blind for six hours",
+          "quote_status": "found",
+          "location": "key_moment",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Lauren Bishop",
+              "time_seconds": 15.5,
+              "sentence": "Yeah, no kidding, it's been a lot. But this was already on my calendar so I made sure to protect it.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Lauren Bishop",
+              "time_seconds": 80.5,
+              "sentence": "Right. And look, I get that outages happen, I've been in infrastructure long enough to know nothing is bulletproof, but six hours is a long time. Our security team was basically flying blind.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Lauren Bishop",
+              "time_seconds": 106.6,
+              "sentence": "I mean, we didn't have an incident during that window, which is lucky, but it surfaced a gap in our own contingency planning too, so it wasn't all on Aegis. It just... it raised questions internally about the reliability of the platform.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 0
+        },
+        {
+          "meeting_id": "01KQ1DCC80852AE384C898C9",
+          "quote": "Brianna Foster: Brianna reveals they have been evaluating competitor SentinelShield, which reached out right after the outage and is offering more aggressive pricing and a 99.9% uptime SLA.",
+          "quote_status": "found",
+          "location": "key_moment",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Maria Santos",
+              "time_seconds": 97.6,
+              "sentence": "You're right, and I'm not going to sugarcoat it \u2014 that was a significant failure on our part, both the outage itself and the communication lag. We should have been proactively reaching out to you within the first hour.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Leo Marquez",
+              "time_seconds": 111.8,
+              "sentence": "I mean, we got the postmortem email a few days later, which was fine, but like... six hours is a really long time to be flying blind from a threat monitoring standpoint. Anything could have happened in that window.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Brianna Foster",
+              "time_seconds": 126.4,
+              "sentence": "And look, I don't want to be overdramatic about it, but it does make us question the reliability of the platform as a whole. If this happened once, what's to say it doesn't happen again?",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 1
+        },
+        {
+          "meeting_id": "01KQ2217B066855A3B7814CB",
+          "quote": "Suki Nakamura: Suki reveals her CISO has initiated a formal vendor review and that they are actively evaluating SentinelShield following the outage.",
+          "quote_status": "found",
+          "location": "key_moment",
+          "source_file": "summary.json",
+          "passages_to_check": [
+            {
+              "speaker": "Suki Nakamura",
+              "time_seconds": 49.2,
+              "sentence": "Good, okay. So look, I'll be honest with you Rachel, I agreed to this call but I'm \u2014 I'm not in a great headspace about things right now, and I think you probably know why.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Rachel Torres",
+              "time_seconds": 90.3,
+              "sentence": "Completely understood, and I'm not going to minimize that at all.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            },
+            {
+              "speaker": "Ravi Gupta",
+              "time_seconds": 136.4,
+              "sentence": "Yeah, and I hear you on that, the communications piece is something we're addressing separately. But on the technical side \u2014 what happened was we had a cascading failure in our event processing pipeline. There was essentially a single point of failure in the event ingestion layer, and when that component went down, it took the whole pipeline with it rather than failing gracefully.",
+              "screen": "contrast_word",
+              "note": "A sentence in the same transcript contains a contrast word. It is not a verdict."
+            }
+          ],
+          "citation_index": 2
+        }
+      ],
+      "automated_quote_status": "quotes_located",
+      "human_support_status": "pending",
+      "human_reviewer_id": "",
+      "human_timestamp": "",
+      "human_notes": "",
+      "checked_sources": [],
+      "support_is_human": false
+    }
+  ]
+}

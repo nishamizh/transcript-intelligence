@@ -14,8 +14,10 @@ from src.review.decisions import atomic_write_json, load_decisions
 from src.review.schema import (
     MODEL_VERSION,
     TAXONOMY_VERSION,
+    TOPIC_STATUS,
     DecisionSchemaError,
     optional_rating,
+    require_finding_decision,
     require_insight_decision,
     require_reviewer,
     require_topic_decision,
@@ -42,6 +44,8 @@ class DecisionStore:
         notes: str = "",
         model_version: str = MODEL_VERSION,
         taxonomy_version: str = TAXONOMY_VERSION,
+        source_document_hash: str = "",
+        adjudicate: bool = False,
     ) -> dict:
         choice, gold = require_topic_decision(decision, human_topic, predicted_topic)
         reviewer = require_reviewer(reviewer_id)
@@ -63,6 +67,9 @@ class DecisionStore:
                 "corrected_recommendation": "",
                 "evidence_quality": None,
                 "business_usefulness": None,
+                "source_document_hash": (source_document_hash or "").strip(),
+                "transcript_id": item_id.split(":", 1)[1],
+                "adjudicate": adjudicate,
             },
         )
 
@@ -78,6 +85,8 @@ class DecisionStore:
         business_usefulness: int | None = None,
         model_version: str = MODEL_VERSION,
         taxonomy_version: str = TAXONOMY_VERSION,
+        source_document_hash: str = "",
+        adjudicate: bool = False,
     ) -> dict:
         choice = require_insight_decision(decision)
         reviewer = require_reviewer(reviewer_id)
@@ -102,6 +111,46 @@ class DecisionStore:
                 "corrected_recommendation": recommendation,
                 "evidence_quality": quality,
                 "business_usefulness": usefulness,
+                "source_document_hash": (source_document_hash or "").strip(),
+                "transcript_id": "",
+                "adjudicate": adjudicate,
+            },
+        )
+
+    def save_finding_review(
+        self,
+        *,
+        insight_id: str,
+        decision: str,
+        reviewer_id: str,
+        notes: str = "",
+        checked_sources: list[str] | None = None,
+        model_version: str = MODEL_VERSION,
+        taxonomy_version: str = TAXONOMY_VERSION,
+    ) -> dict:
+        choice = require_finding_decision(decision)
+        reviewer = require_reviewer(reviewer_id)
+        item_id = f"finding:{insight_id}"
+        return self._save(
+            item_id=item_id,
+            updates={
+                "item_id": item_id,
+                "decision": choice,
+                "predicted_topic": "",
+                "human_topic": "",
+                "corrected_theme": "",
+                "reviewer_id": reviewer,
+                "notes": (notes or "").strip(),
+                "reason": (notes or "").strip(),
+                "model_version": model_version,
+                "taxonomy_version": taxonomy_version,
+                "corrected_recommendation": "",
+                "evidence_quality": None,
+                "business_usefulness": None,
+                "source_document_hash": "",
+                "transcript_id": "",
+                "checked_sources": [source for source in (checked_sources or []) if source],
+                "adjudicate": False,
             },
         )
 
@@ -110,16 +159,51 @@ class DecisionStore:
         items = _collapse_items(payload.get("items", []))
         now = datetime.now(timezone.utc).isoformat()
         current = next((item for item in items if item.get("item_id") == item_id), None)
-        if current is not None and _same_review(current, updates):
+        if current is not None and _same_review(current, updates) and not updates.get("adjudicate"):
             return current
+        submissions = _submissions(current)
+        submission = {
+            "review_id": f"{item_id}:s{len(submissions) + 1}",
+            "decision": updates["decision"],
+            "human_topic": updates.get("human_topic") or "",
+            "corrected_theme": updates.get("corrected_theme") or "",
+            "reviewer_id": updates["reviewer_id"],
+            "reviewer_timestamp": now,
+            "notes": updates.get("notes") or "",
+            "source_document_hash": updates.get("source_document_hash") or "",
+        }
+        submissions = [row for row in submissions if row.get("reviewer_id") != updates["reviewer_id"]]
+        submissions.append(submission)
+        conflict = len({(row["decision"], row.get("human_topic") or "") for row in submissions}) > 1
+        adjudicate = bool(updates.get("adjudicate"))
+        preserve_active = (
+            current is not None
+            and _has_review(current)
+            and conflict
+            and not adjudicate
+            and current.get("reviewer_id") != updates["reviewer_id"]
+        )
+        if preserve_active:
+            stored = dict(current)
+            stored["submissions"] = submissions
+            stored["conflict"] = True
+            stored["adjudication_required"] = True
+            stored["adjudicated"] = False
+            stored["review_status"] = "conflict"
+            stored["checked_sources"] = updates.get("checked_sources") or current.get("checked_sources") or []
+            self._write(items, item_id, stored)
+            return stored
         audit = list(current.get("audit") or []) if current else []
         if current and _has_review(current):
             audit.append(_snapshot(current, now))
         review_id = f"{item_id}:r{len(audit) + 1}"
+        active_conflict = conflict and not adjudicate
         stored = {
             "item_id": item_id,
             "review_id": review_id,
+            "transcript_id": updates.get("transcript_id") or (current or {}).get("transcript_id") or "",
             "decision": updates["decision"],
+            "review_status": "adjudicated" if adjudicate else ("conflict" if active_conflict else _review_status(updates["decision"])),
             "predicted_topic": updates.get("predicted_topic") or "",
             "human_topic": updates.get("human_topic") or "",
             "corrected_theme": updates.get("corrected_theme") or "",
@@ -127,13 +211,25 @@ class DecisionStore:
             "reviewer_timestamp": now,
             "notes": updates.get("notes") or "",
             "reason": updates.get("reason") or "",
+            "reviewer_notes": updates.get("notes") or "",
             "model_version": updates.get("model_version") or MODEL_VERSION,
             "taxonomy_version": updates.get("taxonomy_version") or TAXONOMY_VERSION,
+            "source_document_hash": updates.get("source_document_hash") or "",
             "corrected_recommendation": updates.get("corrected_recommendation") or "",
             "evidence_quality": updates.get("evidence_quality"),
             "business_usefulness": updates.get("business_usefulness"),
+            "checked_sources": list(updates.get("checked_sources") or []),
+            "submissions": submissions,
+            "conflict": active_conflict,
+            "adjudication_required": active_conflict,
+            "adjudicated": adjudicate,
+            "adjudicator_id": updates["reviewer_id"] if adjudicate else "",
             "audit": audit,
         }
+        self._write(items, item_id, stored)
+        return stored
+
+    def _write(self, items: list[dict], item_id: str, stored: dict) -> None:
         replaced = False
         rewritten: list[dict] = []
         for item in items:
@@ -146,7 +242,6 @@ class DecisionStore:
         if not replaced:
             rewritten.append(stored)
         atomic_write_json(self.path, {"version": 2, "items": rewritten})
-        return stored
 
 
 def _collapse_items(items: list[dict]) -> list[dict]:
@@ -167,6 +262,30 @@ def _collapse_items(items: list[dict]) -> list[dict]:
             continue
         by_id[item_id] = item
     return [by_id[item_id] for item_id in ordered]
+
+
+def _submissions(current: dict | None) -> list[dict]:
+    if not current:
+        return []
+    rows = [dict(row) for row in current.get("submissions") or []]
+    if rows or not _has_review(current):
+        return rows
+    return [
+        {
+            "review_id": current.get("review_id") or "",
+            "decision": current.get("decision") or "",
+            "human_topic": current.get("human_topic") or "",
+            "corrected_theme": current.get("corrected_theme") or "",
+            "reviewer_id": current.get("reviewer_id") or "",
+            "reviewer_timestamp": current.get("reviewer_timestamp") or "",
+            "notes": current.get("notes") or current.get("reason") or "",
+            "source_document_hash": current.get("source_document_hash") or "",
+        }
+    ]
+
+
+def _review_status(decision: str) -> str:
+    return TOPIC_STATUS.get(decision, decision or "pending")
 
 
 def _has_review(item: dict) -> bool:

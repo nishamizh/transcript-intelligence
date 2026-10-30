@@ -67,15 +67,15 @@ The data-validation gaps stay open until real reviewers save enough adjudicated 
 
 The task is single-label. Each meeting has one governed category. A meeting can match extra themes, and those are shown as context, not as a second grade.
 
-**Representative sample.** Seed 7. Target 30 meetings, or every meeting if the corpus were smaller. One seat is reserved for each of the eight themes, then the remaining seats follow the largest-remainder method on `(count - 1)`. Within a theme, seats are split across support, external, and internal the same way. Meetings inside a stratum are drawn with `random.Random` seeded by `7`, the theme, and the call type. The selection probability is stratum seats divided by stratum size. Population estimates weight each labeled row by `1 / selection probability`.
+**Representative sample.** Seed 7. Target 30 meetings, or every meeting if the corpus were smaller. One seat is reserved for each predicted theme, then the remaining seats follow the largest-remainder method on `(count - 1)`. Within a predicted theme, seats are split across support, external, and internal the same way. The stratum is the model's primary theme plus the call type recorded at ingestion. It is not a gold-label stratum. Meetings inside a stratum are drawn with `random.Random` seeded by `7`, the theme, and the call type. The selection probability is stratum seats divided by stratum size. Population estimates weight each labeled row by `1 / selection probability`. Corrected labels are not written back into the taxonomy or the TF-IDF/NMF fit. The lexical model did see every transcript before the sample was drawn; it is a diagnostic, not the category being graded.
 
 **Challenging cases.** Every meeting already on the review queue (thin theme margin, or no shared words with the held-out topic). This is not a probability sample. Its accuracy is reported on its own and is not averaged with the representative sample. A meeting can be in both lists and still has one saved decision.
 
-**Topic decision.** Approve the predicted category, reject it and choose one of the other seven themes, or mark the case ambiguous. A blank row is not a review. Ambiguous rows count toward completion and stay out of accuracy, precision, recall, and F1.
+**Topic decision.** Confirm the predicted category, correct it to one of the other seven themes, mark it ambiguous, or mark insufficient evidence. A blank row is not a review. Ambiguous and insufficient-evidence rows count toward completion and stay out of accuracy, precision, recall, and F1. The card includes the model version, the taxonomy version, a source-document hash, and more of the transcript than the short excerpt. A second reviewer who disagrees does not erase the first decision. The row stays a conflict, out of the accuracy denominator, until someone explicitly adjudicates it.
 
 **Insight decision.** Accept, reject, needs revision, or needs more evidence. Optional evidence-quality and usefulness ratings are 1–5. Nothing is auto-approved.
 
-**Metrics, once labels exist.** Completion is reviewed / assigned. Accuracy, macro precision, macro recall, macro F1, and support-weighted precision, recall, and F1 use `sklearn.metrics` on the eight theme ids. The confusion matrix counts adjudicated rows: the row is the human category, the column is the model category. Disagreement is the share of those rows where the two differ. Per-category support is the number of human labels for that theme. Macro averages skip a theme with no labeled support, and they skip an undefined precision instead of calling it zero.
+**Metrics, once labels exist.** Completion is reviewed / assigned. Accuracy, macro precision, macro recall, macro F1, and support-weighted precision, recall, and F1 use `sklearn.metrics` on the eight theme ids. The confusion matrix counts adjudicated rows: the row is the human category, the column is the model category. Predicted-versus-human disagreement is the share of those rows where the two differ. Reviewer disagreement is the share of items with two reviewers whose labels differ, and it is N/A when no item has two reviewers. Accuracy also carries a Wilson 95% interval on the labeled rows, with the caveat that the draw is stratified on the predicted theme. Per-category support is the number of human labels for that theme. Macro averages skip a theme with no labeled support, and they skip an undefined precision instead of calling it zero. Unadjudicated conflicts are excluded.
 
 Insight acceptance is `accepted / (accepted + rejected)`. Needs revision and needs more evidence are reviewed and are not in that denominator. If that denominator is 0, the rate is N/A. Approval coverage is `accepted / all insights`, and it is N/A when nothing has been reviewed. Every percentage is stored with its numerator and denominator.
 
@@ -85,7 +85,7 @@ Insight acceptance is `accepted / (accepted + rejected)`. Needs revision and nee
 streamlit run src/review/app.py --server.port 43124 --server.address 0.0.0.0
 ```
 
-Enter a reviewer id. Open Representative sample, Challenging cases, or Business insights. Choose a decision, add a comment, and save. Saving writes `output/review_decisions.json` (an edit keeps the previous row in `audit`) and regenerates `output/human_validation_report.json` and `.csv`.
+The page is titled Human Validation & Evidence Quality. Enter a reviewer id. Use the filters for call type, theme, stakeholder, review status, and reviewer. Open Representative sample, Challenging cases, Business insights, or Findings verification. Choose a decision, add a comment, and save. On Findings verification, judge whether the cited passages support the claim: supported, partially supported, unsupported, or insufficient evidence. A quote that the audit already located is not that judgment. Saving writes `output/review_decisions.json` (an edit keeps the previous row in `audit`; a disagreement stays in `submissions`) and regenerates `output/human_validation_report.json` and `.csv`.
 
 **Regenerate the report without opening the app**
 
@@ -94,9 +94,15 @@ python -m src.pipeline.runner --data data --output output
 python -m src.review.validation --report output/report.json --decisions output/review_decisions.json --output output
 ```
 
-The pipeline adds blank rows for new ids and does not change a decision already stored. The older command `python -m src.review.evaluate` still scores only the previous accept / edit / reject vocabulary. The human-validation report is the one that understands approve, correct, ambiguous, needs revision, and needs more evidence.
+```bash
+python -m src.review.claims --data data --report output/report.json --output output
+```
 
-**Known limits.** Thirty meetings is a sample, not the next quarter. Fewer than a full set of adjudicated labels is marked so it does not look like a population result. Lexical overlap is still not accuracy. The quality composite is still not acceptance. No LLM is used as a judge.
+The pipeline adds blank rows for new ids and does not change a decision already stored. It also writes `output/claims_audit.json` and `output/evidence_verification.json`. The claims audit recomputes the headline counts from the loaded meetings and compares them with the report. The current run matches: 100 transcripts, 8 governed categories, support mean 2.937, external mean 3.7116, 49 outage-related meetings, 24 accounts with churn language. Every claim is marked `not_human_verified`. The evidence file located 27 of 27 cited quotations in source transcripts or summaries. That string check is not a support judgment. Human finding support is 0 of 9.
+
+The older command `python -m src.review.evaluate` still scores only the previous accept / edit / reject vocabulary. The human-validation report is the one that understands confirm, correct, ambiguous, insufficient evidence, insight decisions, and finding judgments.
+
+**Known limits.** Thirty meetings is a sample, not the next quarter. Fewer than a full set of adjudicated labels is marked so it does not look like a population result. The Wilson interval is not a design-based variance for the stratified draw. Lexical overlap is still not accuracy. The quality composite is still not acceptance. A reproducible count is still not a human verification of meaning. No LLM is used as a judge. The three validation gaps stay open until people save decisions.
 
 ## Slide deck
 

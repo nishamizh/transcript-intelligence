@@ -4,7 +4,9 @@
   "target": 30,
   "task": "single_label",
   "taxonomy_version": "governed-themes-v1",
-  "method": "Representative sample: reserve one meeting for every governed theme that occurs, then allocate the remaining seats by the largest-remainder method on (count - 1). Within a theme, seats are split across support, external, and internal by the same method. Meetings inside a stratum are drawn with random.Random seeded by 7, the theme, and the call type. Inclusion probability is stratum seats divided by stratum size. Challenging cases are every meeting already on the review queue. That list is not a probability sample and is scored on its own.",
+  "stratum_basis": "predicted_primary_theme_and_call_type",
+  "held_out_from_tuning": true,
+  "method": "Representative sample: reserve one meeting for every predicted governed theme that occurs, then allocate the remaining seats by the largest-remainder method on (count - 1). Within a predicted theme, seats are split across support, external, and internal by the same method. These strata are the model's primary theme and the ingestion call type. They are not gold labels. Meetings inside a stratum are drawn with random.Random seeded by 7, the theme, and the call type. Inclusion probability is stratum seats divided by stratum size. Corrected labels are not fed back into the topic model. Challenging cases are every meeting already on the review queue. That list is not a probability sample and is scored on its own.",
   "population_meetings": 100,
   "representative": {
     "role": "representative",
@@ -19,6 +21,8 @@
         "stratum_sampled": 4,
         "selection_probability": 0.266667,
         "sample_weight": 3.75,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       },
@@ -31,6 +35,8 @@
         "stratum_sampled": 4,
         "selection_probability": 0.266667,
         "sample_weight": 3.75,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": true
       },
@@ -43,6 +49,8 @@
         "stratum_sampled": 4,
         "selection_probability": 0.266667,
         "sample_weight": 3.75,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       },
@@ -55,6 +63,8 @@
         "stratum_sampled": 1,
         "selection_probability": 0.333333,
         "sample_weight": 3.0,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       },
@@ -67,6 +77,8 @@
         "stratum_sampled": 3,
         "selection_probability": 0.25,
         "sample_weight": 4.0,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       },
@@ -79,6 +91,8 @@
         "stratum_sampled": 3,
         "selection_probability": 0.428571,
         "sample_weight": 2.333333,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       },
@@ -91,6 +105,8 @@
         "stratum_sampled": 3,
         "selection_probability": 0.25,
         "sample_weight": 4.0,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       },
@@ -103,6 +119,8 @@
         "stratum_sampled": 4,
         "selection_probability": 0.266667,
         "sample_weight": 3.75,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": true
       },
@@ -115,6 +133,8 @@
         "stratum_sampled": 1,
         "selection_probability": 1.0,
         "sample_weight": 1.0,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       },
@@ -127,6 +147,8 @@
         "stratum_sampled": 1,
         "selection_probability": 0.5,
         "sample_weight": 2.0,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": true
       },
@@ -139,6 +161,8 @@
         "stratum_sampled": 1,
         "selection_probability": 0.5,
         "sample_weight": 2.0,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       },
@@ -151,6 +175,8 @@
         "stratum_sampled": 2,
         "selection_probability": 0.5,
         "sample_weight": 2.0,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": true
       },
@@ -163,6 +189,8 @@
         "stratum_sampled": 1,
         "selection_probability": 0.25,
         "sample_weight": 4.0,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": true
       },
@@ -175,6 +203,8 @@
         "stratum_sampled": 1,
         "selection_probability": 0.5,
         "sample_weight": 2.0,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": true
       },
@@ -187,6 +217,8 @@
         "stratum_sampled": 4,
         "selection_probability": 0.266667,
         "sample_weight": 3.75,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       },
@@ -199,6 +231,8 @@
         "stratum_sampled": 2,
         "selection_probability": 0.5,
         "sample_weight": 2.0,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       },
@@ -211,6 +245,8 @@
         "stratum_sampled": 3,
         "selection_probability": 0.428571,
         "sample_weight": 2.333333,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       },
@@ -223,6 +259,8 @@
         "stratum_sampled": 1,
         "selection_probability": 0.333333,
         "sample_weight": 3.0,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": true
       },
@@ -235,6 +273,8 @@
         "stratum_sampled": 1,
         "selection_probability": 0.333333,
         "sample_weight": 3.0,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": true
       },
@@ -247,6 +287,8 @@
         "stratum_sampled": 2,
         "selection_probability": 0.285714,
         "sample_weight": 3.5,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": true
       },
@@ -259,6 +301,8 @@
         "stratum_sampled": 4,
         "selection_probability": 0.266667,
         "sample_weight": 3.75,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": true
       },
@@ -271,6 +315,8 @@
         "stratum_sampled": 3,
         "selection_probability": 0.230769,
         "sample_weight": 4.333333,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       },
@@ -283,6 +329,8 @@
         "stratum_sampled": 3,
         "selection_probability": 0.428571,
         "sample_weight": 2.333333,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       },
@@ -295,6 +343,8 @@
         "stratum_sampled": 3,
         "selection_probability": 0.25,
         "sample_weight": 4.0,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       },
@@ -307,6 +357,8 @@
         "stratum_sampled": 3,
         "selection_probability": 0.230769,
         "sample_weight": 4.333333,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": true
       },
@@ -319,6 +371,8 @@
         "stratum_sampled": 1,
         "selection_probability": 0.2,
         "sample_weight": 5.0,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": true
       },
@@ -331,6 +385,8 @@
         "stratum_sampled": 4,
         "selection_probability": 0.266667,
         "sample_weight": 3.75,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       },
@@ -343,6 +399,8 @@
         "stratum_sampled": 4,
         "selection_probability": 0.266667,
         "sample_weight": 3.75,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       },
@@ -355,6 +413,8 @@
         "stratum_sampled": 3,
         "selection_probability": 0.230769,
         "sample_weight": 4.333333,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       },
@@ -367,6 +427,8 @@
         "stratum_sampled": 2,
         "selection_probability": 0.285714,
         "sample_weight": 3.5,
+        "stratum_basis": "predicted_primary_theme_and_call_type",
+        "held_out_from_tuning": true,
         "sample_role": "representative",
         "also_in_challenging": false
       }
@@ -651,7 +713,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ0CAE7F064EC93F0540CA",
@@ -664,7 +728,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ0DFE299AC7A74E8022CA",
@@ -677,7 +743,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ1267C6AA7D9B3125FEC8",
@@ -691,7 +759,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ1DC6CA536DE1B31ED8F5",
@@ -704,7 +774,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ2217B066855A3B7814CB",
@@ -717,7 +789,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ298F2846EFE59B0D70E2",
@@ -730,7 +804,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": true
+        "also_in_representative": true,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ38FE02AEE5AA5157F042",
@@ -744,7 +820,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ3C837D7EF689408DCF95",
@@ -757,7 +835,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ3CE40428CCC5FF433FFC",
@@ -770,7 +850,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ3D8C1EF16C042F31FAFD",
@@ -783,7 +865,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ41FB5CCFD9EA583FB020",
@@ -796,7 +880,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ4529010F423FD9DB40BD",
@@ -810,7 +896,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ45C0AD36B351A3571940",
@@ -823,7 +911,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ45C76AF3AEA6B3EA6697",
@@ -836,7 +926,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ46A9DE0AECB006D897A0",
@@ -849,7 +941,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ4D71CDFB1045A2458216",
@@ -862,7 +956,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": true
+        "also_in_representative": true,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ51DC4345D9DAE005678C",
@@ -875,7 +971,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ54917E3931712516916D",
@@ -888,7 +986,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ560FF1570C5E7F71D752",
@@ -901,7 +1001,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": true
+        "also_in_representative": true,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ56AA6B60801ABC01AB1C",
@@ -914,7 +1016,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": true
+        "also_in_representative": true,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ5A966832A146DA4B7D41",
@@ -927,7 +1031,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": true
+        "also_in_representative": true,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ5AFAE8264DDC0ED2AE7F",
@@ -940,7 +1046,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ5D47170D4828E89EDE37",
@@ -953,7 +1061,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ5EC1665DCFD7A6B62A59",
@@ -966,7 +1076,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ65D43540846FA994B6C4",
@@ -979,7 +1091,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": true
+        "also_in_representative": true,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ68FB3E9E60C4477CDAB4",
@@ -993,7 +1107,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ6A5CEAAFFBE3B0099E75",
@@ -1007,7 +1123,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ764171AC27A3A94DC695",
@@ -1020,7 +1138,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ77F2867FC54E13A8C495",
@@ -1033,7 +1153,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ7B802912366FC0A24D4F",
@@ -1046,7 +1168,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ88B8EAEAA819C26CCBE7",
@@ -1059,7 +1183,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ8D9A06510DD623EFB1A6",
@@ -1072,7 +1198,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ92EA85FE4C537400227D",
@@ -1085,7 +1213,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ9772B2348F500FB09D1E",
@@ -1098,7 +1228,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ9A6BE09D73A9BB5798C7",
@@ -1111,7 +1243,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": true
+        "also_in_representative": true,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ9BB82FD97C9607D57E90",
@@ -1124,7 +1258,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQ9BCA1794C9472726FFAD",
@@ -1137,7 +1273,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": true
+        "also_in_representative": true,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQA0F0BE68E74D66EB4171",
@@ -1151,7 +1289,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": true
+        "also_in_representative": true,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQA1AFDC1306A000B0C7D9",
@@ -1164,7 +1304,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": true
+        "also_in_representative": true,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQAC572C34475A8791F2C3",
@@ -1177,7 +1319,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQADF3D76E82BF8BA19AF2",
@@ -1190,7 +1334,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQB3B16F255B65F39597D0",
@@ -1203,7 +1349,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQBB7C4D4789DB2F3DA9C2",
@@ -1216,7 +1364,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": true
+        "also_in_representative": true,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQC1267BEB344076DD7656",
@@ -1230,7 +1380,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQC166F678CBA584AAFF8B",
@@ -1243,7 +1395,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": true
+        "also_in_representative": true,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQD199788883B6F18C81E8",
@@ -1256,7 +1410,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       },
       {
         "item_id": "meeting:01KQFFC0F889AE8CFEE7A00D",
@@ -1269,7 +1425,9 @@
         "selection_probability": null,
         "sample_weight": null,
         "sample_role": "challenging",
-        "also_in_representative": false
+        "also_in_representative": false,
+        "stratum_basis": "review_queue_not_a_probability_sample",
+        "held_out_from_tuning": true
       }
     ]
   },

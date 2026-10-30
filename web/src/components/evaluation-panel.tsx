@@ -36,8 +36,12 @@ type TopicBlock = {
   reviewed: number;
   eligible: number;
   ambiguous: number;
+  insufficient_evidence?: number;
+  unadjudicated_conflicts?: number;
   unresolved: number;
   completion: Rate;
+  reviewer_disagreement_rate?: Rate;
+  accuracy_interval?: { display: string; caveat?: string };
   accuracy: Rate;
   macro_precision: Rate;
   macro_recall: Rate;
@@ -78,6 +82,7 @@ export type HumanValidationReport = {
     resolved: boolean;
     topic_classification: string;
     insight_acceptance: string;
+    finding_support?: string;
     reason: string;
   };
   sampling: {
@@ -99,6 +104,34 @@ export type HumanValidationReport = {
     representative: TopicBlock;
     challenging: TopicBlock;
     pooling_note: string;
+  };
+  findings_verification?: {
+    human_review_status: string;
+    quotes_found: number;
+    quotes_missing: number;
+    human_reviewed: number;
+    finding_count: number;
+    note: string;
+  };
+  claims_audit?: {
+    status: string;
+    review_status: string;
+    note: string;
+    claims: {
+      metric_name: string;
+      computed_value: string | number | null;
+      reported_value: string | number | null;
+      source_count: number;
+      check_status: string;
+      review_status: string;
+    }[];
+  };
+  readiness?: {
+    implemented: string[];
+    awaiting_review: string[];
+    validated: string[];
+    insufficient_evidence: string[];
+    note: string;
   };
   business_insights: {
     total: number;
@@ -146,6 +179,7 @@ export function EvaluationPanel({ validation }: { validation: HumanValidationRep
       <div className="rounded-xl bg-card p-4 ring-1 ring-foreground/10">
         <p className="text-sm font-medium">
           Topic classification: {gap.topic_classification}. Insight acceptance: {gap.insight_acceptance}.
+          {gap.finding_support ? ` Finding support: ${gap.finding_support}.` : ""}
         </p>
         <p className="mt-2 text-sm leading-6 text-muted-foreground">{gap.reason}</p>
         <p className="mt-3 text-sm leading-6">
@@ -214,8 +248,8 @@ export function EvaluationPanel({ validation }: { validation: HumanValidationRep
           <Stat label="Needs revision" value={String(insights.needs_revision)} note="Not accepted or rejected" />
           <Stat label="Needs more evidence" value={String(insights.needs_more_evidence)} note="Not accepted or rejected" />
           <Stat label="Review coverage" value={insights.review_coverage.display} note="Reviewed / all insights" />
-          <Stat label="Acceptance rate" value={insights.acceptance_rate.display} note="Accepted / (accepted + rejected)" />
-          <Stat label="Approval coverage" value={insights.approval_coverage.display} note="Accepted / all insights" />
+          <Stat label="Resolved acceptance" value={insights.acceptance_rate.display} note="Accepted / (accepted + rejected)" />
+          <Stat label="Accepted share of findings" value={insights.approval_coverage.display} note="Accepted / all insights" />
         </dl>
         <p className="text-sm text-muted-foreground">
           Average evidence quality: {insights.mean_evidence_quality.display}. Average business usefulness:{" "}
@@ -253,6 +287,8 @@ export function EvaluationPanel({ validation }: { validation: HumanValidationRep
         </div>
       </article>
 
+      <FindingsAndClaims validation={validation} />
+
       <p className="text-sm">
         <a className="underline" href="/human_validation_report.json">
           Download JSON
@@ -260,6 +296,14 @@ export function EvaluationPanel({ validation }: { validation: HumanValidationRep
         {" · "}
         <a className="underline" href="/human_validation_report.csv">
           Download CSV
+        </a>
+        {" · "}
+        <a className="underline" href="/claims_audit.json">
+          Claims audit
+        </a>
+        {" · "}
+        <a className="underline" href="/evidence_verification.json">
+          Evidence verification
         </a>
       </p>
     </section>
@@ -279,12 +323,31 @@ function TopicScorecard({ block }: { block: TopicBlock }) {
         <Stat label="Adjudicated" value={String(block.eligible)} note="Used in accuracy" />
         <Stat label="Ambiguous" value={`${block.ambiguous} · ${block.ambiguous_proportion.display}`} note="Excluded from accuracy" />
         <Stat label="Unresolved" value={`${block.unresolved} · ${block.unresolved_proportion.display}`} note="No decision saved" />
+        <Stat
+          label="Insufficient evidence"
+          value={String(block.insufficient_evidence ?? 0)}
+          note="Excluded from accuracy"
+        />
+        <Stat
+          label="Unadjudicated conflicts"
+          value={String(block.unadjudicated_conflicts ?? 0)}
+          note="Excluded until adjudicated"
+        />
+        <Stat
+          label="Reviewer disagreement"
+          value={block.reviewer_disagreement_rate?.display ?? "N/A"}
+          note="Items with two reviewers who differ"
+        />
         {SCORE_FIELDS.map((field) => {
           const cell = block[field.key] as Rate;
           return <Stat key={field.key} label={field.label} value={shown(block, cell)} note="Eight-theme, single label" />;
         })}
         <Stat label="Disagreement" value={shown(block, block.disagreement_rate)} note="Predicted category differs" />
       </dl>
+      <p className="max-w-3xl text-sm leading-6 text-muted-foreground">
+        Accuracy interval (Wilson 95% on labeled rows): {block.accuracy_interval?.display ?? "N/A"}.{" "}
+        {block.accuracy_interval?.caveat ?? "No interval is shown until adjudicated labels exist."}
+      </p>
       <div className="overflow-x-auto rounded-xl ring-1 ring-foreground/10">
         <Table>
           <TableHeader>
@@ -383,6 +446,72 @@ function CoverageTable({
         </TableBody>
       </Table>
     </div>
+  );
+}
+
+function FindingsAndClaims({ validation }: { validation: HumanValidationReport }) {
+  const findings = validation.findings_verification;
+  const claims = validation.claims_audit;
+  const readiness = validation.readiness;
+  if (!findings && !claims && !readiness) return null;
+  return (
+    <article className="space-y-4">
+      <h3 className="font-heading text-2xl">Findings and reproducibility</h3>
+      {findings ? (
+        <p className="max-w-3xl text-sm leading-6 text-muted-foreground">
+          Quote location: {findings.quotes_found} found, {findings.quotes_missing} missing. Human support judgments:{" "}
+          {findings.human_reviewed}/{findings.finding_count}. Status: {findings.human_review_status}. {findings.note}
+        </p>
+      ) : null}
+      {claims?.claims?.length ? (
+        <div className="overflow-x-auto rounded-xl ring-1 ring-foreground/10">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Metric</TableHead>
+                <TableHead>Computed</TableHead>
+                <TableHead>Reported</TableHead>
+                <TableHead>Check</TableHead>
+                <TableHead>Human review</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {claims.claims.map((row) => (
+                <TableRow key={row.metric_name}>
+                  <TableCell>{row.metric_name}</TableCell>
+                  <TableCell>{String(row.computed_value)}</TableCell>
+                  <TableCell>{String(row.reported_value)}</TableCell>
+                  <TableCell>{row.check_status}</TableCell>
+                  <TableCell>{row.review_status}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      ) : null}
+      {claims?.note ? <p className="max-w-3xl text-sm leading-6 text-muted-foreground">{claims.note}</p> : null}
+      {readiness ? (
+        <div className="grid gap-3 md:grid-cols-2">
+          {(
+            [
+              ["Implemented", readiness.implemented],
+              ["Awaiting review", readiness.awaiting_review],
+              ["Validated", readiness.validated],
+              ["Insufficient evidence", readiness.insufficient_evidence],
+            ] as const
+          ).map(([label, entries]) => (
+            <div key={label} className="rounded-xl bg-card p-4 ring-1 ring-foreground/10">
+              <h3 className="font-medium">{label}</h3>
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+                {(entries.length ? entries : ["None."]).map((entry) => (
+                  <li key={entry}>{entry}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      ) : null}
+    </article>
   );
 }
 

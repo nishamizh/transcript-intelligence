@@ -15,10 +15,22 @@ THEME_NAMES: dict[str, str] = {theme.theme_id: theme.name for theme in THEMES}
 CALL_TYPE_ORDER: tuple[str, ...] = ("support", "external", "internal")
 
 # A transcript is human-reviewed only after one of these is saved.
-TOPIC_DECISIONS = frozenset({"approve", "correct", "ambiguous"})
+TOPIC_DECISIONS = frozenset({"approve", "correct", "ambiguous", "insufficient_evidence"})
 # Older files used this set. They remain readable. They are not written by the new form.
 LEGACY_TOPIC_DECISIONS = frozenset({"accept", "edit", "reject"})
 INSIGHT_DECISIONS = frozenset({"accept", "reject", "needs_revision", "needs_more_evidence"})
+FINDING_DECISIONS = frozenset({"supported", "partially_supported", "unsupported", "insufficient_evidence"})
+# These are reviewed, and they are not a ground-truth category.
+TOPIC_EXCLUDED_FROM_ACCURACY = frozenset({"ambiguous", "insufficient_evidence"})
+TOPIC_STATUS = {
+    "approve": "confirmed",
+    "correct": "corrected",
+    "ambiguous": "ambiguous",
+    "insufficient_evidence": "insufficient_evidence",
+    "accept": "accepted",
+    "edit": "corrected",
+    "reject": "rejected",
+}
 
 TOPIC_REVIEWED = TOPIC_DECISIONS | LEGACY_TOPIC_DECISIONS
 RESOLVED_INSIGHT_DECISIONS = frozenset({"accept", "reject"})
@@ -39,7 +51,7 @@ def require_topic_decision(decision: str, human_topic: str, predicted_topic: str
     choice = (decision or "").strip()
     if choice not in TOPIC_DECISIONS:
         raise DecisionSchemaError(
-            "Choose approve, correct, or ambiguous. A blank decision is not a human review."
+            "Choose confirm, correct, ambiguous, or insufficient evidence. A blank decision is not a human review."
         )
     predicted = (predicted_topic or "").strip()
     if predicted not in THEME_IDS:
@@ -47,7 +59,7 @@ def require_topic_decision(decision: str, human_topic: str, predicted_topic: str
     corrected = (human_topic or "").strip()
     if choice == "approve":
         return choice, predicted
-    if choice == "ambiguous":
+    if choice in {"ambiguous", "insufficient_evidence"}:
         return choice, ""
     if corrected not in THEME_IDS:
         raise DecisionSchemaError("A correction must name one of the eight governed themes.")
@@ -59,6 +71,16 @@ def require_insight_decision(decision: str) -> str:
     if choice not in INSIGHT_DECISIONS:
         raise DecisionSchemaError(
             "Choose accept, reject, needs revision, or needs more evidence. Insights are not auto-approved."
+        )
+    return choice
+
+
+def require_finding_decision(decision: str) -> str:
+    choice = (decision or "").strip()
+    if choice not in FINDING_DECISIONS:
+        raise DecisionSchemaError(
+            "Choose supported, partially supported, unsupported, or insufficient evidence. "
+            "A quote that exists in the file is not a support judgment."
         )
     return choice
 

@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import math
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -23,6 +24,7 @@ from src.review.schema import (
     TAXONOMY_VERSION,
     THEME_IDS,
     THEME_NAMES,
+    TOPIC_EXCLUDED_FROM_ACCURACY,
     TOPIC_REVIEWED,
 )
 
@@ -34,7 +36,13 @@ STAKEHOLDER_LABELS = {
 }
 
 
-def build_human_validation_report(report: dict, sample: dict, decisions: dict) -> dict:
+def build_human_validation_report(
+    report: dict,
+    sample: dict,
+    decisions: dict,
+    evidence: dict | None = None,
+    claims: dict | None = None,
+) -> dict:
     meetings = {row["meeting_id"]: row for row in report.get("meetings", []) if row.get("meeting_id")}
     active = _active_decisions(decisions.get("items", []))
     by_item = {row["item_id"]: row for row in active}
@@ -53,6 +61,9 @@ def build_human_validation_report(report: dict, sample: dict, decisions: dict) -
     insights = _insight_block(report.get("insights") or [], by_item)
     topic_ready = representative["status"] == "measured"
     insight_ready = insights["acceptance_rate"]["value"] is not None
+    findings = evidence or _empty_evidence()
+    claim_audit = claims or _empty_claims()
+    findings_ready = findings.get("human_review_status") == "complete"
     return {
         "version": 1,
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -63,12 +74,26 @@ def build_human_validation_report(report: dict, sample: dict, decisions: dict) -
         "synthetic_labels": False,
         "single_label": True,
         "data_gap": {
-            "resolved": bool(topic_ready and insight_ready),
+            "resolved": bool(topic_ready and insight_ready and findings_ready),
             "topic_classification": "RESOLVED" if topic_ready else "NOT YET AVAILABLE",
             "insight_acceptance": "NOT YET AVAILABLE" if insights["acceptance_rate"]["value"] is None else "MEASURED",
+            "finding_support": "NOT YET AVAILABLE" if not findings_ready else "REVIEWED",
             "reason": (
-                "Theme accuracy and insight acceptance stay unavailable until real reviewers save adjudicated "
-                "decisions. This file does not contain invented labels, and an LLM was not used as a judge."
+                "Theme accuracy, insight acceptance, and finding support stay unavailable until real reviewers "
+                "save adjudicated decisions. A quote that is present in a transcript is not a support judgment. "
+                "A claims-audit match is a reproducibility check, not human validation. "
+                "This file does not contain invented labels, and an LLM was not used as a judge."
+            ),
+        },
+        "leakage": {
+            "corrections_used_for_training": False,
+            "sample_seen_by_unsupervised_model": True,
+            "note": (
+                "Reviewer corrections are read only when metrics are scored. They are not written back into "
+                "the keyword taxonomy or the TF-IDF/NMF fit. The lexical model was fit on every transcript, "
+                "including those later drawn for review. It is a diagnostic. The governed category is the "
+                "keyword assignment, and the review sample is stratified on that predicted category plus call type, "
+                "not on a gold label."
             ),
         },
         "sampling": {
@@ -92,6 +117,9 @@ def build_human_validation_report(report: dict, sample: dict, decisions: dict) -
             or "Representative and challenging accuracies are not combined.",
         },
         "business_insights": insights,
+        "findings_verification": findings,
+        "claims_audit": claim_audit,
+        "readiness": _readiness(representative, insights, findings, claim_audit),
         "ignored_duplicate_rows": _duplicate_count(decisions.get("items", [])),
     }
 
@@ -111,6 +139,8 @@ def _topic_block(items: list[dict], by_item: dict[str, dict], meetings: dict[str
     assigned = len(items)
     reviewed_rows = []
     ambiguous = 0
+    insufficient_evidence = 0
+    conflicts = 0
     eligible = []
     for item in items:
         decision = by_item.get(item["item_id"])
@@ -118,8 +148,16 @@ def _topic_block(items: list[dict], by_item: dict[str, dict], meetings: dict[str
             continue
         reviewed_rows.append(decision)
         choice = decision.get("decision")
+        if decision.get("conflict") and not decision.get("adjudicated"):
+            conflicts += 1
+            continue
         if choice == "ambiguous":
             ambiguous += 1
+            continue
+        if choice == "insufficient_evidence":
+            insufficient_evidence += 1
+            continue
+        if choice in TOPIC_EXCLUDED_FROM_ACCURACY:
             continue
         predicted = _predicted(item, meetings)
         gold = _gold(decision, predicted)
@@ -148,10 +186,18 @@ def _topic_block(items: list[dict], by_item: dict[str, dict], meetings: dict[str
         "reviewed": len(reviewed_rows),
         "eligible": len(eligible),
         "ambiguous": ambiguous,
+        "insufficient_evidence": insufficient_evidence,
+        "unadjudicated_conflicts": conflicts,
         "unresolved": unresolved,
         "completion": _rate(len(reviewed_rows), assigned, kind="count"),
         "ambiguous_proportion": _rate(ambiguous, assigned, kind="count"),
+        "insufficient_evidence_proportion": _rate(insufficient_evidence, assigned, kind="count"),
         "unresolved_proportion": _rate(unresolved, assigned, kind="count"),
+        "reviewer_disagreement_rate": _reviewer_disagreement(reviewed_rows),
+        "accuracy_interval": _wilson_interval(
+            sum(1 for row in eligible if row["gold"] == row["predicted"]),
+            len(eligible),
+        ),
         "disagreement_rate": _rate(
             sum(1 for row in eligible if row["gold"] != row["predicted"]),
             len(eligible),
@@ -171,13 +217,16 @@ def _topic_block(items: list[dict], by_item: dict[str, dict], meetings: dict[str
         "confusion_matrix": metrics["confusion_matrix"],
         "disagreement_value": round(disagreement, 6) if disagreement is not None else None,
         "note": (
-            "Eligible rows are approve, or correct with one of the eight themes, "
-            "plus older accept and edit rows that name a theme. "
-            "Ambiguous, blank, and reject-without-a-theme rows stay out of precision, recall, F1, and accuracy. "
+            "Eligible rows are confirmed predictions, or corrections that name one of the eight themes, "
+            "plus older accept and edit rows that name a theme, after any conflict has been adjudicated. "
+            "Ambiguous, insufficient evidence, pending, and unadjudicated conflicts stay out of precision, recall, F1, and accuracy. "
             "They remain in the review-coverage counts. "
             "The confusion matrix counts labeled rows. It is not weighted. "
-            "Population estimates, when present, weight each representative row by the inverse of its selection probability. "
-            "Macro averages skip themes with no labeled support, and skip an undefined precision rather than treating it as zero."
+            "Strata were drawn on the predicted theme, not on a gold label. "
+            "Population estimates weight each representative row by the inverse of its selection probability. "
+            "The accuracy interval is a Wilson 95% interval on the labeled rows and is not a design-based variance. "
+            "Macro averages skip themes with no labeled support, and skip an undefined precision rather than treating it as zero. "
+            "Reviewer corrections are not used to refit the topic model."
         ),
     }
 
@@ -533,6 +582,97 @@ def _clean(value) -> float | None:
     if value is None or not np.isfinite(value):
         return None
     return round(float(value), 6)
+
+
+def _reviewer_disagreement(rows: list[dict]) -> dict:
+    compared = []
+    for row in rows:
+        submissions = row.get("submissions") or []
+        reviewers = {item.get("reviewer_id") for item in submissions if item.get("reviewer_id")}
+        if len(reviewers) < 2:
+            continue
+        labels = {(item.get("decision"), item.get("human_topic") or "") for item in submissions}
+        compared.append(len(labels) > 1)
+    if not compared:
+        return _empty_metric()
+    return _rate(sum(1 for disagreed in compared if disagreed), len(compared), kind="metric")
+
+
+def _wilson_interval(successes: int, total: int) -> dict:
+    if total <= 0:
+        return {
+            "method": "wilson_95",
+            "low": None,
+            "high": None,
+            "display": "N/A",
+            "successes": 0,
+            "total": 0,
+            "caveat": "No adjudicated labels, so no interval is calculated.",
+        }
+    z = 1.96
+    p = successes / total
+    denom = 1 + z**2 / total
+    center = (p + z**2 / (2 * total)) / denom
+    margin = z * math.sqrt(p * (1 - p) / total + z**2 / (4 * total * total)) / denom
+    low = max(0.0, center - margin)
+    high = min(1.0, center + margin)
+    return {
+        "method": "wilson_95",
+        "low": round(low, 6),
+        "high": round(high, 6),
+        "display": f"{low:.1%}–{high:.1%} (n={total})",
+        "successes": successes,
+        "total": total,
+        "caveat": (
+            "Wilson 95% interval on the labeled rows, as if those rows were a simple random sample. "
+            "The review draw is stratified on the predicted theme and call type, so this is not a design-based "
+            "confidence interval and it does not describe the challenging set."
+        ),
+    }
+
+
+def _empty_evidence() -> dict:
+    return {
+        "human_review_status": "not_yet_available",
+        "automated_quote_check": "not_run",
+        "note": "Quote checks have not been attached. A quote match would still not be a human support judgment.",
+        "findings": [],
+    }
+
+
+def _empty_claims() -> dict:
+    return {
+        "status": "not_run",
+        "note": "The claims audit has not been attached. A passing count check is reproducibility, not human verification.",
+        "claims": [],
+    }
+
+
+def _readiness(topic: dict, insights: dict, findings: dict, claims: dict) -> dict:
+    return {
+        "implemented": [
+            "Topic review can confirm, correct, mark ambiguous, or mark insufficient evidence.",
+            "Insight review can accept, reject, request revision, or request more evidence.",
+            "Conflicting reviews stay unresolved until an explicit adjudication.",
+            "Quote location and the headline counts can be checked from source files.",
+        ],
+        "awaiting_review": [
+            f"Topic labels: {topic['reviewed']} reviewed / {topic['assigned']} assigned, {topic['eligible']} adjudicated.",
+            f"Insight decisions: {insights['reviewed']} reviewed / {insights['total']} findings.",
+            f"Finding support judgments: {findings.get('human_reviewed', 0)} reviewed / {findings.get('finding_count', 0)} findings.",
+        ],
+        "validated": [],
+        "insufficient_evidence": (
+            ["No human has marked a transcript or a finding as insufficient evidence."]
+            if topic.get("insufficient_evidence", 0) == 0 and findings.get("human_insufficient_evidence", 0) == 0
+            else [
+                f"Topic rows marked insufficient evidence: {topic.get('insufficient_evidence', 0)}.",
+                f"Findings marked insufficient evidence: {findings.get('human_insufficient_evidence', 0)}.",
+            ]
+        ),
+        "automated_checks": claims.get("status", "not_run"),
+        "note": "Validated stays empty until adjudicated human decisions exist. Automated checks do not fill it.",
+    }
 
 
 def _finite(value) -> float | None:
